@@ -1,0 +1,18 @@
+﻿body {
+}
+
+#title{
+    font-style:normal;
+    font-weight: bold;
+    text-align: center;
+    vertical-align:top;
+}
+
+.buttons{
+    background-color:red;
+}
+
+#testPara{
+    font-family:'Pokemon Fire Red';
+    font-size:large;
+}
