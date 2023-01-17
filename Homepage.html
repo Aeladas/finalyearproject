@@ -17,13 +17,20 @@
     <p id="testPara"></p>
     <div class="search_box">
         <select name="platforms" id="platformdrop">
-            <option>-----</option>
-            <option>Hello</option>
-            <option>There</option>
+            <option>None</option>
+            <option>Xbox</option>
+            <option>PlayStation</option>
+            <option>Steam</option>
+            <option>Blizzard</option>
+            <option>Stadia</option>
+            <option>Epic Games</option>
+            <option>Demon</option>
         </select>
         <form>
-            <input id="username" placeholder="Enter Steam Name, Id or URL"/>
+            <input id="username" placeholder="Enter Steam Name, Id or URL" />
         </form>
     </div>
+    <button id="ItemRequestTest" onclick="ItemRequest()">Request Item</button>
+    <button id="UserInfoTest" onclick="UserInfoRequest()">Member ID request</button>
 </body>
 </html>
