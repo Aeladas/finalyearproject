@@ -28,30 +28,41 @@ function UserInfoRequest() {
     var textPara = document.getElementById("testPara");
     var platformDropdown = document.getElementById("platformDropdown");
     var platformIndex = null;
-    var usernameTextBox = document.getElementById("usernameTextbox")
+    var usernameTextBox = document.getElementById("usernameTextbox");
+    var usernameValue = null;
+    var displayCodeTextbox = document.getElementById("displayCodeTextbox");
+    var displayCodeValue = null;
 
     if (platformDropdown.selectedIndex == 0) {
         //Do something error wise here
     }
-
     else {
-        platformIndex = platformDropdown.selectedIndex;
-        var platformSearchUrl = "https://www.bungie.net/Platform/Destiny2/SearchDestinyPlayerByBungieName/" + platformIndex + "/";
-        var params = {
-            "displayName": usernameTextBox,
-            "displayNameCode": 8139
+        if (usernameTextbox.value == null) {
+            //Do something error wise here
         }
-        xhr.open("POST", platformSearchUrl, true);
-        xhr.setRequestHeader("X-API-Key", apiKey);
-        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        else {
+            platformIndex = platformDropdown.selectedIndex;
+            usernameValue = usernameTextBox.value;
+            displayCodeValue = displayCodeTextbox.value;
 
-        xhr.onreadystatechange = function () {
-            if (this.readyState === 4 && this.status === 200) {
-                var json = JSON.parse(this.responseText);
-                var name = json.Response[0].displayName;
-                textPara.innerHTML = name;
+            var platformSearchUrl = "https://www.bungie.net/Platform/Destiny2/SearchDestinyPlayerByBungieName/" + platformIndex + "/";
+            var params = {
+                "displayName": usernameValue,
+                "displayNameCode": displayCodeValue
             }
+            xhr.open("POST", platformSearchUrl, true);
+            xhr.setRequestHeader("X-API-Key", apiKey);
+            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+            xhr.onreadystatechange = function () {
+                if (this.readyState === 4 && this.status === 200) {
+                    var json = JSON.parse(this.responseText);
+                    var name = json.Response[0].displayName;
+                    var membershipId = json.Response[0].membershipId
+                    textPara.innerHTML = name;
+                }
+            }
+            xhr.send(JSON.stringify(params));
         }
-        xhr.send(JSON.stringify(params));
     }
 }
