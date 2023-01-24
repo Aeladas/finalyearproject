@@ -1,0 +1,3 @@
+	CHECK TYPES
+console.log("Id is " + typeof currentPlayerMembershipId);
+console.log("Membership type is " + typeof 3)

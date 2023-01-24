@@ -1,5 +1,7 @@
 ﻿var apiKey = "40777cc6ab0b41839a4b27319ec5945b";
-var baseUrl = "https://bungie.net/Platform/Destiny2/";
+var baseUrl = "https://www.bungie.net/Platform/Destiny2/";
+
+var currentPlayerMembershipId = null;
 
 function Test() {
     var text = document.getElementById("testPara");
@@ -45,11 +47,11 @@ function UserInfoRequest() {
             usernameValue = usernameTextBox.value;
             displayCodeValue = displayCodeTextbox.value;
 
-            var platformSearchUrl = "https://www.bungie.net/Platform/Destiny2/SearchDestinyPlayerByBungieName/" + platformIndex + "/";
+            var platformSearchUrl = baseUrl + "SearchDestinyPlayerByBungieName/" + platformIndex + "/";
             var params = {
                 "displayName": usernameValue,
                 "displayNameCode": displayCodeValue
-            }
+            };
             xhr.open("POST", platformSearchUrl, true);
             xhr.setRequestHeader("X-API-Key", apiKey);
             xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
@@ -58,11 +60,31 @@ function UserInfoRequest() {
                 if (this.readyState === 4 && this.status === 200) {
                     var json = JSON.parse(this.responseText);
                     var name = json.Response[0].displayName;
-                    var membershipId = json.Response[0].membershipId
-                    textPara.innerHTML = name;
+                    currentPlayerMembershipId = parseInt(json.Response[0].membershipId);
+                    console.log(currentPlayerMembershipId);
                 }
             }
             xhr.send(JSON.stringify(params));
         }
     }
 }
+
+function getCharacters() {
+    //Characters - ?components=200
+
+    var xhr = new XMLHttpRequest();
+    var characterRequestUrl = baseUrl + "3/Profile/" + currentPlayerMembershipId + "/?components=100";
+
+    xhr.open("GET", characterRequestUrl, true);
+    xhr.setRequestHeader("X-API-Key", apiKey);
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+    xhr.onreadystatechange = function () {
+        if (this.readyState === 4 && this.status === 200) {
+            var json = JSON.parse(this.responseText);
+            console.log("Characters in profile: " + json.Response.profile.data.characterIds.length);
+        }
+    }
+    xhr.send();
+}
+
