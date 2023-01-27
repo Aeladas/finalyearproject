@@ -3,6 +3,10 @@ var baseUrl = "https://www.bungie.net/Platform/Destiny2/";
 
 var platformIndex = null;
 var currentPlayerMembershipId = null;
+var numberOfIdsFound = null;
+var character1Id = null;
+var character2Id = null;
+var character3Id = null;
 var characterIds = [];
 
 function ItemRequest() {
@@ -24,7 +28,6 @@ function ItemRequest() {
 
 function UserInfoRequest() {
     var xhr = new XMLHttpRequest();
-    var textPara = document.getElementById("testPara");
     var platformDropdown = document.getElementById("platformDropdown");
     var usernameTextBox = document.getElementById("usernameTextbox");
     var usernameValue = null;
@@ -77,8 +80,10 @@ function getCharacterIds() {
     xhr.onreadystatechange = function () {
         if (this.readyState === 4 && this.status === 200) {
             var json = JSON.parse(this.responseText);
-            var numberOfIdsFound = json.Response.profile.data.characterIds.length;
+            numberOfIdsFound = json.Response.profile.data.characterIds.length;
+            console.log("ID Order"); //Working here
             for (let i = 0; i < numberOfIdsFound; i++) {
+                console.log("ID " + i + ": " + json.Response.profile.data.characterIds[i]);
                 characterIds.push(json.Response.profile.data.characterIds[i]);
             }
             getCharacterInfo();
@@ -89,19 +94,39 @@ function getCharacterIds() {
 
 function getCharacterInfo() {
     // ?components=200
+    var characterTilesContainer = document.getElementsByClassName("characterTiles");
     races = [];
+
     for (let i = 0; i < characterIds.length; i++) {
         var xhr = new XMLHttpRequest();
-        var character1DataRequestUrl = baseUrl + platformIndex +
-            "/Profile/" + currentPlayerMembershipId + "/Character/" + characterIds[i] + "/?components=200";
-        xhr.open("GET", character1DataRequestUrl, true);
+
+        var characterDataRequestUrl = baseUrl + platformIndex +
+            "/Profile/" + currentPlayerMembershipId + "/Character/";
+        characterDataRequestUrl += characterIds[i];
+        characterDataRequestUrl += "/?components=200";
+
+        //console.log("URL: " + characterDataRequestUrl);
+        
+        xhr.open("GET", characterDataRequestUrl, true);
         xhr.setRequestHeader("X-API-Key", apiKey);
         xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 
         xhr.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {
                 var json = JSON.parse(this.responseText);
+                console.log("Id: " + characterIds[i]);
                 console.log("Race: " + json.Response.character.data.raceType);
+                var newRaceText = document.createElement('p');
+                newRaceText.id = "characterTile" + i;
+                switch (json.Response.character.data.raceType) {
+                    case 0:
+                        newRaceText.innerHTML = "Race: Human"; break;
+                    case 1:
+                        newRaceText.innerHTML = "Race: Awoken"; break;
+                    case 2:
+                        newRaceText.innerHTML = "Race: Exo"; break;
+                }
+                document.getElementsByTagName('body')[0].appendChild(newRaceText);
                 //Construct character banners here!
             }
         }
