@@ -81,9 +81,7 @@ function getCharacterIds() {
         if (this.readyState === 4 && this.status === 200) {
             var json = JSON.parse(this.responseText);
             numberOfIdsFound = json.Response.profile.data.characterIds.length;
-            console.log("ID Order"); //Working here
             for (let i = 0; i < numberOfIdsFound; i++) {
-                console.log("ID " + i + ": " + json.Response.profile.data.characterIds[i]);
                 characterIds.push(json.Response.profile.data.characterIds[i]);
             }
             getCharacterInfo();
@@ -114,20 +112,37 @@ function getCharacterInfo() {
         xhr.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {
                 var json = JSON.parse(this.responseText);
-                console.log("Id: " + characterIds[i]);
-                console.log("Race: " + json.Response.character.data.raceType);
+
+                var box = document.createElement('div');
+                box.className = "aBox";
+                box.style.backgroundColor = "green";
+                document.getElementsByTagName('body')[0].appendChild(box);
+                
+
                 var newRaceText = document.createElement('p');
+                var newCharacterText = document.createElement('p');
                 newRaceText.id = "characterTile" + i;
                 switch (json.Response.character.data.raceType) {
                     case 0:
-                        newRaceText.innerHTML = "Race: Human"; break;
+                        newRaceText.innerHTML = "Race: Human"; newRaceText.style.backgroundColor = "red"; break;
                     case 1:
-                        newRaceText.innerHTML = "Race: Awoken"; break;
+                        newRaceText.innerHTML = "Race: Awoken"; newRaceText.style.backgroundColor = "purple"; break;
                     case 2:
-                        newRaceText.innerHTML = "Race: Exo"; break;
+                        newRaceText.innerHTML = "Race: Exo"; newRaceText.style.backgroundColor = "blue"; break;
                 }
                 document.getElementsByTagName('body')[0].appendChild(newRaceText);
+                newCharacterText.id = "characterTileClass" + i;
+                switch (json.Response.character.data.classType) {
+                    case 0:
+                        newCharacterText.innerHTML = "Class: Titan"; break;
+                    case 1:
+                        newCharacterText.innerHTML = "Class: Hunter"; break;
+                    case 2:
+                        newCharacterText.innerHTML = "Class: Warlock"; break;
+                }
+                document.getElementsByTagName('body')[0].appendChild(newCharacterText);
                 //Construct character banners here!
+
             }
         }
         xhr.send();
