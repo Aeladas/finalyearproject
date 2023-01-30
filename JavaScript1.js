@@ -92,19 +92,13 @@ function getCharacterIds() {
 
 function getCharacterInfo() {
     // ?components=200
-    var characterTilesContainer = document.getElementsByClassName("characterTiles");
-    races = [];
-
     for (let i = 0; i < characterIds.length; i++) {
         var xhr = new XMLHttpRequest();
 
-        var characterDataRequestUrl = baseUrl + platformIndex +
-            "/Profile/" + currentPlayerMembershipId + "/Character/";
+        var characterDataRequestUrl = baseUrl + platformIndex + "/Profile/" + currentPlayerMembershipId + "/Character/";
         characterDataRequestUrl += characterIds[i];
         characterDataRequestUrl += "/?components=200";
 
-        //console.log("URL: " + characterDataRequestUrl);
-        
         xhr.open("GET", characterDataRequestUrl, true);
         xhr.setRequestHeader("X-API-Key", apiKey);
         xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
@@ -112,40 +106,68 @@ function getCharacterInfo() {
         xhr.onreadystatechange = function () {
             if (this.readyState === 4 && this.status === 200) {
                 var json = JSON.parse(this.responseText);
-
-                var box = document.createElement('div');
-                box.className = "aBox";
-                box.style.backgroundColor = "green";
-                document.getElementsByTagName('body')[0].appendChild(box);
-                
-
-                var newRaceText = document.createElement('p');
-                var newCharacterText = document.createElement('p');
-                newRaceText.id = "characterTile" + i;
-                switch (json.Response.character.data.raceType) {
-                    case 0:
-                        newRaceText.innerHTML = "Race: Human"; newRaceText.style.backgroundColor = "red"; break;
-                    case 1:
-                        newRaceText.innerHTML = "Race: Awoken"; newRaceText.style.backgroundColor = "purple"; break;
-                    case 2:
-                        newRaceText.innerHTML = "Race: Exo"; newRaceText.style.backgroundColor = "blue"; break;
-                }
-                document.getElementsByTagName('body')[0].appendChild(newRaceText);
-                newCharacterText.id = "characterTileClass" + i;
-                switch (json.Response.character.data.classType) {
-                    case 0:
-                        newCharacterText.innerHTML = "Class: Titan"; break;
-                    case 1:
-                        newCharacterText.innerHTML = "Class: Hunter"; break;
-                    case 2:
-                        newCharacterText.innerHTML = "Class: Warlock"; break;
-                }
-                document.getElementsByTagName('body')[0].appendChild(newCharacterText);
-                //Construct character banners here!
-
+                createCharacterTiles(json, i);
             }
         }
         xhr.send();
     }
+}
+
+function createCharacterTiles(json, idIndex) {
+
+    //Need to create an image request to get the emblems
+
+    var box = document.createElement('div');
+    var characterRaceText = document.createElement('p');
+    var characterClassText = document.createElement('p');
+    var redColor;
+    var greenColor;
+    var blueColor;
+
+    switch (idIndex) {
+        case 0:
+            box.className = "character1Tile";
+            break;
+        case 1:
+            box.className = "character2Tile";
+            break;
+        case 2:
+            box.className = "character3Tile";
+            break;
+    }
+    switch (json.Response.character.data.raceType) {
+        case 0:
+            characterRaceText.innerHTML = "Race: Human";
+            break;
+        case 1:
+            characterRaceText.innerHTML = "Race: Awoken";
+            break;
+        case 2:
+            characterRaceText.innerHTML = "Race: Exo";
+            break;
+    }
+    switch (json.Response.character.data.classType) {
+        case 0:
+            characterClassText.innerHTML = "Class: Titan";
+            break;
+        case 1:
+            characterClassText.innerHTML = "Class: Hunter";
+            break;
+        case 2:
+            characterClassText.innerHTML = "Class: Warlock";
+            break;
+    }
+
+    blueColor = json.Response.character.data.emblemColor.blue;
+    greenColor = json.Response.character.data.emblemColor.green;
+    redColor = json.Response.character.data.emblemColor.red;
+
+    box.style.backgroundColor = "rgb(" + redColor + "," + greenColor + "," + blueColor + ")";
+    characterRaceText.style.color = "white";
+    characterClassText.style.color = "white";
+    box.appendChild(characterRaceText);
+    box.appendChild(characterClassText);
+
+    document.getElementsByClassName('characterTiles')[0].appendChild(box);
 }
 

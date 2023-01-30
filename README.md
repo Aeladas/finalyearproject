@@ -11,11 +11,9 @@ Scope of API Access:
 
 
 Added:
-
-  > A member request function that when given 3 values (Platform, Username and Display Code) retrieves information about the user such as their membershipId.
+  > A container that shows all characters within the players profile.
 
 Challenges:
-  > Firstly, the method for searching players had to be found via forums.
-  > Secondly, there was an issue with sending information to the API due to the POST method requiring JSON formatted parameters
-  > Thirdly, after recieving a response 500 an issue was solved where the API was only accepting one localhost so adjustments to the scope had to be made to allow for any localhost
-  > Finally, an issue with reading the response was a small issue but was resolved quickly.
+  > Opening multiple character requests whilst trying to reduce the amount of code created.
+  > Displaying the correct text for each race/class
+  > Creating the backgrounds was challenging because it involved dynamically creating elements.
