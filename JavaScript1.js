@@ -10,30 +10,26 @@ var character3Id = null;
 var characterIds = [];
 
 function ItemRequest() {
-    var xhr = new XMLHttpRequest();
-    var textPara = document.getElementById("testPara");
-    xhr.open("GET", "https://www.bungie.net/platform/Destiny/Manifest/InventoryItem/1274330687/", true);
-    xhr.setRequestHeader("X-API-Key", apiKey);
-
-    xhr.onreadystatechange = function () {
-        if (this.readyState === 4 && this.status === 200) {
-            var json = JSON.parse(this.responseText);
-            var item = json.Response.data.inventoryItem.itemName;
-            textPara.innerHTML = item;
-        }
-    }
-
-    xhr.send();
+    let textPara = document.getElementById("testPara");
+    let itemRequestUrl = "https://www.bungie.net/platform/Destiny/Manifest/InventoryItem/1274330687/";
+    fetch(itemRequestUrl, { method: 'GET', headers: {
+            'Content-Type': 'application/json;charset=UTF-8',
+            'X-API-Key': apiKey
+        } })
+        .then((response) => response.json())
+        .then((jsonData) => textPara.innerHTML = jsonData.Response.data.inventoryItem.itemName);
 }
 
 function UserInfoRequest() {
-    var xhr = new XMLHttpRequest();
-    var platformDropdown = document.getElementById("platformDropdown");
-    var usernameTextBox = document.getElementById("usernameTextbox");
-    var usernameValue = null;
-    var displayCodeTextbox = document.getElementById("displayCodeTextbox");
-    var displayCodeValue = null;
+    
+    let platformDropdown = document.getElementById("platformDropdown");
+    let usernameTextBox = document.getElementById("usernameTextbox");
+    let displayCodeTextbox = document.getElementById("displayCodeTextbox");
+    let platformSearchUrl = null;
+    let usernameValue = null;
+    let displayCodeValue = null;
 
+    //let xhr = new XMLHttpRequest();
     if (platformDropdown.selectedIndex == 0) {
         //Do something error wise here
     }
@@ -45,34 +41,42 @@ function UserInfoRequest() {
             platformIndex = platformDropdown.selectedIndex;
             usernameValue = usernameTextBox.value;
             displayCodeValue = displayCodeTextbox.value;
-
-            var platformSearchUrl = baseUrl + "SearchDestinyPlayerByBungieName/" + platformIndex + "/";
-            var params = {
+            platformSearchUrl = baseUrl + "SearchDestinyPlayerByBungieName/" + platformIndex + "/";
+            let params = {
                 "displayName": usernameValue,
                 "displayNameCode": displayCodeValue
             };
-            xhr.open("POST", platformSearchUrl, true);
-            xhr.setRequestHeader("X-API-Key", apiKey);
-            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-
-            xhr.onreadystatechange = function () {
-                if (this.readyState === 4 && this.status === 200) {
-                    var json = JSON.parse(this.responseText);
-                    var name = json.Response[0].displayName;
-                    currentPlayerMembershipId = json.Response[0].membershipId;
-                    getCharacterIds();
-                }
-            }
-            xhr.send(JSON.stringify(params));
+            fetch(platformSearchUrl, {
+                method: 'POST', headers: {
+                    'Content-Type': 'application/json;charset=UTF-8',
+                    'X-API-Key': apiKey
+                }, body: JSON.stringify(params),
+            })
+                .then((response) => response.json())
+                .then((data) => currentPlayerMembershipId = data.Response[0].membershipId)
+                .then(getCharacterIds);
         }
     }
 }
 
 function getCharacterIds() {
     //Profile - ?components=100
-    var xhr = new XMLHttpRequest();
-    var profileRequestUrl = baseUrl + platformIndex + "/Profile/" + currentPlayerMembershipId + "/?components=100";
-
+    let profileRequestUrl = baseUrl + platformIndex + "/Profile/" + currentPlayerMembershipId + "/?components=100";
+    fetch(profileRequestUrl, {
+        method: 'GET', headers: {
+            'Content-Type': 'application/json;charset=UTF-8',
+            'X-API-Key': apiKey
+        }
+    })
+        .then((response) => response.json())
+        .then((jsonData) => {
+            numberOfIdsFound = jsonData.Response.profile.data.characterIds.length;
+            for (let i = 0; i < numberOfIdsFound; i++) {
+                characterIds.push(jsonData.Response.profile.data.characterIds[i]);
+            }
+        })
+        .then(getCharacterInfo());
+    /*var xhr = new XMLHttpRequest();
     xhr.open("GET", profileRequestUrl, true);
     xhr.setRequestHeader("X-API-Key", apiKey);
     xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
@@ -87,7 +91,7 @@ function getCharacterIds() {
             getCharacterInfo();
         }
     }
-    xhr.send();
+    xhr.send();*/
 }
 
 function getCharacterInfo() {
