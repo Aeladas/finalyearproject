@@ -4,9 +4,6 @@ var baseUrl = "https://www.bungie.net/Platform/Destiny2/";
 var platformIndex = null;
 var currentPlayerMembershipId = null;
 var numberOfIdsFound = null;
-var character1Id = null;
-var character2Id = null;
-var character3Id = null;
 var characterIds = [];
 
 function ItemRequest() {
@@ -18,6 +15,10 @@ function ItemRequest() {
         } })
         .then((response) => response.json())
         .then((jsonData) => textPara.innerHTML = jsonData.Response.data.inventoryItem.itemName);
+}
+
+function searchForUser() {
+    //WORKING HERE!
 }
 
 function UserInfoRequest() {
@@ -62,62 +63,37 @@ function UserInfoRequest() {
 function getCharacterIds() {
     //Profile - ?components=100
     let profileRequestUrl = baseUrl + platformIndex + "/Profile/" + currentPlayerMembershipId + "/?components=100";
-    fetch(profileRequestUrl, {
-        method: 'GET', headers: {
+    fetch(profileRequestUrl, { method: 'GET', headers: {
             'Content-Type': 'application/json;charset=UTF-8',
             'X-API-Key': apiKey
-        }
-    })
+        } })
         .then((response) => response.json())
         .then((jsonData) => {
             numberOfIdsFound = jsonData.Response.profile.data.characterIds.length;
             for (let i = 0; i < numberOfIdsFound; i++) {
                 characterIds.push(jsonData.Response.profile.data.characterIds[i]);
             }
-        })
-        .then(getCharacterInfo());
-    /*var xhr = new XMLHttpRequest();
-    xhr.open("GET", profileRequestUrl, true);
-    xhr.setRequestHeader("X-API-Key", apiKey);
-    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-
-    xhr.onreadystatechange = function () {
-        if (this.readyState === 4 && this.status === 200) {
-            var json = JSON.parse(this.responseText);
-            numberOfIdsFound = json.Response.profile.data.characterIds.length;
-            for (let i = 0; i < numberOfIdsFound; i++) {
-                characterIds.push(json.Response.profile.data.characterIds[i]);
-            }
             getCharacterInfo();
-        }
-    }
-    xhr.send();*/
+        });
 }
 
 function getCharacterInfo() {
     // ?components=200
     for (let i = 0; i < characterIds.length; i++) {
-        var xhr = new XMLHttpRequest();
-
         var characterDataRequestUrl = baseUrl + platformIndex + "/Profile/" + currentPlayerMembershipId + "/Character/";
         characterDataRequestUrl += characterIds[i];
         characterDataRequestUrl += "/?components=200";
 
-        xhr.open("GET", characterDataRequestUrl, true);
-        xhr.setRequestHeader("X-API-Key", apiKey);
-        xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-
-        xhr.onreadystatechange = function () {
-            if (this.readyState === 4 && this.status === 200) {
-                var json = JSON.parse(this.responseText);
-                createCharacterTiles(json, i);
-            }
-        }
-        xhr.send();
+        fetch(characterDataRequestUrl, { method: 'GET', headers: {
+                'Content-Type': 'application/json;charset=UTF-8',
+                'X-API-Key': apiKey
+            } })
+            .then((response) => response.json())
+            .then((jsonData) => { createCharacterTiles(jsonData, i); })
     }
 }
 
-function createCharacterTiles(json, idIndex) {
+function createCharacterTiles(jsonData, idIndex) {
 
     //Need to create an image request to get the emblems
 
@@ -139,7 +115,7 @@ function createCharacterTiles(json, idIndex) {
             box.className = "character3Tile";
             break;
     }
-    switch (json.Response.character.data.raceType) {
+    switch (jsonData.Response.character.data.raceType) {
         case 0:
             characterRaceText.innerHTML = "Race: Human";
             break;
@@ -150,7 +126,7 @@ function createCharacterTiles(json, idIndex) {
             characterRaceText.innerHTML = "Race: Exo";
             break;
     }
-    switch (json.Response.character.data.classType) {
+    switch (jsonData.Response.character.data.classType) {
         case 0:
             characterClassText.innerHTML = "Class: Titan";
             break;
@@ -162,9 +138,9 @@ function createCharacterTiles(json, idIndex) {
             break;
     }
 
-    blueColor = json.Response.character.data.emblemColor.blue;
-    greenColor = json.Response.character.data.emblemColor.green;
-    redColor = json.Response.character.data.emblemColor.red;
+    blueColor = jsonData.Response.character.data.emblemColor.blue;
+    greenColor = jsonData.Response.character.data.emblemColor.green;
+    redColor = jsonData.Response.character.data.emblemColor.red;
 
     box.style.backgroundColor = "rgb(" + redColor + "," + greenColor + "," + blueColor + ")";
     characterRaceText.style.color = "white";
@@ -175,3 +151,12 @@ function createCharacterTiles(json, idIndex) {
     document.getElementsByClassName('characterTiles')[0].appendChild(box);
 }
 
+function getProfileStats() {
+
+}
+function getCharacterStats() {
+
+}
+function getCharacterInventory() {
+
+}
