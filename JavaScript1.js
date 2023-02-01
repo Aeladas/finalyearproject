@@ -18,7 +18,27 @@ function ItemRequest() {
 }
 
 function searchForUser() {
-    //WORKING HERE!
+    if (event.key === 'Enter') {
+        let inputBox = document.getElementById("testInputBox");
+        let numberOfResultsText = null;
+        let searchUrl = "https://www.bungie.net/platform/User/Search/GlobalName/0/";
+        let params = {
+            "displayNamePrefix": inputBox.value
+        };
+        fetch(searchUrl, {
+            method: 'POST', headers: {
+                'Content-Type': 'application/json;charset=UTF-8',
+                'X-API-Key': apiKey
+            }, body: JSON.stringify(params),
+        })
+            .then((response) => response.json())
+            .then((jsonData) => {
+                numberOfResultsText = document.createElement('p');
+                numberOfResultsText.innerHTML = "Found: " + jsonData.Response.searchResults.length + " result(s)";
+                document.body.appendChild(numberOfResultsText);
+            });
+
+    }
 }
 
 function UserInfoRequest() {
@@ -30,7 +50,6 @@ function UserInfoRequest() {
     let usernameValue = null;
     let displayCodeValue = null;
 
-    //let xhr = new XMLHttpRequest();
     if (platformDropdown.selectedIndex == 0) {
         //Do something error wise here
     }
@@ -54,8 +73,10 @@ function UserInfoRequest() {
                 }, body: JSON.stringify(params),
             })
                 .then((response) => response.json())
-                .then((data) => currentPlayerMembershipId = data.Response[0].membershipId)
-                .then(getCharacterIds);
+                .then((data) => {
+                    currentPlayerMembershipId = data.Response[0].membershipId;
+                    getCharacterIds();
+                });
         }
     }
 }
