@@ -5,6 +5,7 @@ var platformIndex = null;
 var currentPlayerMembershipId = null;
 var numberOfIdsFound = null;
 var characterIds = [];
+var characterData = [];
 
 function ItemRequest() {
     let textPara = document.getElementById("testPara");
@@ -14,10 +15,10 @@ function ItemRequest() {
             'X-API-Key': apiKey
         } })
         .then((response) => response.json())
-        .then((jsonData) => textPara.innerHTML = jsonData.Response.data.inventoryItem.itemName);
+        .then((data) => textPara.innerHTML = data.Response.data.inventoryItem.itemName);
 }
 
-function searchForUser() {
+async function searchForUser() {
     if (event.key === 'Enter') {
         let inputBox = document.getElementById("testInputBox");
         let numberOfResultsText = null;
@@ -25,23 +26,19 @@ function searchForUser() {
         let params = {
             "displayNamePrefix": inputBox.value
         };
-        fetch(searchUrl, {
+        const response = await fetch(searchUrl, {
             method: 'POST', headers: {
                 'Content-Type': 'application/json;charset=UTF-8',
                 'X-API-Key': apiKey
             }, body: JSON.stringify(params),
-        })
-            .then((response) => response.json())
-            .then((jsonData) => {
-                numberOfResultsText = document.createElement('p');
-                numberOfResultsText.innerHTML = "Found: " + jsonData.Response.searchResults.length + " result(s)";
-                document.body.appendChild(numberOfResultsText);
-            });
-
+        });
+        const data = await response.json();
+        numberOfResultsText = document.createElement('p');
+        numberOfResultsText.innerHTML = "Found: " + data.Response.searchResults.length + " result(s)";
     }
 }
 
-function UserInfoRequest() {
+async function UserInfoRequest() {
     
     let platformDropdown = document.getElementById("platformDropdown");
     let usernameTextBox = document.getElementById("usernameTextbox");
@@ -66,58 +63,93 @@ function UserInfoRequest() {
                 "displayName": usernameValue,
                 "displayNameCode": displayCodeValue
             };
-            fetch(platformSearchUrl, {
+            const response = await fetch(platformSearchUrl, {
                 method: 'POST', headers: {
                     'Content-Type': 'application/json;charset=UTF-8',
                     'X-API-Key': apiKey
                 }, body: JSON.stringify(params),
-            })
-                .then((response) => response.json())
-                .then((data) => {
-                    currentPlayerMembershipId = data.Response[0].membershipId;
-                    getCharacterIds();
-                });
+            });
+            const data = await response.json();
+            currentPlayerMembershipId = data.Response[0].membershipId;
+            getCharacterIds();
         }
     }
 }
 
-function getCharacterIds() {
+async function getCharacterIds() {
     //Profile - ?components=100
     let profileRequestUrl = baseUrl + platformIndex + "/Profile/" + currentPlayerMembershipId + "/?components=100";
-    fetch(profileRequestUrl, { method: 'GET', headers: {
+    const response = await fetch(profileRequestUrl, {
+        method: 'GET', headers: {
             'Content-Type': 'application/json;charset=UTF-8',
             'X-API-Key': apiKey
-        } })
-        .then((response) => response.json())
-        .then((jsonData) => {
-            numberOfIdsFound = jsonData.Response.profile.data.characterIds.length;
-            for (let i = 0; i < numberOfIdsFound; i++) {
-                characterIds.push(jsonData.Response.profile.data.characterIds[i]);
-            }
-            getCharacterInfo();
-        });
+    } });
+    const data = await response.json();
+    numberOfIdsFound = Object.keys(data.Response.profile.data.characterIds).length;
+    characterIds = Object.values(data.Response.profile.data.characterIds);
+    for(let i = 0; i<characterIds.length;i++){
+        if (i > 2){
+            break;
+        }
+    }
+    getCharacterInfo();
+    
+    //console.log(numberOfIdsFound);
+    /*if (numberOfIdsFound > 0 && numberOfIdsFound <= 3){
+        for (let i = 0; i < numberOfIdsFound; i++) {
+            //console.log(data.Response.profile.data.characterIds[i]);
+            //characterIds.push(data.Response.profile.data.characterIds[i]);
+        }
+        //getCharacterInfo();
+    }
+    else{
+        alert("Error: Please Refresh the page");
+    }*/
 }
 
-function getCharacterInfo() {
+async function getCharacterInfo() {
     // ?components=200
     for (let i = 0; i < characterIds.length; i++) {
         var characterDataRequestUrl = baseUrl + platformIndex + "/Profile/" + currentPlayerMembershipId + "/Character/";
         characterDataRequestUrl += characterIds[i];
         characterDataRequestUrl += "/?components=200";
 
-        fetch(characterDataRequestUrl, { method: 'GET', headers: {
+        const response = await fetch(characterDataRequestUrl, { method: 'GET', headers: {
                 'Content-Type': 'application/json;charset=UTF-8',
                 'X-API-Key': apiKey
-            } })
-            .then((response) => response.json())
-            .then((jsonData) => { createCharacterTiles(jsonData, i); })
+        } });
+        const data = await response.json()
+        createCharacterTiles(data);
+        //getCharacterEquipment();
     }
 }
 
-function createCharacterTiles(jsonData, idIndex) {
+async function getProfileStats() {
+
+}
+async function getCharacterStats(data) {
+//    alert("hello");
+    const statsObject = data.Response.character.data.stats;
+    let statsText = document.getElementById("characterStatsText");
+    statsText.innerHTML = "Power: "+statsObject["1935470627"]+"\n";
+    statsText.innerHTML += "Mobility: " +statsObject["2996146975"]+"\n";
+    statsText.innerHTML += "Resilience: "+statsObject["392767087"]+"\n";
+    statsText.innerHTML += "Recovery: "+statsObject["1943323491"]+"\n";
+    statsText.innerHTML += "Discipline: "+statsObject["1735777505"]+"\n";
+    statsText.innerHTML += "Intellect: "+statsObject["144602215"]+"\n";
+    statsText.innerHTML += "Strength: "+statsObject["4244567218"]+"\n";
+}
+async function getCharacterEquipment(){
+
+}
+async function getCharacterInventory() {
+
+}
+
+// SUB FUNCTIONS
+async function createCharacterTiles(data, idIndex) {
 
     //Need to create an image request to get the emblems
-
     var box = document.createElement('div');
     var characterRaceText = document.createElement('p');
     var characterClassText = document.createElement('p');
@@ -136,7 +168,7 @@ function createCharacterTiles(jsonData, idIndex) {
             box.className = "character3Tile";
             break;
     }
-    switch (jsonData.Response.character.data.raceType) {
+    switch (data.Response.character.data.raceType) {
         case 0:
             characterRaceText.innerHTML = "Race: Human";
             break;
@@ -147,7 +179,7 @@ function createCharacterTiles(jsonData, idIndex) {
             characterRaceText.innerHTML = "Race: Exo";
             break;
     }
-    switch (jsonData.Response.character.data.classType) {
+    switch (data.Response.character.data.classType) {
         case 0:
             characterClassText.innerHTML = "Class: Titan";
             break;
@@ -159,25 +191,16 @@ function createCharacterTiles(jsonData, idIndex) {
             break;
     }
 
-    blueColor = jsonData.Response.character.data.emblemColor.blue;
-    greenColor = jsonData.Response.character.data.emblemColor.green;
-    redColor = jsonData.Response.character.data.emblemColor.red;
+    blueColor = data.Response.character.data.emblemColor.blue;
+    greenColor = data.Response.character.data.emblemColor.green;
+    redColor = data.Response.character.data.emblemColor.red;
 
     box.style.backgroundColor = "rgb(" + redColor + "," + greenColor + "," + blueColor + ")";
+    box.addEventListener('click', function(event){getCharacterStats(data);});
     characterRaceText.style.color = "white";
     characterClassText.style.color = "white";
     box.appendChild(characterRaceText);
     box.appendChild(characterClassText);
 
     document.getElementsByClassName('characterTiles')[0].appendChild(box);
-}
-
-function getProfileStats() {
-
-}
-function getCharacterStats() {
-
-}
-function getCharacterInventory() {
-
 }
