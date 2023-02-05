@@ -93,18 +93,6 @@ async function getCharacterIds() {
         }
     }
     getCharacterInfo();
-    
-    //console.log(numberOfIdsFound);
-    /*if (numberOfIdsFound > 0 && numberOfIdsFound <= 3){
-        for (let i = 0; i < numberOfIdsFound; i++) {
-            //console.log(data.Response.profile.data.characterIds[i]);
-            //characterIds.push(data.Response.profile.data.characterIds[i]);
-        }
-        //getCharacterInfo();
-    }
-    else{
-        alert("Error: Please Refresh the page");
-    }*/
 }
 
 async function getCharacterInfo() {
@@ -118,37 +106,50 @@ async function getCharacterInfo() {
                 'Content-Type': 'application/json;charset=UTF-8',
                 'X-API-Key': apiKey
         } });
-        const data = await response.json()
-        createCharacterTiles(data);
-        //getCharacterEquipment();
+        const data = await response.json();
+        createCharacterTile(data, i);
     }
 }
 
 async function getProfileStats() {
 
 }
+
 async function getCharacterStats(data) {
 //    alert("hello");
     const statsObject = data.Response.character.data.stats;
     let statsText = document.getElementById("characterStatsText");
-    statsText.innerHTML = "Power: "+statsObject["1935470627"]+"\n";
-    statsText.innerHTML += "Mobility: " +statsObject["2996146975"]+"\n";
-    statsText.innerHTML += "Resilience: "+statsObject["392767087"]+"\n";
-    statsText.innerHTML += "Recovery: "+statsObject["1943323491"]+"\n";
-    statsText.innerHTML += "Discipline: "+statsObject["1735777505"]+"\n";
-    statsText.innerHTML += "Intellect: "+statsObject["144602215"]+"\n";
-    statsText.innerHTML += "Strength: "+statsObject["4244567218"]+"\n";
+    statsText.innerHTML = " Power: "+statsObject["1935470627"];
+    statsText.innerHTML += "\n Mobility: " +statsObject["2996146975"];
+    statsText.innerHTML += "\n Resilience: "+statsObject["392767087"];
+    statsText.innerHTML += "\n Recovery: "+statsObject["1943323491"];
+    statsText.innerHTML += "\n Discipline: "+statsObject["1735777505"];
+    statsText.innerHTML += "\n Intellect: "+statsObject["144602215"];
+    statsText.innerHTML += "\n Strength: "+statsObject["4244567218"];
 }
-async function getCharacterEquipment(){
 
+async function getCharacterEquipment(data, idIndex) {
+    let equipmentItems = null;
+    let characterId = characterIds[idIndex];
+    let characterEquipmentRequestUrl = baseUrl + platformIndex + "/Profile/" + currentPlayerMembershipId + "/Character/" + characterId + "/?components=205";
+    const response = await fetch(characterEquipmentRequestUrl, {
+        method: 'GET', headers: {
+            'Content-Type': 'application/json;charset=UTF-8',
+            'X-API-Key': apiKey
+        }
+    });
+    const equipmentJsonData = await response.json();
+    console.log(equipmentJsonData);
+    equipmentItems = equipmentJsonData.Response.equipment.data.items;
+    console.log(equipmentItems[0]);
 }
+
 async function getCharacterInventory() {
 
 }
 
 // SUB FUNCTIONS
-async function createCharacterTiles(data, idIndex) {
-
+async function createCharacterTile(data, idIndex) {
     //Need to create an image request to get the emblems
     var box = document.createElement('div');
     var characterRaceText = document.createElement('p');
@@ -196,7 +197,10 @@ async function createCharacterTiles(data, idIndex) {
     redColor = data.Response.character.data.emblemColor.red;
 
     box.style.backgroundColor = "rgb(" + redColor + "," + greenColor + "," + blueColor + ")";
-    box.addEventListener('click', function(event){getCharacterStats(data);});
+    box.addEventListener('click', function (event) {
+        getCharacterStats(data);
+        getCharacterEquipment(data, idIndex);
+    });
     characterRaceText.style.color = "white";
     characterClassText.style.color = "white";
     box.appendChild(characterRaceText);
