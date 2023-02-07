@@ -11,9 +11,12 @@ Scope of API Access:
 
 
 Added:
-  > A container that shows all characters within the players profile.
+  > A text paragraph element that shows each characters stats (Power, Mobility ect)
+  > A console message that retrieves the first item in the character's equipment from the manifest
 
 Challenges:
-  > Opening multiple character requests whilst trying to reduce the amount of code created.
-  > Displaying the correct text for each race/class
-  > Creating the backgrounds was challenging because it involved dynamically creating elements.
+  > Not understanding that the stats were stored as key value pairs
+  > Organisation - Struggled to figure out the best place to call the stat method
+  > When trying to get the equipment from the character a different component was required
+  > To actually get data on the items a manifest had to be fetched
+  > Reading the manifest was an issue as it returned pure json and I got stuck trying to read it

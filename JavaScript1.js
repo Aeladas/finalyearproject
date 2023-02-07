@@ -139,9 +139,29 @@ async function getCharacterEquipment(data, idIndex) {
         }
     });
     const equipmentJsonData = await response.json();
-    console.log(equipmentJsonData);
+    //console.log(equipmentJsonData);
     equipmentItems = equipmentJsonData.Response.equipment.data.items;
     console.log(equipmentItems[0]);
+
+    let manifestRequestUrl = "https://www.bungie.net/Platform/Destiny2/Manifest/";
+    const manifestResponse = await fetch(manifestRequestUrl, {
+        method: 'GET', headers: {
+            'Content-Type': 'application/json;charset=UTF-8',
+            'X-API-Key': apiKey
+        }
+    });
+    const manifestJsonData = await manifestResponse.json();
+    //console.log(manifestJsonData);
+
+    // https://www.bungie.net/common/destiny2_content/json/en/DestinyInventoryItemDefinition-db012e16-ceba-494c-bf5f-41c269ef22bd.json
+    let itemDefinitionUrl = "https://www.bungie.net";
+    itemDefinitionUrl += manifestJsonData.Response.jsonWorldComponentContentPaths.en.DestinyInventoryItemDefinition;
+    const definitionResponse = await fetch(itemDefinitionUrl, {
+        method: 'GET'
+    });
+    const definitionData = await definitionResponse.json();
+    //console.log(itemDefinitionUrl);
+    console.log(definitionData["2856514843"]);
 }
 
 async function getCharacterInventory() {
