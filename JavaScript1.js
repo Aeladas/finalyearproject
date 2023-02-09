@@ -129,21 +129,33 @@ async function getCharacterStats(data) {
 }
 
 async function getCharacterEquipment(data, idIndex) {
+    var weaponListObject = document.getElementById("equipmentWeaponList");
+    var armourListObject = document.getElementById("equipmentArmourList");
+    var extrasListObject = document.getElementById("equipmentExtrasList");
+
     let equipmentItems = null;
+    let equipmentItemHashes = [];
     let characterId = characterIds[idIndex];
     let characterEquipmentRequestUrl = baseUrl + platformIndex + "/Profile/" + currentPlayerMembershipId + "/Character/" + characterId + "/?components=205";
-    const response = await fetch(characterEquipmentRequestUrl, {
+    let manifestRequestUrl = "https://www.bungie.net/Platform/Destiny2/Manifest/";
+
+    const equipmentResponse = await fetch(characterEquipmentRequestUrl, {
         method: 'GET', headers: {
             'Content-Type': 'application/json;charset=UTF-8',
             'X-API-Key': apiKey
         }
     });
-    const equipmentJsonData = await response.json();
+    const equipmentJsonData = await equipmentResponse.json();
     //console.log(equipmentJsonData);
     equipmentItems = equipmentJsonData.Response.equipment.data.items;
-    console.log(equipmentItems[0]);
 
-    let manifestRequestUrl = "https://www.bungie.net/Platform/Destiny2/Manifest/";
+    //Store all the item hashes
+    for (let e = 0; e < equipmentItems.length; e++) {
+        equipmentItemHashes.push(equipmentItems[e].itemHash);
+    }
+    //console.log("After Pushes: " + equipmentItemHashes.length);
+
+    //Fetch the manifest
     const manifestResponse = await fetch(manifestRequestUrl, {
         method: 'GET', headers: {
             'Content-Type': 'application/json;charset=UTF-8',
@@ -153,19 +165,114 @@ async function getCharacterEquipment(data, idIndex) {
     const manifestJsonData = await manifestResponse.json();
     //console.log(manifestJsonData);
 
-    // https://www.bungie.net/common/destiny2_content/json/en/DestinyInventoryItemDefinition-db012e16-ceba-494c-bf5f-41c269ef22bd.json
     let itemDefinitionUrl = "https://www.bungie.net";
     itemDefinitionUrl += manifestJsonData.Response.jsonWorldComponentContentPaths.en.DestinyInventoryItemDefinition;
-    const definitionResponse = await fetch(itemDefinitionUrl, {
-        method: 'GET'
-    });
+    const definitionResponse = await fetch(itemDefinitionUrl, { method: 'GET' });
     const definitionData = await definitionResponse.json();
-    //console.log(itemDefinitionUrl);
-    console.log(definitionData["2856514843"]);
+    /*console.log(itemDefinitionUrl);
+    //console.log(definitionData["2856514843"]);
+    //console.log(definitionData["2856514843"].displayProperties.name);
+    */
+
+    for (let h = 0; h < equipmentItemHashes.length; h++) {
+        let currentItemHash = equipmentItemHashes[h];
+        switch (h) {
+            case 0:
+                kineticWeaponItem = document.createElement('li');
+                kineticWeaponItem.appendChild(document.createTextNode(definitionData[currentItemHash].displayProperties.name));
+                weaponListObject.appendChild(kineticWeaponItem);
+                console.log("Kinetic Weapon: " + definitionData[currentItemHash].displayProperties.name);
+                break;
+            case 1:
+                energyWeaponItem = document.createElement('li');
+                energyWeaponItem.appendChild(document.createTextNode(definitionData[currentItemHash].displayProperties.name));
+                weaponListObject.appendChild(energyWeaponItem);
+                console.log("Energy Weapon: " + definitionData[currentItemHash].displayProperties.name);
+                break;
+            case 2:
+                powerWeaponItem = document.createElement('li');
+                powerWeaponItem.appendChild(document.createTextNode(definitionData[currentItemHash].displayProperties.name));
+                weaponListObject.appendChild(powerWeaponItem);
+                console.log("Power Weapon: " + definitionData[currentItemHash].displayProperties.name);
+                break;
+            case 3:
+                helmetArmourItem = document.createElement('li');
+                helmetArmourItem.appendChild(document.createTextNode(definitionData[currentItemHash].displayProperties.name));
+                armourListObject.appendChild(helmetArmourItem);
+                console.log("Helmet: " + definitionData[currentItemHash].displayProperties.name);
+                break;
+            case 4:
+                gaunletsArmourItem = document.createElement('li');
+                gaunletsArmourItem.appendChild(document.createTextNode(definitionData[currentItemHash].displayProperties.name));
+                armourListObject.appendChild(gaunletsArmourItem);
+                console.log("Gaunlets: " + definitionData[currentItemHash].displayProperties.name);
+                break;
+            case 5:
+                chestArmourItem = document.createElement('li');
+                chestArmourItem.appendChild(document.createTextNode(definitionData[currentItemHash].displayProperties.name));
+                armourListObject.appendChild(chestArmourItem);
+                console.log("Chest Armour: " + definitionData[currentItemHash].displayProperties.name);
+                break;
+            case 6:
+                legArmourItem = document.createElement('li');
+                legArmourItem.appendChild(document.createTextNode(definitionData[currentItemHash].displayProperties.name));
+                armourListObject.appendChild(legArmourItem);
+                console.log("Leg Armour: " + definitionData[currentItemHash].displayProperties.name);
+                break;
+            case 7:
+                classArmourItem = document.createElement('li');
+                classArmourItem.appendChild(document.createTextNode(definitionData[currentItemHash].displayProperties.name));
+                armourListObject.appendChild(classArmourItem);
+                console.log("Class Armour: " + definitionData[currentItemHash].displayProperties.name);
+                break;
+            case 8:
+                ghostExtraItem = document.createElement('li');
+                ghostExtraItem.appendChild(document.createTextNode(definitionData[currentItemHash].displayProperties.name));
+                extrasListObject.appendChild(ghostExtraItem);
+                console.log("Ghost: " + definitionData[currentItemHash].displayProperties.name);
+                break;
+            case 9:
+                vehicleExtraItem = document.createElement('li');
+                vehicleExtraItem.appendChild(document.createTextNode(definitionData[currentItemHash].displayProperties.name));
+                extrasListObject.appendChild(vehicleExtraItem);
+                console.log("Vehicle: " + definitionData[currentItemHash].displayProperties.name);
+                break;
+            case 10:
+                shipExtraItem = document.createElement('li');
+                shipExtraItem.appendChild(document.createTextNode(definitionData[currentItemHash].displayProperties.name));
+                extrasListObject.appendChild(shipExtraItem);
+                console.log("Ship: " + definitionData[currentItemHash].displayProperties.name);
+                break;
+            case 11:
+                subclassExtraItem = document.createElement('li');
+                subclassExtraItem.appendChild(document.createTextNode(definitionData[currentItemHash].displayProperties.name));
+                extrasListObject.appendChild(subclassExtraItem);
+                console.log("Subclass: " + definitionData[currentItemHash].displayProperties.name);
+                break;
+            case 12:
+                emblemExtraItem = document.createElement('li');
+                emblemExtraItem.appendChild(document.createTextNode(definitionData[currentItemHash].displayProperties.name));
+                extrasListObject.appendChild(emblemExtraItem);
+                console.log("Emblem: " + definitionData[currentItemHash].displayProperties.name);
+                break;
+            case 13:
+                finishersExtraItem = document.createElement('li');
+                finishersExtraItem.appendChild(document.createTextNode(definitionData[currentItemHash].displayProperties.name));
+                extrasListObject.appendChild(finishersExtraItem);
+                console.log("Finishers: " + definitionData[currentItemHash].displayProperties.name);
+                break;
+            case 14:
+                emotesExtraItem = document.createElement('li');
+                emotesExtraItem.appendChild(document.createTextNode(definitionData[currentItemHash].displayProperties.name));
+                extrasListObject.appendChild(emotesExtraItem);
+                console.log("Emotes: " + definitionData[currentItemHash].displayProperties.name);
+                break;
+        }
+    }
 }
 
 async function getCharacterInventory() {
-
+    
 }
 
 // SUB FUNCTIONS

@@ -22,7 +22,6 @@
             <option>PlayStation</option>
             <option>Steam</option>
             <option>Blizzard</option>
-            <option>Stadia</option>
             <option>Epic Games</option>
             <option>Demon</option>
         </select>
@@ -36,7 +35,7 @@
             </div>-->
         </form>
     </div>
-    <input id="testInputBox" class="search" onkeydown="searchForUser()"/>
+    <input id="testInputBox" class="search" onkeydown="searchForUser()" />
     <!--<button id="ItemRequestTest" onclick="ItemRequest()">Request Item</button>-->
     <button id="UserInfoTest" onclick="UserInfoRequest()">Search</button>
 
@@ -44,6 +43,21 @@
         <!--Code will generate the tiles-->
     </div>
     <p id="characterStatsText"></p>
+    <div class="equipmentWeaponListContainer">
+        <p id="equipmentWeaponListTitle">Weapons</p>
+        <ul id="equipmentWeaponList">
+        </ul>
+    </div>
+    <div class="equipmentArmourListContainer">
+        <p id="equipmentArmourListTitle">Armour</p>
+        <ul id="equipmentArmourList">
+        </ul>
+    </div>
+    <div class="equipmentExtrasListContainer">
+        <p id="equipmentExtrasListTitle">Extras</p>
+        <ul id="equipmentExtrasList">
+        </ul>
+    </div>
 
     <!--Create the stats div here-->
 </body>
