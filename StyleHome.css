@@ -16,3 +16,12 @@
     font-family:'Pokemon Fire Red';
     font-size:large;
 }
+#equipmentWeaponListTitle{
+    visibility:hidden;
+}
+#equipmentArmourListTitle {
+    visibility: hidden;
+}
+#equipmentExtrasListTitle {
+    visibility: hidden;
+}
