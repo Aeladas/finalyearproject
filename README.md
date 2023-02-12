@@ -11,12 +11,8 @@ Scope of API Access:
 
 
 Added:
-  > A text paragraph element that shows each characters stats (Power, Mobility ect)
-  > A console message that retrieves the first item in the character's equipment from the manifest
+  > Created list items that show what equipment a character has equipt
+  > Re-arranged where the manifest and Item Definition libraries where being called to reduce the amount of traffic
 
 Challenges:
-  > Not understanding that the stats were stored as key value pairs
-  > Organisation - Struggled to figure out the best place to call the stat method
-  > When trying to get the equipment from the character a different component was required
-  > To actually get data on the items a manifest had to be fetched
-  > Reading the manifest was an issue as it returned pure json and I got stuck trying to read it
+  > 

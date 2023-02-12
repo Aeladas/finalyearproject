@@ -7,6 +7,9 @@ var numberOfIdsFound = null;
 var characterIds = [];
 var characterData = [];
 
+var manifestJsonData = null;
+var definitionData = null;
+
 function ItemRequest() {
     let textPara = document.getElementById("testPara");
     let itemRequestUrl = "https://www.bungie.net/platform/Destiny/Manifest/InventoryItem/1274330687/";
@@ -39,7 +42,6 @@ async function searchForUser() {
 }
 
 async function UserInfoRequest() {
-    
     let platformDropdown = document.getElementById("platformDropdown");
     let usernameTextBox = document.getElementById("usernameTextbox");
     let displayCodeTextbox = document.getElementById("displayCodeTextbox");
@@ -78,6 +80,9 @@ async function UserInfoRequest() {
 
 async function getCharacterIds() {
     //Profile - ?components=100
+    await getManifest();
+    await getItemDefinitionLibrary();
+
     let profileRequestUrl = baseUrl + platformIndex + "/Profile/" + currentPlayerMembershipId + "/?components=100";
     const response = await fetch(profileRequestUrl, {
         method: 'GET', headers: {
@@ -137,8 +142,9 @@ async function getCharacterEquipment(idIndex) {
     let equipmentItems = null;
     let equipmentItemHashes = [];
     let characterId = characterIds[idIndex];
+
     let characterEquipmentRequestUrl = baseUrl + platformIndex + "/Profile/" + currentPlayerMembershipId + "/Character/" + characterId + "/?components=205";
-    let manifestRequestUrl = "https://www.bungie.net/Platform/Destiny2/Manifest/";
+    
 
     const equipmentResponse = await fetch(characterEquipmentRequestUrl, {
         method: 'GET', headers: {
@@ -153,28 +159,43 @@ async function getCharacterEquipment(idIndex) {
     for (let e = 0; e < equipmentItems.length; e++) {
         equipmentItemHashes.push(equipmentItems[e].itemHash);
     }
-    //Fetch the manifest
+    AddItemsToLists(definitionData, equipmentItemHashes, weaponListObject, armourListObject, extrasListObject);
+}
+
+async function getCharacterInventory(idIndex) {
+    let characterId = characterIds[idIndex];
+    let characterInventoryRequestUrl = baseUrl + platformIndex + "/Profile/" + currentPlayerMembershipId + "/Character/" + characterId + "/?components=201";
+
+    const inventoryResponse = await fetch(characterInventoryRequestUrl, {
+        method: 'GET', headers: {
+            'Content-Type': 'application/json;charset=UTF-8',
+            'X-API-Key': apiKey
+        }
+    });
+    const inventoryJsonData = await inventoryResponse.json();
+    console.log(inventoryJsonData);
+}
+
+// SUB FUNCTIONS
+async function getManifest() {
+    let manifestRequestUrl = "https://www.bungie.net/Platform/Destiny2/Manifest/";
     const manifestResponse = await fetch(manifestRequestUrl, {
         method: 'GET', headers: {
             'Content-Type': 'application/json;charset=UTF-8',
             'X-API-Key': apiKey
         }
     });
-    const manifestJsonData = await manifestResponse.json();
-
-    let itemDefinitionUrl = "https://www.bungie.net";
-    itemDefinitionUrl += manifestJsonData.Response.jsonWorldComponentContentPaths.en.DestinyInventoryItemDefinition;
-    const definitionResponse = await fetch(itemDefinitionUrl, { method: 'GET' });
-    const definitionData = await definitionResponse.json();
-
-    AddItemsToLists(definitionData, equipmentItemHashes, weaponListObject, armourListObject, extrasListObject);
-}
-
-async function getCharacterInventory() {
+    manifestJsonData = await manifestResponse.json();
     
 }
 
-// SUB FUNCTIONS
+async function getItemDefinitionLibrary() {
+    let itemDefinitionUrl = "https://www.bungie.net";
+    itemDefinitionUrl += manifestJsonData.Response.jsonWorldComponentContentPaths.en.DestinyInventoryItemDefinition;
+    const definitionResponse = await fetch(itemDefinitionUrl, { method: 'GET' });
+    definitionData = await definitionResponse.json();
+}
+
 async function createCharacterTile(data, idIndex) {
     //Need to create an image request to get the emblems
     var box = document.createElement('div');
@@ -226,6 +247,7 @@ async function createCharacterTile(data, idIndex) {
     box.addEventListener('click', function (event) {
         getCharacterStats(data);
         getCharacterEquipment(idIndex);
+        //getCharacterInventory(idIndex);
     });
     characterRaceText.style.color = "white";
     characterClassText.style.color = "white";
