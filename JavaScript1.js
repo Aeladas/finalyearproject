@@ -24,7 +24,7 @@ function ItemRequest() {
 async function searchForUser() {
     if (event.key === 'Enter') {
         let inputBox = document.getElementById("testInputBox");
-        let numberOfResultsText = null;
+        let numOfResults = null;
         let searchUrl = "https://www.bungie.net/platform/User/Search/GlobalName/0/";
         let params = {
             "displayNamePrefix": inputBox.value
@@ -35,9 +35,14 @@ async function searchForUser() {
                 'X-API-Key': apiKey
             }, body: JSON.stringify(params),
         });
-        const data = await response.json();
-        numberOfResultsText = document.createElement('p');
-        numberOfResultsText.innerHTML = "Found: " + data.Response.searchResults.length + " result(s)";
+        const searchData = await response.json();
+        console.log(searchData);
+        numOfResults = await searchData.Response.searchResults.length;
+        await createSearchResults(searchData, numOfResults);
+        //Response.searchResults[0].destinyMemberships[0].membershipId
+
+        /*numberOfResultsText = document.createElement('p');
+        numberOfResultsText.innerHTML = "Found: " + searchData.Response.searchResults.length + " result(s)";*/
     }
 }
 
@@ -177,6 +182,15 @@ async function getCharacterInventory(idIndex) {
 }
 
 // SUB FUNCTIONS
+
+async function createSearchResults(searchData, numOfResults) {
+    for (let i = 0; i < numOfResults; i++) {
+        let newAccountText = document.createElement('p');
+        newAccountText.innerHTML = "Result " + i + ": " + searchData.Response.searchResults[i].destinyMemberships[0].displayName;
+        document.body.appendChild(newAccountText);
+        //console.log(searchData.Response.searchResults[i].destinyMemberships[0].displayName);
+    }
+}
 async function getManifest() {
     let manifestRequestUrl = "https://www.bungie.net/Platform/Destiny2/Manifest/";
     const manifestResponse = await fetch(manifestRequestUrl, {
