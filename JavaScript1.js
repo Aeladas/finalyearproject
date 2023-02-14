@@ -3,6 +3,7 @@ var baseUrl = "https://www.bungie.net/Platform/Destiny2/";
 
 var platformIndex = null;
 var currentPlayerMembershipId = null;
+var currentPlayerMembershipType = null;
 var numberOfIdsFound = null;
 var characterIds = [];
 var characterData = [];
@@ -39,14 +40,10 @@ async function searchForUser() {
         console.log(searchData);
         numOfResults = await searchData.Response.searchResults.length;
         await createSearchResults(searchData, numOfResults);
-        //Response.searchResults[0].destinyMemberships[0].membershipId
-
-        /*numberOfResultsText = document.createElement('p');
-        numberOfResultsText.innerHTML = "Found: " + searchData.Response.searchResults.length + " result(s)";*/
     }
 }
 
-async function UserInfoRequest() {
+/*async function UserInfoRequest() {
     let platformDropdown = document.getElementById("platformDropdown");
     let usernameTextBox = document.getElementById("usernameTextbox");
     let displayCodeTextbox = document.getElementById("displayCodeTextbox");
@@ -56,6 +53,7 @@ async function UserInfoRequest() {
 
     if (platformDropdown.selectedIndex == 0) {
         //Do something error wise here
+        alert("Nothing to do!");
     }
     else {
         if (usernameTextbox.value == null) {
@@ -81,14 +79,15 @@ async function UserInfoRequest() {
             getCharacterIds();
         }
     }
-}
+}*/
 
 async function getCharacterIds() {
     //Profile - ?components=100
     await getManifest();
     await getItemDefinitionLibrary();
 
-    let profileRequestUrl = baseUrl + platformIndex + "/Profile/" + currentPlayerMembershipId + "/?components=100";
+    //let profileRequestUrl = baseUrl + platformIndex + "/Profile/" + currentPlayerMembershipId + "/?components=100";
+    let profileRequestUrl = baseUrl + currentPlayerMembershipType + "/Profile/" + currentPlayerMembershipId + "/?components=100";
     const response = await fetch(profileRequestUrl, {
         method: 'GET', headers: {
             'Content-Type': 'application/json;charset=UTF-8',
@@ -108,7 +107,8 @@ async function getCharacterIds() {
 async function getCharacterInfo() {
     // ?components=200
     for (let i = 0; i < characterIds.length; i++) {
-        var characterDataRequestUrl = baseUrl + platformIndex + "/Profile/" + currentPlayerMembershipId + "/Character/";
+        //let characterDataRequestUrl = baseUrl + platformIndex + "/Profile/" + currentPlayerMembershipId + "/Character/";
+        let characterDataRequestUrl = baseUrl + currentPlayerMembershipType + "/Profile/" + currentPlayerMembershipId + "/Character/";
         characterDataRequestUrl += characterIds[i];
         characterDataRequestUrl += "/?components=200";
 
@@ -126,7 +126,6 @@ async function getProfileStats() {
 }
 
 async function getCharacterStats(data) {
-//    alert("hello");
     const statsObject = data.Response.character.data.stats;
     let statsText = document.getElementById("characterStatsText");
     statsText.innerHTML = " Power: "+statsObject["1935470627"];
@@ -148,7 +147,8 @@ async function getCharacterEquipment(idIndex) {
     let equipmentItemHashes = [];
     let characterId = characterIds[idIndex];
 
-    let characterEquipmentRequestUrl = baseUrl + platformIndex + "/Profile/" + currentPlayerMembershipId + "/Character/" + characterId + "/?components=205";
+    //let characterEquipmentRequestUrl = baseUrl + platformIndex + "/Profile/" + currentPlayerMembershipId + "/Character/" + characterId + "/?components=205";
+    let characterEquipmentRequestUrl = baseUrl + currentPlayerMembershipType + "/Profile/" + currentPlayerMembershipId + "/Character/" + characterId + "/?components=205";
     
 
     const equipmentResponse = await fetch(characterEquipmentRequestUrl, {
@@ -184,11 +184,19 @@ async function getCharacterInventory(idIndex) {
 // SUB FUNCTIONS
 
 async function createSearchResults(searchData, numOfResults) {
+    var resultsBox = document.getElementById("searchResultsBox");
     for (let i = 0; i < numOfResults; i++) {
-        let newAccountText = document.createElement('p');
-        newAccountText.innerHTML = "Result " + i + ": " + searchData.Response.searchResults[i].destinyMemberships[0].displayName;
-        document.body.appendChild(newAccountText);
-        //console.log(searchData.Response.searchResults[i].destinyMemberships[0].displayName);
+        let newAccountText = document.createElement('button');
+        newAccountText.innerHTML = searchData.Response.searchResults[i].destinyMemberships[0].displayName;
+        resultsBox.appendChild(newAccountText);
+        newAccountText.onclick = function () {
+            currentPlayerMembershipId = searchData.Response.searchResults[i].destinyMemberships[0].membershipId;
+            currentPlayerMembershipType = searchData.Response.searchResults[i].destinyMemberships[0].membershipType;
+            getCharacterIds();
+        }
+        //console.log(searchData);
+        //Response.searchResults[0].destinyMemberships[0].membershipId
+        //Response.searchResults[0].destinyMemberships[0].membershipType
     }
 }
 async function getManifest() {
