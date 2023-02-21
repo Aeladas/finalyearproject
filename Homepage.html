@@ -26,18 +26,16 @@
             <option>Demon</option>
         </select>
         <form>
-            <input id="usernameTextbox" placeholder="Enter Username" />
-            <input id="displayCodeTextbox" placeholder="Enter 4 digit code" />
+            <input id="testInputBox" class="search"/>
             <!--<div class="history">
-                <p id="recentPlayersTitle">Recent Player Searches</p>
-                <ul>
-                </ul>
-            </div>-->
+                    <p id="recentPlayersTitle">Recent Player Searches</p>
+                    <ul>
+                    </ul>
+                    </div>-->
         </form>
     </div>
-    <input id="testInputBox" class="search" onkeydown="searchForUser()" />
     <!--<button id="ItemRequestTest" onclick="ItemRequest()">Request Item</button>-->
-    <button id="UserInfoTest" onclick="UserInfoRequest()">Search</button>
+    <button id="UserInfoTest" onclick="searchForUser()">Search</button>
 
     <div id="searchResultsBox">
 
@@ -49,16 +47,31 @@
     <div class="equipmentWeaponListContainer">
         <p id="equipmentWeaponListTitle">Weapons</p>
         <ul id="equipmentWeaponList">
+            <li id="kineticWeaponItem"/>
+            <li id="energyWeaponItem"/>
+            <li id="powerWeaponItem"/>
         </ul>
     </div>
     <div class="equipmentArmourListContainer">
         <p id="equipmentArmourListTitle">Armour</p>
         <ul id="equipmentArmourList">
+            <li id="helmetArmourItem" />
+            <li id="gaunletsArmourItem" />
+            <li id="chestArmourItem" />
+            <li id="legArmourItem" />
+            <li id="classArmourItem" />
         </ul>
     </div>
     <div class="equipmentExtrasListContainer">
         <p id="equipmentExtrasListTitle">Extras</p>
         <ul id="equipmentExtrasList">
+            <li id="ghostExtraItem" />
+            <li id="vehicleExtraItem" />
+            <li id="shipsExtraItem" />
+            <li id="subclassExtraItem" />
+            <li id="emblemsExtraItem" />
+            <li id="finishersExtraItem" />
+            <!--<li id="emotesExtraItem" />-->
         </ul>
     </div>
 

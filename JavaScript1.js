@@ -22,71 +22,30 @@ function ItemRequest() {
         .then((data) => textPara.innerHTML = data.Response.data.inventoryItem.itemName);
 }
 
+
 async function searchForUser() {
-    if (event.key === 'Enter') {
-        let inputBox = document.getElementById("testInputBox");
-        let numOfResults = null;
-        let searchUrl = "https://www.bungie.net/platform/User/Search/GlobalName/0/";
-        let params = {
-            "displayNamePrefix": inputBox.value
-        };
-        const response = await fetch(searchUrl, {
-            method: 'POST', headers: {
-                'Content-Type': 'application/json;charset=UTF-8',
-                'X-API-Key': apiKey
-            }, body: JSON.stringify(params),
-        });
-        const searchData = await response.json();
-        console.log(searchData);
-        numOfResults = await searchData.Response.searchResults.length;
-        await createSearchResults(searchData, numOfResults);
-    }
+    let inputBox = document.getElementById("testInputBox");
+    let numOfResults = null;
+    let searchUrl = "https://www.bungie.net/platform/User/Search/GlobalName/0/";
+    let params = {
+        "displayNamePrefix": inputBox.value
+    };
+    const response = await fetch(searchUrl, {
+        method: 'POST', headers: {
+            'Content-Type': 'application/json;charset=UTF-8',
+            'X-API-Key': apiKey
+        }, body: JSON.stringify(params),
+    });
+    const searchData = await response.json();
+    numOfResults = await searchData.Response.searchResults.length;
+    await createSearchResults(searchData, numOfResults);
+    inputBox.value = "";
 }
-
-/*async function UserInfoRequest() {
-    let platformDropdown = document.getElementById("platformDropdown");
-    let usernameTextBox = document.getElementById("usernameTextbox");
-    let displayCodeTextbox = document.getElementById("displayCodeTextbox");
-    let platformSearchUrl = null;
-    let usernameValue = null;
-    let displayCodeValue = null;
-
-    if (platformDropdown.selectedIndex == 0) {
-        //Do something error wise here
-        alert("Nothing to do!");
-    }
-    else {
-        if (usernameTextbox.value == null) {
-            //Do something error wise here
-        }
-        else {
-            platformIndex = platformDropdown.selectedIndex;
-            usernameValue = usernameTextBox.value;
-            displayCodeValue = displayCodeTextbox.value;
-            platformSearchUrl = baseUrl + "SearchDestinyPlayerByBungieName/" + platformIndex + "/";
-            let params = {
-                "displayName": usernameValue,
-                "displayNameCode": displayCodeValue
-            };
-            const response = await fetch(platformSearchUrl, {
-                method: 'POST', headers: {
-                    'Content-Type': 'application/json;charset=UTF-8',
-                    'X-API-Key': apiKey
-                }, body: JSON.stringify(params),
-            });
-            const data = await response.json();
-            currentPlayerMembershipId = data.Response[0].membershipId;
-            getCharacterIds();
-        }
-    }
-}*/
 
 async function getCharacterIds() {
     //Profile - ?components=100
     await getManifest();
     await getItemDefinitionLibrary();
-
-    //let profileRequestUrl = baseUrl + platformIndex + "/Profile/" + currentPlayerMembershipId + "/?components=100";
     let profileRequestUrl = baseUrl + currentPlayerMembershipType + "/Profile/" + currentPlayerMembershipId + "/?components=100";
     const response = await fetch(profileRequestUrl, {
         method: 'GET', headers: {
@@ -107,7 +66,6 @@ async function getCharacterIds() {
 async function getCharacterInfo() {
     // ?components=200
     for (let i = 0; i < characterIds.length; i++) {
-        //let characterDataRequestUrl = baseUrl + platformIndex + "/Profile/" + currentPlayerMembershipId + "/Character/";
         let characterDataRequestUrl = baseUrl + currentPlayerMembershipType + "/Profile/" + currentPlayerMembershipId + "/Character/";
         characterDataRequestUrl += characterIds[i];
         characterDataRequestUrl += "/?components=200";
@@ -164,7 +122,8 @@ async function getCharacterEquipment(idIndex) {
     for (let e = 0; e < equipmentItems.length; e++) {
         equipmentItemHashes.push(equipmentItems[e].itemHash);
     }
-    AddItemsToLists(definitionData, equipmentItemHashes, weaponListObject, armourListObject, extrasListObject);
+    updateItems(definitionData, equipmentItems);
+    //AddItemsToLists(definitionData, equipmentItemHashes, weaponListObject, armourListObject, extrasListObject);
 }
 
 async function getCharacterInventory(idIndex) {
@@ -182,7 +141,6 @@ async function getCharacterInventory(idIndex) {
 }
 
 // SUB FUNCTIONS
-
 async function createSearchResults(searchData, numOfResults) {
     var resultsBox = document.getElementById("searchResultsBox");
     for (let i = 0; i < numOfResults; i++) {
@@ -194,11 +152,9 @@ async function createSearchResults(searchData, numOfResults) {
             currentPlayerMembershipType = searchData.Response.searchResults[i].destinyMemberships[0].membershipType;
             getCharacterIds();
         }
-        //console.log(searchData);
-        //Response.searchResults[0].destinyMemberships[0].membershipId
-        //Response.searchResults[0].destinyMemberships[0].membershipType
     }
 }
+//Create a clear search function
 async function getManifest() {
     let manifestRequestUrl = "https://www.bungie.net/Platform/Destiny2/Manifest/";
     const manifestResponse = await fetch(manifestRequestUrl, {
@@ -210,7 +166,6 @@ async function getManifest() {
     manifestJsonData = await manifestResponse.json();
     
 }
-
 async function getItemDefinitionLibrary() {
     let itemDefinitionUrl = "https://www.bungie.net";
     itemDefinitionUrl += manifestJsonData.Response.jsonWorldComponentContentPaths.en.DestinyInventoryItemDefinition;
@@ -289,85 +244,70 @@ function MakeTitlesVisible() {
     extrasListTitle.style.visibility = "visible";
 }
 
-function AddItemsToLists(definitionData, equipmentItemHashes, weaponListObject, armourListObject, extrasListObject) {
-    for (let h = 0; h < equipmentItemHashes.length; h++) {
-        let currentItemHash = equipmentItemHashes[h];
-        switch (h) {
-            case 0:
-                kineticWeaponItem = document.createElement('li');
-                kineticWeaponItem.appendChild(document.createTextNode(definitionData[currentItemHash].displayProperties.name));
-                weaponListObject.appendChild(kineticWeaponItem);
+function updateItems(definitionData, equipmentItems) {
+    for (let i = 0; i < equipmentItems.length; i++) {
+        switch (equipmentItems[i].bucketHash) {
+            case 1498876634:
+                kineticWeaponItem = document.getElementById("kineticWeaponItem");
+                kineticWeaponItem.innerHTML = definitionData[equipmentItems[i].itemHash].displayProperties.name;
                 break;
-            case 1:
-                energyWeaponItem = document.createElement('li');
-                energyWeaponItem.appendChild(document.createTextNode(definitionData[currentItemHash].displayProperties.name));
-                weaponListObject.appendChild(energyWeaponItem);
+            case 2465295065:
+                energyWeaponItem = document.getElementById("energyWeaponItem");
+                energyWeaponItem.innerHTML = definitionData[equipmentItems[i].itemHash].displayProperties.name;
                 break;
-            case 2:
-                powerWeaponItem = document.createElement('li');
-                powerWeaponItem.appendChild(document.createTextNode(definitionData[currentItemHash].displayProperties.name));
-                weaponListObject.appendChild(powerWeaponItem);
+            case 953998645:
+                powerWeaponItem = document.getElementById("powerWeaponItem");
+                powerWeaponItem.innerHTML = definitionData[equipmentItems[i].itemHash].displayProperties.name;
                 break;
-            case 3:
-                helmetArmourItem = document.createElement('li');
-                helmetArmourItem.appendChild(document.createTextNode(definitionData[currentItemHash].displayProperties.name));
-                armourListObject.appendChild(helmetArmourItem);
+            case 3448274439:
+                helmetArmourItem = document.getElementById("helmetArmourItem");
+                helmetArmourItem.innerHTML = definitionData[equipmentItems[i].itemHash].displayProperties.name;
                 break;
-            case 4:
-                gaunletsArmourItem = document.createElement('li');
-                gaunletsArmourItem.appendChild(document.createTextNode(definitionData[currentItemHash].displayProperties.name));
-                armourListObject.appendChild(gaunletsArmourItem);
+            case 3551918588:
+                gaunletsArmourItem = document.getElementById("gaunletsArmourItem");
+                gaunletsArmourItem.innerHTML = definitionData[equipmentItems[i].itemHash].displayProperties.name;
                 break;
-            case 5:
-                chestArmourItem = document.createElement('li');
-                chestArmourItem.appendChild(document.createTextNode(definitionData[currentItemHash].displayProperties.name));
-                armourListObject.appendChild(chestArmourItem);
+            case 14239492:
+                chestArmourItem = document.getElementById("chestArmourItem");
+                chestArmourItem.innerHTML = definitionData[equipmentItems[i].itemHash].displayProperties.name;
                 break;
-            case 6:
-                legArmourItem = document.createElement('li');
-                legArmourItem.appendChild(document.createTextNode(definitionData[currentItemHash].displayProperties.name));
-                armourListObject.appendChild(legArmourItem);
+            case 20886954:
+                legArmourItem = document.getElementById("legArmourItem");
+                legArmourItem.innerHTML = definitionData[equipmentItems[i].itemHash].displayProperties.name;
                 break;
-            case 7:
-                classArmourItem = document.createElement('li');
-                classArmourItem.appendChild(document.createTextNode(definitionData[currentItemHash].displayProperties.name));
-                armourListObject.appendChild(classArmourItem);
+            case 1585787867:
+                classArmourItem = document.getElementById("classArmourItem");
+                classArmourItem.innerHTML = definitionData[equipmentItems[i].itemHash].displayProperties.name;
                 break;
-            case 8:
-                ghostExtraItem = document.createElement('li');
-                ghostExtraItem.appendChild(document.createTextNode(definitionData[currentItemHash].displayProperties.name));
-                extrasListObject.appendChild(ghostExtraItem);
+            case 4023194814:
+                ghostExtraItem = document.getElementById("ghostExtraItem");
+                ghostExtraItem.innerHTML = definitionData[equipmentItems[i].itemHash].displayProperties.name;
                 break;
-            case 9:
-                vehicleExtraItem = document.createElement('li');
-                vehicleExtraItem.appendChild(document.createTextNode(definitionData[currentItemHash].displayProperties.name));
-                extrasListObject.appendChild(vehicleExtraItem);
+            case 2025709351:
+                vehicleExtraItem = document.getElementById("vehicleExtraItem");
+                vehicleExtraItem.innerHTML = definitionData[equipmentItems[i].itemHash].displayProperties.name;
                 break;
-            case 10:
-                shipExtraItem = document.createElement('li');
-                shipExtraItem.appendChild(document.createTextNode(definitionData[currentItemHash].displayProperties.name));
-                extrasListObject.appendChild(shipExtraItem);
+            case 284967655:
+                shipsExtraItem = document.getElementById("shipsExtraItem");
+                shipsExtraItem.innerHTML = definitionData[equipmentItems[i].itemHash].displayProperties.name;
                 break;
-            case 11:
-                subclassExtraItem = document.createElement('li');
-                subclassExtraItem.appendChild(document.createTextNode(definitionData[currentItemHash].displayProperties.name));
-                extrasListObject.appendChild(subclassExtraItem);
+            case 3284755031:
+                subclassExtraItem = document.getElementById("subclassExtraItem");
+                subclassExtraItem.innerHTML = definitionData[equipmentItems[i].itemHash].displayProperties.name;
                 break;
-            case 12:
-                emblemExtraItem = document.createElement('li');
-                emblemExtraItem.appendChild(document.createTextNode(definitionData[currentItemHash].displayProperties.name));
-                extrasListObject.appendChild(emblemExtraItem);
+            case 4274335291:
+                emblemsExtraItem = document.getElementById("emblemsExtraItem");
+                emblemsExtraItem.innerHTML = definitionData[equipmentItems[i].itemHash].displayProperties.name;
                 break;
-            case 13:
-                finishersExtraItem = document.createElement('li');
-                finishersExtraItem.appendChild(document.createTextNode(definitionData[currentItemHash].displayProperties.name));
-                extrasListObject.appendChild(finishersExtraItem);
+            case 3683254069:
+                finishersExtraItem = document.getElementById("finishersExtraItem");
+                finishersExtraItem.innerHTML = definitionData[equipmentItems[i].itemHash].displayProperties.name;
                 break;
-            case 14:
-                emotesExtraItem = document.createElement('li');
-                emotesExtraItem.appendChild(document.createTextNode(definitionData[currentItemHash].displayProperties.name));
-                extrasListObject.appendChild(emotesExtraItem);
-                break;
+            /*case 3183180185:
+                emotesExtraItem = document.getElementById("emotesExtraItem");
+                emotesExtraItem.innerHTML = definitionData[equipmentItems[i].itemHash].displayProperties.name;
+                break;*/
+
         }
     }
 }
