@@ -22,8 +22,12 @@ function ItemRequest() {
         .then((data) => textPara.innerHTML = data.Response.data.inventoryItem.itemName);
 }
 
-
 async function searchForUser() {
+    if (manifestJsonData == null && definitionData == null) {
+        await getManifest();
+        await getItemDefinitionLibrary();
+    }
+
     let inputBox = document.getElementById("testInputBox");
     let numOfResults = null;
     let searchUrl = "https://www.bungie.net/platform/User/Search/GlobalName/0/";
@@ -44,8 +48,6 @@ async function searchForUser() {
 
 async function getCharacterIds() {
     //Profile - ?components=100
-    await getManifest();
-    await getItemDefinitionLibrary();
     let profileRequestUrl = baseUrl + currentPlayerMembershipType + "/Profile/" + currentPlayerMembershipId + "/?components=100";
     const response = await fetch(profileRequestUrl, {
         method: 'GET', headers: {
@@ -75,7 +77,15 @@ async function getCharacterInfo() {
                 'X-API-Key': apiKey
         } });
         const data = await response.json();
-        createCharacterTile(data, i);
+        let character1Tile = document.getElementById("character1Tile");
+        let character2Tile = document.getElementById("character2Tile");
+        let character3Tile = document.getElementById("character3Tile");
+        if (document.contains(character1Tile) && document.contains(character2Tile) && document.contains(character3Tile)) {
+            updateCharacterTile(data, i);
+        }
+        else {
+            createCharacterTile(data, i);
+        }
     }
 }
 
@@ -97,15 +107,9 @@ async function getCharacterStats(data) {
 
 async function getCharacterEquipment(idIndex) {
     MakeTitlesVisible();
-    var weaponListObject = document.getElementById("equipmentWeaponList");
-    var armourListObject = document.getElementById("equipmentArmourList");
-    var extrasListObject = document.getElementById("equipmentExtrasList");
 
     let equipmentItems = null;
-    let equipmentItemHashes = [];
     let characterId = characterIds[idIndex];
-
-    //let characterEquipmentRequestUrl = baseUrl + platformIndex + "/Profile/" + currentPlayerMembershipId + "/Character/" + characterId + "/?components=205";
     let characterEquipmentRequestUrl = baseUrl + currentPlayerMembershipType + "/Profile/" + currentPlayerMembershipId + "/Character/" + characterId + "/?components=205";
     
 
@@ -117,13 +121,7 @@ async function getCharacterEquipment(idIndex) {
     });
     const equipmentJsonData = await equipmentResponse.json();
     equipmentItems = equipmentJsonData.Response.equipment.data.items;
-
-    //Store all the item hashes
-    for (let e = 0; e < equipmentItems.length; e++) {
-        equipmentItemHashes.push(equipmentItems[e].itemHash);
-    }
     updateItems(definitionData, equipmentItems);
-    //AddItemsToLists(definitionData, equipmentItemHashes, weaponListObject, armourListObject, extrasListObject);
 }
 
 async function getCharacterInventory(idIndex) {
@@ -184,13 +182,19 @@ async function createCharacterTile(data, idIndex) {
 
     switch (idIndex) {
         case 0:
-            box.className = "character1Tile";
+            box.id = "character1Tile";
+            characterRaceText.id = "character1RaceText";
+            characterClassText.id = "character1ClassText";
             break;
         case 1:
-            box.className = "character2Tile";
+            box.id = "character2Tile";
+            characterRaceText.id = "character2RaceText";
+            characterClassText.id = "character2ClassText";
             break;
         case 2:
-            box.className = "character3Tile";
+            box.id = "character3Tile";
+            characterRaceText.id = "character3RaceText";
+            characterClassText.id = "character3ClassText";
             break;
     }
     switch (data.Response.character.data.raceType) {
@@ -242,6 +246,63 @@ function MakeTitlesVisible() {
     weaponListTitle.style.visibility = "visible";
     armourListTitle.style.visibility = "visible";
     extrasListTitle.style.visibility = "visible";
+}
+
+function updateCharacterTile(data, idIndex) {
+    let tileToEdit = null;
+    let tileRaceText = null;
+    let tileClassText = null;
+    let redColor = null;
+    let greenColor = null;
+    let blueColor = null;
+
+    switch (idIndex) {
+        case 0:
+            tileToEdit = document.getElementById("character1Tile");
+            tileRaceText = document.getElementById("character1RaceText");
+            tileClassText = document.getElementById("character1ClassText");
+            break;
+        case 1:
+            tileToEdit = document.getElementById("character2Tile");
+            tileRaceText = document.getElementById("character2RaceText");
+            tileClassText = document.getElementById("character2ClassText");
+            break;
+        case 2:
+            tileToEdit = document.getElementById("character3Tile");
+            tileRaceText = document.getElementById("character3RaceText");
+            tileClassText = document.getElementById("character3ClassText");
+            break;
+    }
+    switch (data.Response.character.data.raceType) {
+        case 0:
+            tileRaceText.innerHTML = "Race: Human";
+            break;
+        case 1:
+            tileRaceText.innerHTML = "Race: Awoken";
+            break;
+        case 2:
+            tileRaceText.innerHTML = "Race: Exo";
+            break;
+    }
+    switch (data.Response.character.data.classType) {
+        case 0:
+            tileClassText.innerHTML = "Class: Titan";
+            break;
+        case 1:
+            tileClassText.innerHTML = "Class: Hunter";
+            break;
+        case 2:
+            tileClassText.innerHTML = "Class: Warlock";
+            break;
+    }
+
+    blueColor = data.Response.character.data.emblemColor.blue;
+    greenColor = data.Response.character.data.emblemColor.green;
+    redColor = data.Response.character.data.emblemColor.red;
+
+    tileToEdit.style.backgroundColor = "rgb(" + redColor + "," + greenColor + "," + blueColor + ")";
+    tileRaceText.style.color = "white";
+    tileClassText.style.color = "white";
 }
 
 function updateItems(definitionData, equipmentItems) {
