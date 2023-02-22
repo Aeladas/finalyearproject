@@ -106,7 +106,7 @@ async function getCharacterStats(data) {
 }
 
 async function getCharacterEquipment(idIndex) {
-    MakeTitlesVisible();
+    MakeListsVisible();
 
     let equipmentItems = null;
     let characterId = characterIds[idIndex];
@@ -238,10 +238,24 @@ async function createCharacterTile(data, idIndex) {
     document.getElementsByClassName('characterTiles')[0].appendChild(box);
 }
 
-function MakeTitlesVisible() {
+function MakeListsVisible() {
     var weaponListTitle = document.getElementById("equipmentWeaponListTitle");
     var armourListTitle = document.getElementById("equipmentArmourListTitle");
     var extrasListTitle = document.getElementById("equipmentExtrasListTitle");
+
+    let weaponList = document.getElementById("equipmentWeaponList");
+    let armourList = document.getElementById("equipmentArmourList");
+    let extrasList = document.getElementById("equipmentExtrasList");
+
+    for (let w = 0; w < weaponList.children.length; w++) {
+        weaponList.children[w].style.visibility = "visible";
+    }
+    for (let a = 0; a < armourList.children.length; a++) {
+        armourList.children[a].style.visibility = "visible";
+    }
+    for (let e = 0; e < extrasList.children.length; e++) {
+        extrasList.children[e].style.visibility = "visible";
+    }
 
     weaponListTitle.style.visibility = "visible";
     armourListTitle.style.visibility = "visible";

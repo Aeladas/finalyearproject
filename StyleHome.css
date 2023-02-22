@@ -19,9 +19,53 @@
 #equipmentWeaponListTitle{
     visibility:hidden;
 }
+#kineticWeaponItem{
+    visibility:hidden;
+}
+#energyWeaponItem {
+    visibility: hidden;
+}
+#powerWeaponItem {
+    visibility: hidden;
+}
+
 #equipmentArmourListTitle {
     visibility: hidden;
 }
+#helmetArmourItem {
+    visibility: hidden;
+}
+#gaunletsArmourItem {
+    visibility: hidden;
+}
+#chestArmourItem {
+    visibility: hidden;
+}
+#legArmourItem {
+    visibility: hidden;
+}
+#classArmourItem {
+    visibility: hidden;
+}
+
 #equipmentExtrasListTitle {
+    visibility: hidden;
+}
+#ghostExtraItem {
+    visibility: hidden;
+}
+#vehicleExtraItem {
+    visibility: hidden;
+}
+#shipsExtraItem {
+    visibility: hidden;
+}
+#subclassExtraItem {
+    visibility: hidden;
+}
+#emblemsExtraItem {
+    visibility: hidden;
+}
+#finishersExtraItem {
     visibility: hidden;
 }
