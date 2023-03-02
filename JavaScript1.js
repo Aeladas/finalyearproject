@@ -1,5 +1,6 @@
 ﻿var apiKey = "40777cc6ab0b41839a4b27319ec5945b";
 var baseUrl = "https://www.bungie.net/Platform/Destiny2/";
+var clientId = 42278;
 
 var platformIndex = null;
 var currentPlayerMembershipId = null;
@@ -44,6 +45,12 @@ async function searchForUser() {
     numOfResults = await searchData.Response.searchResults.length;
     await createSearchResults(searchData, numOfResults);
     inputBox.value = "";
+}
+
+function loginToAccount() {
+    console.log("reached login");
+    let loginUrl = "https://www.bungie.net/en/oauth/authorize?client_id=" + clientId + "&response_type=code&state=6i0mkLx79Hp91nzWVeHrzHG4";
+    window.open(loginUrl);    
 }
 
 async function getCharacterIds() {

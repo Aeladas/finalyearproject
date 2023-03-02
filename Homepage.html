@@ -9,36 +9,21 @@
 </head>
 <body>
     <h1 id="title">Destiny 2 Stat Tracker</h1>
-    <div class="buttons">
+    <!--<div class="buttons">
         <button id="homeButton">Home</button>
         <button id="characterButton" onclick="Test()">Character</button>
         <button id="aboutButton">About</button>
-    </div>
+    </div>-->
     <p id="testPara"></p>
-    <div class="search_box">
-        <!--<select name="platforms" id="platformDropdown">
-            <option>None</option>
-            <option>Xbox</option>
-            <option>PlayStation</option>
-            <option>Steam</option>
-            <option>Blizzard</option>
-            <option>Epic Games</option>
-            <option>Demon</option>
-        </select>-->
-        <form>
-            <input id="testInputBox" class="search"/>
-            <!--<div class="history">
-                    <p id="recentPlayersTitle">Recent Player Searches</p>
-                    <ul>
-                    </ul>
-                    </div>-->
+    <div class="searchBox">
+        <h2>Player Search</h2>
+        <form id="userSearchForm">
+            <p id="playerNameLabel">Player Name: </p>
+            <input id="testInputBox" class="search" placeholder="JohnSmith"/>
+            <button id="UserInfoTest" type="button" onclick="searchForUser()">Search</button>
+            <button id="loginButton" type="button" onclick="loginToAccount();return false;">Login</button>
         </form>
-    </div>
-    <!--<button id="ItemRequestTest" onclick="ItemRequest()">Request Item</button>-->
-    <button id="UserInfoTest" onclick="searchForUser()">Search</button>
-
-    <div id="searchResultsBox">
-
+        <div id="searchResultsBox"></div>
     </div>
     <div class="characterTiles">
         <!--Code will generate the tiles-->
