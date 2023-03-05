@@ -12,7 +12,7 @@ var characterData = [];
 var manifestJsonData = null;
 var definitionData = null;
 
-function ItemRequest() {
+/*function ItemRequest() {
     let textPara = document.getElementById("testPara");
     let itemRequestUrl = "https://www.bungie.net/platform/Destiny/Manifest/InventoryItem/1274330687/";
     fetch(itemRequestUrl, { method: 'GET', headers: {
@@ -21,7 +21,7 @@ function ItemRequest() {
         } })
         .then((response) => response.json())
         .then((data) => textPara.innerHTML = data.Response.data.inventoryItem.itemName);
-}
+}*/
 
 async function searchForUser() {
     if (manifestJsonData == null && definitionData == null) {
@@ -147,7 +147,9 @@ async function getCharacterInventory(idIndex) {
 
 // SUB FUNCTIONS
 async function createSearchResults(searchData, numOfResults) {
-    var resultsBox = document.getElementById("searchResultsBox");
+    let resultsBox = document.getElementById("searchResultsBox");
+    let resultsTitle = document.getElementById("searchResultsTitle");
+    resultsTitle.style.visibility = "visible";
     for (let i = 0; i < numOfResults; i++) {
         let newAccountText = document.createElement('button');
         newAccountText.innerHTML = searchData.Response.searchResults[i].destinyMemberships[0].displayName;

@@ -15,9 +15,19 @@
     outline-style: solid;
 }
 
+.historyBox{
+    width:fit-content;
+    outline-style: solid;
+    outline-color: orangered;
+}
+
 #userSearchForm{
     display: flex;
     justify-content: space-between;
+}
+
+#searchResultsTitle{
+    visibility: hidden;
 }
 
 #equipmentWeaponListTitle{
