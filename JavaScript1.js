@@ -48,9 +48,33 @@ async function searchForUser() {
 }
 
 function loginToAccount() {
-    console.log("reached login");
+    //console.log("reached login");
     let loginUrl = "https://www.bungie.net/en/oauth/authorize?client_id=" + clientId + "&response_type=code&state=6i0mkLx79Hp91nzWVeHrzHG4";
-    window.open(loginUrl);    
+    window.location.replace = loginUrl;
+    getAccessToken();
+}
+
+async function getAccessToken(){
+    let tokenUrl = "https://www.bungie.net/platform/app/oauth/token/";
+    let searchCode = window.location.search;
+    let removeAfter = searchCode.indexOf("&");
+    removeAfter = removeAfter - 6;
+    searchCode = searchCode.replace("?code=","");
+    searchCode = searchCode.substring(0, removeAfter);
+
+    let tokenParams = {
+        "grant_type": "authorization_code",
+        "code": searchCode,
+        "client_id": 42278,
+        "client_secret": "rYv5SySC4xeuLILKv1NtW1ftb0YdF5CI29vW36w2QV8"
+    };
+    const response = await fetch(tokenUrl, {
+        method: 'POST', headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-API-Key': apiKey
+        }, body: JSON.stringify(tokenParams),
+    });
+    console.log(response);
 }
 
 async function getCharacterIds() {
