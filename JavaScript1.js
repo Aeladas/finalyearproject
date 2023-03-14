@@ -1,6 +1,7 @@
-﻿var apiKey = "40777cc6ab0b41839a4b27319ec5945b";
-var baseUrl = "https://www.bungie.net/Platform/Destiny2/";
-var clientId = 42278;
+﻿const apiKey = "40777cc6ab0b41839a4b27319ec5945b";
+const baseUrl = "https://www.bungie.net/Platform/Destiny2/";
+const my_client_id = 42278;
+const my_client_secret = "rYv5SySC4xeuLILKv1NtW1ftb0YdF5CI29vW36w2QV8";
 
 var platformIndex = null;
 var currentPlayerMembershipId = null;
@@ -49,12 +50,31 @@ async function searchForUser() {
 
 function loginToAccount() {
     //console.log("reached login");
-    let loginUrl = "https://www.bungie.net/en/oauth/authorize?client_id=" + clientId + "&response_type=code&state=6i0mkLx79Hp91nzWVeHrzHG4";
-    window.location.replace = loginUrl;
+    //&state=6i0mkLx79Hp91nzWVeHrzHG4
+    let loginUrl = "https://www.bungie.net/en/oauth/authorize?client_id=" + my_client_id + "&response_type=code&state=6i0mkLx79Hp91nzWVeHrzHG4";
+    window.location.replace(loginUrl);
+    test2();
+    //getAccessToken();
+}
+
+function Tester(){
+    let searchCode = window.location.search;
+    let removeAfter = searchCode.indexOf("&");
+    removeAfter = removeAfter - 6;
+    searchCode = searchCode.replace("?code=","");
+    searchCode = searchCode.substring(0, removeAfter);
+
+    let testPara = document.getElementById("testPara");
+    testPara.innerHTML = "Code: "+searchCode;
     getAccessToken();
 }
 
+function test2(){
+    console.log("intest2");
+}
+
 async function getAccessToken(){
+    console.log("window:"+ window.location.href);
     let tokenUrl = "https://www.bungie.net/platform/app/oauth/token/";
     let searchCode = window.location.search;
     let removeAfter = searchCode.indexOf("&");
@@ -62,19 +82,24 @@ async function getAccessToken(){
     searchCode = searchCode.replace("?code=","");
     searchCode = searchCode.substring(0, removeAfter);
 
-    let tokenParams = {
-        "grant_type": "authorization_code",
-        "code": searchCode,
-        "client_id": 42278,
-        "client_secret": "rYv5SySC4xeuLILKv1NtW1ftb0YdF5CI29vW36w2QV8"
-    };
-    const response = await fetch(tokenUrl, {
-        method: 'POST', headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'X-API-Key': apiKey
-        }, body: JSON.stringify(tokenParams),
-    });
-    console.log(response);
+    let testPara = document.getElementById("testPara");
+    testPara.innerHTML = "Code: "+searchCode;
+    //grant_type=authorization_code&code=8c66f9e519b7ec8498c8b4&client_id=123457&client_secret=TqlCb4VTZc89.7NKgBp9e
+    
+    const body = new URLSearchParams({
+        grant_type: "authorization_code",
+        code: searchCode,
+        client_id: my_client_id,
+        client_secret: my_client_secret,
+      });
+      const tokenFetch = await fetch(tokenUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+        },
+        body,
+      });
+    console.log(tokenFetch);
 }
 
 async function getCharacterIds() {
