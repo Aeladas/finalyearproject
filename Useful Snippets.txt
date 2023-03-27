@@ -1,3 +1,34 @@
 	CHECK TYPES
 console.log("Id is " + typeof currentPlayerMembershipId);
 console.log("Membership type is " + typeof 3)
+
+
+
+	Character equipment tiles
+
+<div class="testTile">
+            <img id="guardianEmblem" src="stormcaller.jpg">
+            <div id="raceandstats">
+                <p id="guardianClass">Warlock</p>
+                <p id="guardianPowerLevel">1600</p>
+                <p id="guardianRace">Exo</p>
+                <p id="guardianLevel">50</p>
+            </div>
+            <p id="guardianSubclass">Stormcaller</p>
+            <p id="loadoutSubTitle">Loadout</p>
+            <div class="weaponInfoContainer">
+                <img class="weaponIcon" src="Sync.png">
+                <p id="kineticWeaponName">kinetic weapon<br>description</p>
+            </div>
+            <div class="weaponInfoContainer">
+                <img class="weaponIcon" src="Sync.png">
+                <p id="energyWeaponName">kinetic weapon<br>description</p>
+            </div>
+            <div class="weaponInfoContainer">
+                <img class="weaponIcon" src="Sync.png">
+                <p id="powerWeaponName">kinetic weapon<br>description</p>
+            </div>
+            <hr id="equipmentDivider">
+            <p id="helmetArmourLabel">Helmet</p>
+            <p id="chestArmourLabel">Chest Armour</p>
+        </div>

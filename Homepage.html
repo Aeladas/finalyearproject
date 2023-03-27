@@ -9,12 +9,7 @@
 </head>
 <body>
     <h1 id="title">Destiny 2 Stat Tracker</h1>
-    <!--<div class="buttons">
-        <button id="homeButton">Home</button>
-        <button id="characterButton" onclick="Test()">Character</button>
-        <button id="aboutButton">About</button>
-    </div>-->
-    <p id="testPara"></p>
+
     <div class="searchBox">
         <h2>Player Search</h2>
         <form id="userSearchForm" onsubmit="return false">
@@ -29,17 +24,33 @@
         <h3 id="searchResultsTitle">Recent Searches</h3>
         <div id="searchResultsBox"></div>
     </div>
-    <div class="characterTiles">
-        <!--Code will generate the tiles-->
-        <div id="testTile">
-            <p id="guardianClass">hello there</p>
-            <p id="guardianPowerLevel">1600</p>
-            <p id="guardianRace">Exo</p>
-            <p id="guardianLevel">50</p>
-            <p id="guardianSubclass">Stormcaller</p>
-            <p id="loadoutSubTitle">Loadout</p>
+
+
+    <div class="charactersContainer">
+        <p id="charactersContainerTitle">Guardians</p>
+        <div class="characterContainer" id="characterContainer1">
+            <img class="emblemBackground" id="background1" src="Background.jpg" alt="">
+            <p class="classText" id="classText1">WARLOCK</p>
+            <p class="raceText" id="raceText1">EXO</p>
+            <p class="powerText" id="powerText1">1600</p>
+            <p class="levelText" id="levelText1">50</p>
+        </div>
+        <div class="characterContainer" id="characterContainer2">
+            <img class="emblemBackground" id="background2" src="Background.jpg" alt="">
+            <p class="classText" id="classText2">WARLOCK</p>
+            <p class="raceText" id="raceText2">EXO</p>
+            <p class="powerText" id="powerText2">1600</p>
+            <p class="levelText" id="levelText2">50</p>
+        </div>
+        <div class="characterContainer" id="characterContainer3">
+            <img class="emblemBackground" id="background3" src="Background.jpg" alt="">
+            <p class="classText" id="classText3">WARLOCK</p>
+            <p class="raceText" id="raceText3">EXO</p>
+            <p class="powerText" id="powerText3">1600</p>
+            <p class="levelText" id="levelText3">50</p>
         </div>
     </div>
+    
     <p id="characterStatsText"></p>
     <div class="equipmentWeaponListContainer">
         <p id="equipmentWeaponListTitle">Weapons</p>

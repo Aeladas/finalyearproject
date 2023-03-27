@@ -14,17 +14,6 @@ var manifestJsonData = null;
 var itemDefinitionData = null;
 var statsDefinitionData = null;
 
-/*function ItemRequest() {
-    let textPara = document.getElementById("testPara");
-    let itemRequestUrl = "https://www.bungie.net/platform/Destiny/Manifest/InventoryItem/1274330687/";
-    fetch(itemRequestUrl, { method: 'GET', headers: {
-            'Content-Type': 'application/json;charset=UTF-8',
-            'X-API-Key': apiKey
-        } })
-        .then((response) => response.json())
-        .then((data) => textPara.innerHTML = data.Response.data.inventoryItem.itemName);
-}*/
-
 async function searchForUser() {
     if (manifestJsonData == null && itemDefinitionData == null && statsDefinitionData == null) {
         await getManifest();
@@ -134,14 +123,11 @@ async function getCharacterInfo() {
                 'X-API-Key': apiKey
         } });
         const data = await response.json();
-        let character1Tile = document.getElementById("character1Tile");
-        let character2Tile = document.getElementById("character2Tile");
-        let character3Tile = document.getElementById("character3Tile");
+        let character1Tile = document.getElementById("characterContainer1");
+        let character2Tile = document.getElementById("characterContainer2");
+        let character3Tile = document.getElementById("characterContainer3");
         if (document.contains(character1Tile) && document.contains(character2Tile) && document.contains(character3Tile)) {
             updateCharacterTile(data, i);
-        }
-        else {
-            createCharacterTile(data, i);
         }
     }
 }
@@ -255,73 +241,6 @@ async function getStatDefinitionLibrary() {
     statDefinitionData = await statDefinitionResponse.json();
 }
 
-async function createCharacterTile(data, idIndex) {
-    //Need to create an image request to get the emblems
-    var box = document.createElement('div');
-    var characterRaceText = document.createElement('p');
-    var characterClassText = document.createElement('p');
-    var redColor;
-    var greenColor;
-    var blueColor;
-
-    switch (idIndex) {
-        case 0:
-            box.id = "character1Tile";
-            characterRaceText.id = "character1RaceText";
-            characterClassText.id = "character1ClassText";
-            break;
-        case 1:
-            box.id = "character2Tile";
-            characterRaceText.id = "character2RaceText";
-            characterClassText.id = "character2ClassText";
-            break;
-        case 2:
-            box.id = "character3Tile";
-            characterRaceText.id = "character3RaceText";
-            characterClassText.id = "character3ClassText";
-            break;
-    }
-    switch (data.Response.character.data.raceType) {
-        case 0:
-            characterRaceText.innerHTML = "Race: Human";
-            break;
-        case 1:
-            characterRaceText.innerHTML = "Race: Awoken";
-            break;
-        case 2:
-            characterRaceText.innerHTML = "Race: Exo";
-            break;
-    }
-    switch (data.Response.character.data.classType) {
-        case 0:
-            characterClassText.innerHTML = "Class: Titan";
-            break;
-        case 1:
-            characterClassText.innerHTML = "Class: Hunter";
-            break;
-        case 2:
-            characterClassText.innerHTML = "Class: Warlock";
-            break;
-    }
-
-    blueColor = data.Response.character.data.emblemColor.blue;
-    greenColor = data.Response.character.data.emblemColor.green;
-    redColor = data.Response.character.data.emblemColor.red;
-
-    box.style.backgroundColor = "rgb(" + redColor + "," + greenColor + "," + blueColor + ")";
-    box.addEventListener('click', function (event) {
-        getCharacterStats(data);
-        getCharacterEquipment(idIndex);
-        //getCharacterInventory(idIndex);
-    });
-    characterRaceText.style.color = "white";
-    characterClassText.style.color = "white";
-    box.appendChild(characterRaceText);
-    box.appendChild(characterClassText);
-
-    document.getElementsByClassName('characterTiles')[0].appendChild(box);
-}
-
 function makeListsVisible() {
     var weaponListTitle = document.getElementById("equipmentWeaponListTitle");
     var armourListTitle = document.getElementById("equipmentArmourListTitle");
@@ -347,60 +266,69 @@ function makeListsVisible() {
 }
 
 function updateCharacterTile(data, idIndex) {
-    let tileToEdit = null;
-    let tileRaceText = null;
-    let tileClassText = null;
-    let redColor = null;
-    let greenColor = null;
-    let blueColor = null;
+    let containerToEdit = null;
+    let imageToEdit = null;
+    let classTextToEdit = null;
+    let raceTextToEdit = null;
+    let powerTextToEdit = null;
+    let levelTextToEdit = null;
 
+    //Getters
     switch (idIndex) {
         case 0:
-            tileToEdit = document.getElementById("character1Tile");
-            tileRaceText = document.getElementById("character1RaceText");
-            tileClassText = document.getElementById("character1ClassText");
+            containerToEdit = document.getElementById("characterContainer1");
+            imageToEdit = document.getElementById("background1");
+            classTextToEdit = document.getElementById("classText1");
+            raceTextToEdit = document.getElementById("raceText1");
+            powerTextToEdit = document.getElementById("powerText1");
+            levelTextToEdit = document.getElementById("levelText1");
             break;
         case 1:
-            tileToEdit = document.getElementById("character2Tile");
-            tileRaceText = document.getElementById("character2RaceText");
-            tileClassText = document.getElementById("character2ClassText");
+            containerToEdit = document.getElementById("characterContainer2");
+            imageToEdit = document.getElementById("background2");
+            classTextToEdit = document.getElementById("classText2");
+            raceTextToEdit = document.getElementById("raceText2");
+            powerTextToEdit = document.getElementById("powerText2");
+            levelTextToEdit = document.getElementById("levelText2");
             break;
         case 2:
-            tileToEdit = document.getElementById("character3Tile");
-            tileRaceText = document.getElementById("character3RaceText");
-            tileClassText = document.getElementById("character3ClassText");
+            containerToEdit = document.getElementById("characterContainer3");
+            imageToEdit = document.getElementById("background3");
+            classTextToEdit = document.getElementById("classText3");
+            raceTextToEdit = document.getElementById("raceText3");
+            powerTextToEdit = document.getElementById("powerText3");
+            levelTextToEdit = document.getElementById("levelText3");
             break;
     }
-    switch (data.Response.character.data.raceType) {
+
+    imageToEdit.src = "https://www.bungie.net" + data.Response.character.data.emblemBackgroundPath;
+
+    switch(data.Response.character.data.raceType){
         case 0:
-            tileRaceText.innerHTML = "Race: Human";
+            raceTextToEdit.innerHTML = "Human";
             break;
         case 1:
-            tileRaceText.innerHTML = "Race: Awoken";
+            raceTextToEdit.innerHTML = "Awoken";
             break;
         case 2:
-            tileRaceText.innerHTML = "Race: Exo";
-            break;
+            raceTextToEdit.innerHTML = "Exo";
     }
     switch (data.Response.character.data.classType) {
         case 0:
-            tileClassText.innerHTML = "Class: Titan";
+            classTextToEdit.innerHTML = "Titan";
             break;
         case 1:
-            tileClassText.innerHTML = "Class: Hunter";
+            classTextToEdit.innerHTML = "Hunter";
             break;
         case 2:
-            tileClassText.innerHTML = "Class: Warlock";
+            classTextToEdit.innerHTML = "Warlock";
             break;
     }
 
-    blueColor = data.Response.character.data.emblemColor.blue;
-    greenColor = data.Response.character.data.emblemColor.green;
-    redColor = data.Response.character.data.emblemColor.red;
-
-    tileToEdit.style.backgroundColor = "rgb(" + redColor + "," + greenColor + "," + blueColor + ")";
-    tileRaceText.style.color = "white";
-    tileClassText.style.color = "white";
+    powerTextToEdit.innerHTML = data.Response.character.data.light
+    levelTextToEdit.innerHTML = data.Response.character.data.baseCharacterLevel
+    containerToEdit.onclick = function(){ getCharacterEquipment(idIndex); }
+    containerToEdit.style.visibility = "visible";
 }
 
 function updateItems(itemDefinitionData, statsDefinitionData, equipmentItems) {
