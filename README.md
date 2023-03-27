@@ -11,8 +11,8 @@ Scope of API Access:
 
 
 Added:
-  > Created list items that show what equipment a character has equipt
-  > Re-arranged where the manifest and Item Definition libraries where being called to reduce the amount of traffic
+  > The Stat definition Library to get info on stats for weapons and armour
+  > Created a way to stop the same user being searched to be added to the history div
 
 Challenges:
   > 

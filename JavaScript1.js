@@ -11,7 +11,8 @@ var characterIds = [];
 var characterData = [];
 
 var manifestJsonData = null;
-var definitionData = null;
+var itemDefinitionData = null;
+var statsDefinitionData = null;
 
 /*function ItemRequest() {
     let textPara = document.getElementById("testPara");
@@ -25,9 +26,10 @@ var definitionData = null;
 }*/
 
 async function searchForUser() {
-    if (manifestJsonData == null && definitionData == null) {
+    if (manifestJsonData == null && itemDefinitionData == null && statsDefinitionData == null) {
         await getManifest();
         await getItemDefinitionLibrary();
+        await getStatDefinitionLibrary();
     }
 
     let inputBox = document.getElementById("testInputBox");
@@ -48,13 +50,14 @@ async function searchForUser() {
     inputBox.value = "";
 }
 
-function loginToAccount() {
+function loginToAccount(event) {
+    event.preventDefault();
     //console.log("reached login");
     //&state=6i0mkLx79Hp91nzWVeHrzHG4
     let loginUrl = "https://www.bungie.net/en/oauth/authorize?client_id=" + my_client_id + "&response_type=code&state=6i0mkLx79Hp91nzWVeHrzHG4";
     window.location.replace(loginUrl);
-    test2();
-    //getAccessToken();
+    //Tester();
+    getAccessToken();
 }
 
 function Tester(){
@@ -69,21 +72,19 @@ function Tester(){
     getAccessToken();
 }
 
-function test2(){
-    console.log("intest2");
-}
-
 async function getAccessToken(){
+    console.log("Got to access token");
     console.log("window:"+ window.location.href);
     let tokenUrl = "https://www.bungie.net/platform/app/oauth/token/";
     let searchCode = window.location.search;
+    //Needs to get the contents of the url after -> ?code=
     let removeAfter = searchCode.indexOf("&");
     removeAfter = removeAfter - 6;
     searchCode = searchCode.replace("?code=","");
     searchCode = searchCode.substring(0, removeAfter);
-
     let testPara = document.getElementById("testPara");
     testPara.innerHTML = "Code: "+searchCode;
+
     //grant_type=authorization_code&code=8c66f9e519b7ec8498c8b4&client_id=123457&client_secret=TqlCb4VTZc89.7NKgBp9e
     
     const body = new URLSearchParams({
@@ -162,7 +163,7 @@ async function getCharacterStats(data) {
 }
 
 async function getCharacterEquipment(idIndex) {
-    MakeListsVisible();
+    makeListsVisible();
 
     let equipmentItems = null;
     let characterId = characterIds[idIndex];
@@ -177,7 +178,7 @@ async function getCharacterEquipment(idIndex) {
     });
     const equipmentJsonData = await equipmentResponse.json();
     equipmentItems = equipmentJsonData.Response.equipment.data.items;
-    updateItems(definitionData, equipmentItems);
+    updateItems(itemDefinitionData, statsDefinitionData, equipmentItems);
 }
 
 async function getCharacterInventory(idIndex) {
@@ -200,17 +201,36 @@ async function createSearchResults(searchData, numOfResults) {
     let resultsTitle = document.getElementById("searchResultsTitle");
     resultsTitle.style.visibility = "visible";
     for (let i = 0; i < numOfResults; i++) {
-        let newAccountText = document.createElement('button');
-        newAccountText.innerHTML = searchData.Response.searchResults[i].destinyMemberships[0].displayName;
-        resultsBox.appendChild(newAccountText);
-        newAccountText.onclick = function () {
+        if (!resultsBox.hasChildNodes()){
+            constructPlayerButton(i);
+        }
+        else{
+            let resultsChildren = Array.from(resultsBox.childNodes);
+            let newPlayerName = (element) => element.innerHTML === searchData.Response.searchResults[i].destinyMemberships[0].displayName;
+            if (!resultsChildren.some(newPlayerName))
+            {
+                constructPlayerButton(i);
+            }
+            else{
+                alert("Player: "+ searchData.Response.searchResults[i].destinyMemberships[0].displayName + " already exists");
+            }
+        }
+            
+    }
+
+    function constructPlayerButton(i) {
+        let newAccountButton = document.createElement('button');
+        newAccountButton.id = "playerAccountButton";
+        newAccountButton.innerHTML = searchData.Response.searchResults[i].destinyMemberships[0].displayName;
+        resultsBox.appendChild(newAccountButton);
+        newAccountButton.onclick = function () {
             currentPlayerMembershipId = searchData.Response.searchResults[i].destinyMemberships[0].membershipId;
             currentPlayerMembershipType = searchData.Response.searchResults[i].destinyMemberships[0].membershipType;
             getCharacterIds();
-        }
+        };
     }
 }
-//Create a clear search function
+
 async function getManifest() {
     let manifestRequestUrl = "https://www.bungie.net/Platform/Destiny2/Manifest/";
     const manifestResponse = await fetch(manifestRequestUrl, {
@@ -225,8 +245,14 @@ async function getManifest() {
 async function getItemDefinitionLibrary() {
     let itemDefinitionUrl = "https://www.bungie.net";
     itemDefinitionUrl += manifestJsonData.Response.jsonWorldComponentContentPaths.en.DestinyInventoryItemDefinition;
-    const definitionResponse = await fetch(itemDefinitionUrl, { method: 'GET' });
-    definitionData = await definitionResponse.json();
+    const itemDefinitionResponse = await fetch(itemDefinitionUrl, { method: 'GET' });
+    itemDefinitionData = await itemDefinitionResponse.json();
+}
+async function getStatDefinitionLibrary() {
+    let statDefinitionUrl = "https://www.bungie.net";
+    statDefinitionUrl += manifestJsonData.Response.jsonWorldComponentContentPaths.en.DestinyStatDefinition;
+    const statDefinitionResponse = await fetch(statDefinitionUrl, { method: 'GET' });
+    statDefinitionData = await statDefinitionResponse.json();
 }
 
 async function createCharacterTile(data, idIndex) {
@@ -296,7 +322,7 @@ async function createCharacterTile(data, idIndex) {
     document.getElementsByClassName('characterTiles')[0].appendChild(box);
 }
 
-function MakeListsVisible() {
+function makeListsVisible() {
     var weaponListTitle = document.getElementById("equipmentWeaponListTitle");
     var armourListTitle = document.getElementById("equipmentArmourListTitle");
     var extrasListTitle = document.getElementById("equipmentExtrasListTitle");
@@ -377,68 +403,77 @@ function updateCharacterTile(data, idIndex) {
     tileClassText.style.color = "white";
 }
 
-function updateItems(definitionData, equipmentItems) {
+function updateItems(itemDefinitionData, statsDefinitionData, equipmentItems) {
     for (let i = 0; i < equipmentItems.length; i++) {
+        let currentItem = itemDefinitionData[equipmentItems[i].itemHash];
         switch (equipmentItems[i].bucketHash) {
             case 1498876634:
                 kineticWeaponItem = document.getElementById("kineticWeaponItem");
-                kineticWeaponItem.innerHTML = definitionData[equipmentItems[i].itemHash].displayProperties.name;
+                kineticWeaponItem.innerHTML = currentItem.displayProperties.name;
+                let statsHashList = itemDefinitionData[equipmentItems[i].itemHash].stats.stats;
+                statsHashList = Object.entries(statsHashList);
+                //NEED TO STORE KEYS AND INFO IN ARRAYS
+                console.log(statsHashList[0][0]);
+                console.log(statsHashList[0][1].value);
+                //[155624089].displayProperties.name
+                //[155624089].value
                 break;
             case 2465295065:
                 energyWeaponItem = document.getElementById("energyWeaponItem");
-                energyWeaponItem.innerHTML = definitionData[equipmentItems[i].itemHash].displayProperties.name;
+                energyWeaponItem.innerHTML = itemDefinitionData[equipmentItems[i].itemHash].displayProperties.name;
                 break;
             case 953998645:
                 powerWeaponItem = document.getElementById("powerWeaponItem");
-                powerWeaponItem.innerHTML = definitionData[equipmentItems[i].itemHash].displayProperties.name;
+                powerWeaponItem.innerHTML = itemDefinitionData[equipmentItems[i].itemHash].displayProperties.name;
                 break;
             case 3448274439:
                 helmetArmourItem = document.getElementById("helmetArmourItem");
-                helmetArmourItem.innerHTML = definitionData[equipmentItems[i].itemHash].displayProperties.name;
+                helmetArmourItem.innerHTML = itemDefinitionData[equipmentItems[i].itemHash].displayProperties.name;
                 break;
             case 3551918588:
                 gaunletsArmourItem = document.getElementById("gaunletsArmourItem");
-                gaunletsArmourItem.innerHTML = definitionData[equipmentItems[i].itemHash].displayProperties.name;
+                gaunletsArmourItem.innerHTML = itemDefinitionData[equipmentItems[i].itemHash].displayProperties.name;
                 break;
             case 14239492:
                 chestArmourItem = document.getElementById("chestArmourItem");
-                chestArmourItem.innerHTML = definitionData[equipmentItems[i].itemHash].displayProperties.name;
+                chestArmourItem.innerHTML = itemDefinitionData[equipmentItems[i].itemHash].displayProperties.name;
                 break;
             case 20886954:
                 legArmourItem = document.getElementById("legArmourItem");
-                legArmourItem.innerHTML = definitionData[equipmentItems[i].itemHash].displayProperties.name;
+                legArmourItem.innerHTML = itemDefinitionData[equipmentItems[i].itemHash].displayProperties.name;
                 break;
             case 1585787867:
                 classArmourItem = document.getElementById("classArmourItem");
-                classArmourItem.innerHTML = definitionData[equipmentItems[i].itemHash].displayProperties.name;
+                classArmourItem.innerHTML = itemDefinitionData[equipmentItems[i].itemHash].displayProperties.name;
                 break;
             case 4023194814:
                 ghostExtraItem = document.getElementById("ghostExtraItem");
-                ghostExtraItem.innerHTML = definitionData[equipmentItems[i].itemHash].displayProperties.name;
+                ghostExtraItem.innerHTML = itemDefinitionData[equipmentItems[i].itemHash].displayProperties.name;
                 break;
             case 2025709351:
                 vehicleExtraItem = document.getElementById("vehicleExtraItem");
-                vehicleExtraItem.innerHTML = definitionData[equipmentItems[i].itemHash].displayProperties.name;
+                vehicleExtraItem.innerHTML = itemDefinitionData[equipmentItems[i].itemHash].displayProperties.name;
                 break;
             case 284967655:
                 shipsExtraItem = document.getElementById("shipsExtraItem");
-                shipsExtraItem.innerHTML = definitionData[equipmentItems[i].itemHash].displayProperties.name;
+                shipsExtraItem.innerHTML = itemDefinitionData[equipmentItems[i].itemHash].displayProperties.name;
                 break;
             case 3284755031:
                 subclassExtraItem = document.getElementById("subclassExtraItem");
-                subclassExtraItem.innerHTML = definitionData[equipmentItems[i].itemHash].displayProperties.name;
+                subclassExtraItem.innerHTML = itemDefinitionData[equipmentItems[i].itemHash].displayProperties.name;
+                console.log(itemDefinitionData[equipmentItems[i].itemHash]);
                 break;
             case 4274335291:
                 emblemsExtraItem = document.getElementById("emblemsExtraItem");
-                emblemsExtraItem.innerHTML = definitionData[equipmentItems[i].itemHash].displayProperties.name;
+                emblemsExtraItem.innerHTML = itemDefinitionData[equipmentItems[i].itemHash].displayProperties.name;
                 break;
             case 3683254069:
                 finishersExtraItem = document.getElementById("finishersExtraItem");
-                finishersExtraItem.innerHTML = definitionData[equipmentItems[i].itemHash].displayProperties.name;
+                finishersExtraItem.innerHTML = itemDefinitionData[equipmentItems[i].itemHash].displayProperties.name;
                 break;
             /*case 3183180185:
                 emotesExtraItem = document.getElementById("emotesExtraItem");
-                emotesExtraItem.innerHTML = definitionData[equipmentItems[i].itemHash].displayProperties.name;
+                emotesExtraItem.innerHTML = itemDefinitionData[equipmentItems[i].itemHash].displayProperties.name;
                 break;*/
 
         }

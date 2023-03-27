@@ -30,6 +30,45 @@
     visibility: hidden;
 }
 
+/*#region characterCards*/
+#testTile{
+    width: fit-content;
+    height: fit-content;
+    display:grid;
+    grid-template-columns: auto auto;
+    grid-template-rows: auto auto auto auto;
+    background-color: rgb(31, 135, 145);
+}
+#guardianClass{
+    width: fit-content;
+    height: fit-content;
+    color: white;
+}
+#guardianRace{
+    width: fit-content;
+    color: white;
+}
+#guardianPowerLevel{
+    width: fit-content;
+    color: white;
+}
+#guardianLevel{
+    width: fit-content;
+    color: white;
+}
+#guardianSubclass{
+    width: fit-content;
+    color: white;
+}
+#loadoutSubTitle{
+    width:fit-content;
+    display: inline-block;
+    color: white;
+}
+/*endregion */
+
+
+
 #equipmentWeaponListTitle{
     visibility:hidden;
 }
