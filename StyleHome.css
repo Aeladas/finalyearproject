@@ -26,10 +26,6 @@
     justify-content: space-between;
 }
 
-#searchResultsTitle{
-    visibility: hidden;
-}
-
 /*#region characterCards*/
 .charactersContainer{
     width:fit-content;
@@ -37,6 +33,23 @@
     outline-style: solid;
     outline-color: purple;
 }
+
+.containerTitle{
+    width: fit-content;
+    height: fit-content;
+    margin-left:40%;
+    margin-bottom:5%;
+    font-style:normal;
+    font-weight: bold;
+    text-align: center;
+}
+#charactersContainerInfo{
+    width: fit-content;
+    height: fit-content;
+    margin-top: 1%;
+
+}
+
 .characterContainer{
     position: relative;
     margin-top: 1%;
@@ -67,59 +80,110 @@
     color:white;
 }
 
-/*endregion */
+/*region Stats and Equipment*/
 
+/*region STATS*/
+.statsContainer{
+    width: fit-content;
+    height: fit-content;
+    outline-style: solid;
+}
+#statsGrid{
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-template-columns: fit-content;
+}
+#mobilityStat{
+    width:fit-content;
+    height:fit-content;
+}
+#ResilienceStat{
+    width:fit-content;
+    height:fit-content;
+}
+#recoveryStat{
+    width:fit-content;
+    height:fit-content;
+}
+#disciplineStat{
+    width:fit-content;
+    height:fit-content;
+    margin-left:0%;
+}
+#intellectStat{
+    width:fit-content;
+    height:fit-content;
+}
+#strengthStat{
+    width:fit-content;
+    height:fit-content;
+}
 
-#equipmentWeaponListTitle{
-    visibility:hidden;
+/*region EquipmentContainer*/
+.weaponsContainer{
+    width: fit-content;
+    height: fit-content;
+    outline-style: solid;
 }
-#kineticWeaponItem{
-    visibility:hidden;
+#weaponsTitle{
+    width: fit-content;
+    height: fit-content;
+    text-align: center;
+    font-weight: bold;
+    margin-right: 50%;
 }
-#energyWeaponItem {
-    visibility: hidden;
+.kineticWeaponDiv{
+    width: fit-content;
+    height: fit-content;
+    display: flex;
 }
-#powerWeaponItem {
-    visibility: hidden;
+.energyWeaponDiv{
+    width: fit-content;
+    height: fit-content;
+    display: flex;
+    margin-top: 5%;
+}
+.powerWeaponDiv{
+    width: fit-content;
+    height: fit-content;
+    display: flex;
+    margin-top: 5%;
 }
 
-#equipmentArmourListTitle {
-    visibility: hidden;
+.armourContainer{
+    width: fit-content;
+    height: fit-content;
+    outline-style: solid;
 }
-#helmetArmourItem {
-    visibility: hidden;
+#armourTitle{
+    width: fit-content;
+    height: fit-content;
+    text-align: center;
+    font-weight: bold;
+    margin-right: 50%;
 }
-#gaunletsArmourItem {
-    visibility: hidden;
+.helmetArmourDiv{
+    width: fit-content;
+    height: fit-content;
+    display: flex;
 }
-#chestArmourItem {
-    visibility: hidden;
+.gaunletsArmourDiv{
+    width: fit-content;
+    height: fit-content;
+    display: flex;
 }
-#legArmourItem {
-    visibility: hidden;
+.chestArmourDiv{
+    width: fit-content;
+    height: fit-content;
+    display: flex;
 }
-#classArmourItem {
-    visibility: hidden;
+.legArmourDiv{
+    width: fit-content;
+    height: fit-content;
+    display: flex;
 }
-
-#equipmentExtrasListTitle {
-    visibility: hidden;
-}
-#ghostExtraItem {
-    visibility: hidden;
-}
-#vehicleExtraItem {
-    visibility: hidden;
-}
-#shipsExtraItem {
-    visibility: hidden;
-}
-#subclassExtraItem {
-    visibility: hidden;
-}
-#emblemsExtraItem {
-    visibility: hidden;
-}
-#finishersExtraItem {
-    visibility: hidden;
+.classArmourDiv{
+    width: fit-content;
+    height: fit-content;
+    display: flex;
 }

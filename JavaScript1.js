@@ -149,7 +149,7 @@ async function getCharacterStats(data) {
 }
 
 async function getCharacterEquipment(idIndex) {
-    makeListsVisible();
+    //makeListsVisible();
 
     let equipmentItems = null;
     let characterId = characterIds[idIndex];
@@ -241,30 +241,6 @@ async function getStatDefinitionLibrary() {
     statDefinitionData = await statDefinitionResponse.json();
 }
 
-function makeListsVisible() {
-    var weaponListTitle = document.getElementById("equipmentWeaponListTitle");
-    var armourListTitle = document.getElementById("equipmentArmourListTitle");
-    var extrasListTitle = document.getElementById("equipmentExtrasListTitle");
-
-    let weaponList = document.getElementById("equipmentWeaponList");
-    let armourList = document.getElementById("equipmentArmourList");
-    let extrasList = document.getElementById("equipmentExtrasList");
-
-    for (let w = 0; w < weaponList.children.length; w++) {
-        weaponList.children[w].style.visibility = "visible";
-    }
-    for (let a = 0; a < armourList.children.length; a++) {
-        armourList.children[a].style.visibility = "visible";
-    }
-    for (let e = 0; e < extrasList.children.length; e++) {
-        extrasList.children[e].style.visibility = "visible";
-    }
-
-    weaponListTitle.style.visibility = "visible";
-    armourListTitle.style.visibility = "visible";
-    extrasListTitle.style.visibility = "visible";
-}
-
 function updateCharacterTile(data, idIndex) {
     let containerToEdit = null;
     let imageToEdit = null;
@@ -336,8 +312,10 @@ function updateItems(itemDefinitionData, statsDefinitionData, equipmentItems) {
         let currentItem = itemDefinitionData[equipmentItems[i].itemHash];
         switch (equipmentItems[i].bucketHash) {
             case 1498876634:
-                kineticWeaponItem = document.getElementById("kineticWeaponItem");
+                let kineticWeaponItem = document.getElementById("kineticWeaponName");
+                let kineticWeaponItemDesc = document.getElementById("kineticWeaponDesc");
                 kineticWeaponItem.innerHTML = currentItem.displayProperties.name;
+                kineticWeaponItemDesc.innerHTML = currentItem.flavorText;
                 let statsHashList = itemDefinitionData[equipmentItems[i].itemHash].stats.stats;
                 statsHashList = Object.entries(statsHashList);
                 //NEED TO STORE KEYS AND INFO IN ARRAYS
@@ -347,62 +325,33 @@ function updateItems(itemDefinitionData, statsDefinitionData, equipmentItems) {
                 //[155624089].value
                 break;
             case 2465295065:
-                energyWeaponItem = document.getElementById("energyWeaponItem");
+                energyWeaponItem = document.getElementById("energyWeaponName");
                 energyWeaponItem.innerHTML = itemDefinitionData[equipmentItems[i].itemHash].displayProperties.name;
                 break;
             case 953998645:
-                powerWeaponItem = document.getElementById("powerWeaponItem");
+                powerWeaponItem = document.getElementById("powerWeaponName");
                 powerWeaponItem.innerHTML = itemDefinitionData[equipmentItems[i].itemHash].displayProperties.name;
                 break;
             case 3448274439:
-                helmetArmourItem = document.getElementById("helmetArmourItem");
+                helmetArmourItem = document.getElementById("helmetArmourName");
                 helmetArmourItem.innerHTML = itemDefinitionData[equipmentItems[i].itemHash].displayProperties.name;
                 break;
             case 3551918588:
-                gaunletsArmourItem = document.getElementById("gaunletsArmourItem");
+                gaunletsArmourItem = document.getElementById("gaunletsArmourName");
                 gaunletsArmourItem.innerHTML = itemDefinitionData[equipmentItems[i].itemHash].displayProperties.name;
                 break;
             case 14239492:
-                chestArmourItem = document.getElementById("chestArmourItem");
+                chestArmourItem = document.getElementById("chestArmourName");
                 chestArmourItem.innerHTML = itemDefinitionData[equipmentItems[i].itemHash].displayProperties.name;
                 break;
             case 20886954:
-                legArmourItem = document.getElementById("legArmourItem");
+                legArmourItem = document.getElementById("legArmourName");
                 legArmourItem.innerHTML = itemDefinitionData[equipmentItems[i].itemHash].displayProperties.name;
                 break;
             case 1585787867:
-                classArmourItem = document.getElementById("classArmourItem");
+                classArmourItem = document.getElementById("classArmourName");
                 classArmourItem.innerHTML = itemDefinitionData[equipmentItems[i].itemHash].displayProperties.name;
                 break;
-            case 4023194814:
-                ghostExtraItem = document.getElementById("ghostExtraItem");
-                ghostExtraItem.innerHTML = itemDefinitionData[equipmentItems[i].itemHash].displayProperties.name;
-                break;
-            case 2025709351:
-                vehicleExtraItem = document.getElementById("vehicleExtraItem");
-                vehicleExtraItem.innerHTML = itemDefinitionData[equipmentItems[i].itemHash].displayProperties.name;
-                break;
-            case 284967655:
-                shipsExtraItem = document.getElementById("shipsExtraItem");
-                shipsExtraItem.innerHTML = itemDefinitionData[equipmentItems[i].itemHash].displayProperties.name;
-                break;
-            case 3284755031:
-                subclassExtraItem = document.getElementById("subclassExtraItem");
-                subclassExtraItem.innerHTML = itemDefinitionData[equipmentItems[i].itemHash].displayProperties.name;
-                console.log(itemDefinitionData[equipmentItems[i].itemHash]);
-                break;
-            case 4274335291:
-                emblemsExtraItem = document.getElementById("emblemsExtraItem");
-                emblemsExtraItem.innerHTML = itemDefinitionData[equipmentItems[i].itemHash].displayProperties.name;
-                break;
-            case 3683254069:
-                finishersExtraItem = document.getElementById("finishersExtraItem");
-                finishersExtraItem.innerHTML = itemDefinitionData[equipmentItems[i].itemHash].displayProperties.name;
-                break;
-            /*case 3183180185:
-                emotesExtraItem = document.getElementById("emotesExtraItem");
-                emotesExtraItem.innerHTML = itemDefinitionData[equipmentItems[i].itemHash].displayProperties.name;
-                break;*/
 
         }
     }
