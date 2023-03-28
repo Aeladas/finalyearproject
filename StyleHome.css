@@ -26,6 +26,14 @@
     justify-content: space-between;
 }
 
+.parentGrid{
+    width: fit-content;
+    height: fit-content;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    margin-top: 1%;
+}
+
 /*#region characterCards*/
 .charactersContainer{
     width:fit-content;
@@ -124,6 +132,7 @@
     width: fit-content;
     height: fit-content;
     outline-style: solid;
+    margin-left:20%;
 }
 #weaponsTitle{
     width: fit-content;
@@ -154,6 +163,7 @@
     width: fit-content;
     height: fit-content;
     outline-style: solid;
+    margin-left: 15%;
 }
 #armourTitle{
     width: fit-content;

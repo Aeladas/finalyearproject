@@ -136,6 +136,7 @@ async function getProfileStats() {
 
 }
 
+//Need to Alter this!!
 async function getCharacterStats(data) {
     const statsObject = data.Response.character.data.stats;
     let statsText = document.getElementById("characterStatsText");
@@ -308,14 +309,19 @@ function updateCharacterTile(data, idIndex) {
 }
 
 function updateItems(itemDefinitionData, statsDefinitionData, equipmentItems) {
+    let baseImagePath = "https://www.bungie.net";
     for (let i = 0; i < equipmentItems.length; i++) {
         let currentItem = itemDefinitionData[equipmentItems[i].itemHash];
         switch (equipmentItems[i].bucketHash) {
             case 1498876634:
-                let kineticWeaponItem = document.getElementById("kineticWeaponName");
-                let kineticWeaponItemDesc = document.getElementById("kineticWeaponDesc");
-                kineticWeaponItem.innerHTML = currentItem.displayProperties.name;
-                kineticWeaponItemDesc.innerHTML = currentItem.flavorText;
+                let kineticWeaponIcon = document.getElementById("kineticWeaponImage");
+                let kineticWeaponName = document.getElementById("kineticWeaponName");
+                let kineticWeaponType = document.getElementById("kineticWeaponType");
+                let kineticWeaponNameDesc = document.getElementById("kineticWeaponDesc");
+                kineticWeaponIcon.src = baseImagePath + currentItem.displayProperties.icon;
+                kineticWeaponName.innerHTML = currentItem.displayProperties.name;
+                kineticWeaponType.innerHTML = currentItem.itemTypeAndTierDisplayName;
+                kineticWeaponNameDesc.innerHTML = currentItem.flavorText;
                 let statsHashList = itemDefinitionData[equipmentItems[i].itemHash].stats.stats;
                 statsHashList = Object.entries(statsHashList);
                 //NEED TO STORE KEYS AND INFO IN ARRAYS
@@ -325,16 +331,33 @@ function updateItems(itemDefinitionData, statsDefinitionData, equipmentItems) {
                 //[155624089].value
                 break;
             case 2465295065:
-                energyWeaponItem = document.getElementById("energyWeaponName");
-                energyWeaponItem.innerHTML = itemDefinitionData[equipmentItems[i].itemHash].displayProperties.name;
+                let energyWeaponIcon = document.getElementById("energyWeaponImage");
+                let energyWeaponName = document.getElementById("energyWeaponName");
+                let energyWeaponType = document.getElementById("energyWeaponType");
+                let energyWeaponDesc = document.getElementById("energyWeaponDesc");
+                energyWeaponIcon.src = baseImagePath + currentItem.displayProperties.icon;
+                energyWeaponName.innerHTML = currentItem.displayProperties.name;
+                energyWeaponType.innerHTML = currentItem.itemTypeAndTierDisplayName;
+                energyWeaponDesc.innerHTML = currentItem.flavorText;
                 break;
             case 953998645:
-                powerWeaponItem = document.getElementById("powerWeaponName");
-                powerWeaponItem.innerHTML = itemDefinitionData[equipmentItems[i].itemHash].displayProperties.name;
+                let powerWeaponIcon = document.getElementById("powerWeaponImage");
+                let powerWeaponName = document.getElementById("powerWeaponName");
+                let powerWeaponType = document.getElementById("powerWeaponType");
+                let powerWeaponDesc = document.getElementById("powerWeaponDesc");
+                powerWeaponIcon.src = baseImagePath + currentItem.displayProperties.icon;
+                powerWeaponName.innerHTML = currentItem.displayProperties.name;
+                powerWeaponType.innerHTML = currentItem.itemTypeAndTierDisplayName;
+                powerWeaponDesc.innerHTML = currentItem.flavorText;
                 break;
             case 3448274439:
-                helmetArmourItem = document.getElementById("helmetArmourName");
-                helmetArmourItem.innerHTML = itemDefinitionData[equipmentItems[i].itemHash].displayProperties.name;
+                let helmetArmourIcon = document.getElementById("helmetArmourImage");
+                let helmetArmourName = document.getElementById("helmetArmourName");
+                let helmetArmourType = document.getElementById("helmetArmourType");
+                console.log(currentItem);
+                helmetArmourIcon.src = baseImagePath + currentItem.displayProperties.icon;
+                helmetArmourName.innerHTML = currentItem.displayProperties.name;
+                helmetArmourType.innerHTML = currentItem.itemTypeAndTierDisplayName;
                 break;
             case 3551918588:
                 gaunletsArmourItem = document.getElementById("gaunletsArmourName");
