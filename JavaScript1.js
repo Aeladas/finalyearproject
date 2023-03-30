@@ -313,7 +313,7 @@ function updateItems(itemDefinitionData, statsDefinitionData, equipmentItems) {
     for (let i = 0; i < equipmentItems.length; i++) {
         let currentItem = itemDefinitionData[equipmentItems[i].itemHash];
         switch (equipmentItems[i].bucketHash) {
-            case 1498876634:
+            case 1498876634: //Kinetic Weapon
                 let kineticWeaponIcon = document.getElementById("kineticWeaponImage");
                 let kineticWeaponName = document.getElementById("kineticWeaponName");
                 let kineticWeaponType = document.getElementById("kineticWeaponType");
@@ -330,7 +330,7 @@ function updateItems(itemDefinitionData, statsDefinitionData, equipmentItems) {
                 //[155624089].displayProperties.name
                 //[155624089].value
                 break;
-            case 2465295065:
+            case 2465295065: //Energy Weapon
                 let energyWeaponIcon = document.getElementById("energyWeaponImage");
                 let energyWeaponName = document.getElementById("energyWeaponName");
                 let energyWeaponType = document.getElementById("energyWeaponType");
@@ -340,7 +340,7 @@ function updateItems(itemDefinitionData, statsDefinitionData, equipmentItems) {
                 energyWeaponType.innerHTML = currentItem.itemTypeAndTierDisplayName;
                 energyWeaponDesc.innerHTML = currentItem.flavorText;
                 break;
-            case 953998645:
+            case 953998645: //Power Weapon
                 let powerWeaponIcon = document.getElementById("powerWeaponImage");
                 let powerWeaponName = document.getElementById("powerWeaponName");
                 let powerWeaponType = document.getElementById("powerWeaponType");
@@ -350,30 +350,45 @@ function updateItems(itemDefinitionData, statsDefinitionData, equipmentItems) {
                 powerWeaponType.innerHTML = currentItem.itemTypeAndTierDisplayName;
                 powerWeaponDesc.innerHTML = currentItem.flavorText;
                 break;
-            case 3448274439:
+            case 3448274439: //Helmet Armour
                 let helmetArmourIcon = document.getElementById("helmetArmourImage");
                 let helmetArmourName = document.getElementById("helmetArmourName");
                 let helmetArmourType = document.getElementById("helmetArmourType");
-                console.log(currentItem);
                 helmetArmourIcon.src = baseImagePath + currentItem.displayProperties.icon;
                 helmetArmourName.innerHTML = currentItem.displayProperties.name;
                 helmetArmourType.innerHTML = currentItem.itemTypeAndTierDisplayName;
                 break;
-            case 3551918588:
-                gaunletsArmourItem = document.getElementById("gaunletsArmourName");
-                gaunletsArmourItem.innerHTML = itemDefinitionData[equipmentItems[i].itemHash].displayProperties.name;
+            case 3551918588: //Gaunlets Armour
+                let gaunletsArmourIcon = document.getElementById("gaunletsArmourImage");
+                let gaunletsArmourName = document.getElementById("gaunletsArmourName");
+                let gaunletsArmourType = document.getElementById("gaunletsArmourType");
+                gaunletsArmourIcon.src = baseImagePath + currentItem.displayProperties.icon;
+                gaunletsArmourName.innerHTML = currentItem.displayProperties.name;
+                gaunletsArmourType.innerHTML = currentItem.itemTypeAndTierDisplayName;
                 break;
-            case 14239492:
-                chestArmourItem = document.getElementById("chestArmourName");
-                chestArmourItem.innerHTML = itemDefinitionData[equipmentItems[i].itemHash].displayProperties.name;
+            case 14239492: //Chest Armour
+                let chestArmourIcon = document.getElementById("chestArmourImage");
+                let chestArmourName = document.getElementById("chestArmourName");
+                let chestArmourType = document.getElementById("chestArmourType");
+                chestArmourIcon.src = baseImagePath + currentItem.displayProperties.icon;
+                chestArmourName.innerHTML = currentItem.displayProperties.name;
+                chestArmourType.innerHTML = currentItem.itemTypeAndTierDisplayName;
                 break;
-            case 20886954:
-                legArmourItem = document.getElementById("legArmourName");
-                legArmourItem.innerHTML = itemDefinitionData[equipmentItems[i].itemHash].displayProperties.name;
+            case 20886954: //Leg Armour
+                let legArmourIcon = document.getElementById("legArmourImage");
+                let legArmourName = document.getElementById("legArmourName");
+                let legArmourType = document.getElementById("legArmourType");
+                legArmourIcon.src = baseImagePath + currentItem.displayProperties.icon;
+                legArmourName.innerHTML = currentItem.displayProperties.name;
+                legArmourType.innerHTML = currentItem.itemTypeAndTierDisplayName;
                 break;
-            case 1585787867:
-                classArmourItem = document.getElementById("classArmourName");
-                classArmourItem.innerHTML = itemDefinitionData[equipmentItems[i].itemHash].displayProperties.name;
+            case 1585787867: //Class Armour
+                let classArmourIcon = document.getElementById("classArmourImage");
+                let classArmourName = document.getElementById("classArmourName");
+                let classArmourType = document.getElementById("classArmourType");
+                classArmourIcon.src = baseImagePath + currentItem.displayProperties.icon;
+                classArmourName.innerHTML = currentItem.displayProperties.name;
+                classArmourType.innerHTML = currentItem.itemTypeAndTierDisplayName;
                 break;
 
         }

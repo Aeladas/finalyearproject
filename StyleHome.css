@@ -176,24 +176,29 @@
     width: fit-content;
     height: fit-content;
     display: flex;
+    margin-top: 5%;
 }
 .gaunletsArmourDiv{
     width: fit-content;
     height: fit-content;
     display: flex;
+    margin-top: 5%;
 }
 .chestArmourDiv{
     width: fit-content;
     height: fit-content;
     display: flex;
+    margin-top: 5%;
 }
 .legArmourDiv{
     width: fit-content;
     height: fit-content;
     display: flex;
+    margin-top: 5%;
 }
 .classArmourDiv{
     width: fit-content;
     height: fit-content;
     display: flex;
+    margin-top: 5%;
 }
