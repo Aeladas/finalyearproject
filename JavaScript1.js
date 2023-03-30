@@ -139,6 +139,22 @@ async function getProfileStats() {
 //Need to Alter this!!
 async function getCharacterStats(data) {
     const statsObject = data.Response.character.data.stats;
+    let powerStatText = document.getElementById("powerStat");
+    let mobilityStatText = document.getElementById("mobilityStat");
+    let resilienceStatText = document.getElementById("resilienceStat");
+    let recoveryStatText = document.getElementById("recoveryStatText");
+    let disciplineStatText = document.getElementById("disciplineStat");
+    let intellectStatText = document.getElementById("intellectStat");
+    let strengthStatText = document.getElementById("strengthStat");
+
+    powerStatText.innerHTML = "Power: "+statsObject["1935470627"];
+    mobilityStatText.innerHTML = "Mobility: "+statsObject["2996146975"];
+    resilienceStatText.innerHTML = "Resilience: "+statsObject["392767087"];
+    recoveryStatText.innerHTML = "Recovery: "+statsObject["1943323491"];
+    disciplineStatText.innerHTML = "Discipline: "+statsObject["1735777505"];
+    intellectStatText.innerHTML = "Intellect: "+statsObject["144602215"];
+    strengthStatText.innerHTML = "Strength: "+statsObject["4244567218"];
+    /*
     let statsText = document.getElementById("characterStatsText");
     statsText.innerHTML = " Power: "+statsObject["1935470627"];
     statsText.innerHTML += "\n Mobility: " +statsObject["2996146975"];
@@ -146,17 +162,14 @@ async function getCharacterStats(data) {
     statsText.innerHTML += "\n Recovery: "+statsObject["1943323491"];
     statsText.innerHTML += "\n Discipline: "+statsObject["1735777505"];
     statsText.innerHTML += "\n Intellect: "+statsObject["144602215"];
-    statsText.innerHTML += "\n Strength: "+statsObject["4244567218"];
+    statsText.innerHTML += "\n Strength: "+statsObject["4244567218"];*/
 }
 
 async function getCharacterEquipment(idIndex) {
-    //makeListsVisible();
-
     let equipmentItems = null;
     let characterId = characterIds[idIndex];
     let characterEquipmentRequestUrl = baseUrl + currentPlayerMembershipType + "/Profile/" + currentPlayerMembershipId + "/Character/" + characterId + "/?components=205";
     
-
     const equipmentResponse = await fetch(characterEquipmentRequestUrl, {
         method: 'GET', headers: {
             'Content-Type': 'application/json;charset=UTF-8',
@@ -304,7 +317,10 @@ function updateCharacterTile(data, idIndex) {
 
     powerTextToEdit.innerHTML = data.Response.character.data.light
     levelTextToEdit.innerHTML = data.Response.character.data.baseCharacterLevel
-    containerToEdit.onclick = function(){ getCharacterEquipment(idIndex); }
+    containerToEdit.onclick = function(){
+        getCharacterStats(data);
+        getCharacterEquipment(idIndex);
+    }
     containerToEdit.style.visibility = "visible";
 }
 
