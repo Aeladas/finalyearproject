@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <title>Destiny 2 Stat Tracker - Honours Project</title>
     <link rel="stylesheet" href="StyleHome.css" />
-    <script src="JavaScript1.js"></script>
+    <script src="JavaScript1.js">hello</script>
 </head>
 <body>
     <h1 id="title">Destiny 2 Stat Tracker</h1>
@@ -27,7 +27,7 @@
 
     <div class="parentGrid">
         <div class="charactersContainer">
-            <p class="containerTitle">Guardians</p>
+            <p class="characterContainerTitle">Guardians</p>
             <p id="charactersContainerInfo">Click Guardian for detailed view</p>
             <div class="characterContainer" id="characterContainer1">
                 <img class="emblemBackground" id="background1" src="Background.jpg" alt="">
@@ -52,7 +52,7 @@
             </div>
         </div>
 
-        <div class="weaponsContainer">
+        <div class="weaponsContainer" id="weaponsContainer">
             <p id="weaponsTitle">Weapons</p>
             <div class="kineticWeaponDiv">
                 <img id="kineticWeaponImage">
@@ -80,31 +80,31 @@
             </div>
         </div>
 
-        <div class="armourContainer">
+        <div class="armourContainer" id="armourContainer">
             <p id="armourTitle">Armour</p>
             <div class="helmetArmourDiv">
-                <img id="helmetArmourImage" src="Sync.png">
-                <p id="helmetArmourName">Some Name</p>
+                <img id="helmetArmourImage">
+                <p id="helmetArmourName"></p>
                 <p id="helmetArmourType"></p>
             </div>
             <div class="gaunletsArmourDiv">
-                <img id="gaunletsArmourImage" src="Sync.png">
-                <p id="gaunletsArmourName">Some Name</p>
+                <img id="gaunletsArmourImage">
+                <p id="gaunletsArmourName"></p>
                 <p id="gaunletsArmourType"></p>
             </div>
             <div class="chestArmourDiv">
-                <img id="chestArmourImage" src="Sync.png">
-                <p id="chestArmourName">Some Name</p>
+                <img id="chestArmourImage">
+                <p id="chestArmourName"></p>
                 <p id="chestArmourType"></p>
             </div>
             <div class="legArmourDiv">
-                <img id="legArmourImage" src="Sync.png">
-                <p id="legArmourName">Some Name</p>
+                <img id="legArmourImage">
+                <p id="legArmourName"></p>
                 <p id="legArmourType"></p>
             </div>
             <div class="classArmourDiv">
-                <img id="classArmourImage" src="Sync.png">
-                <p id="classArmourName">Some Name</p>
+                <img id="classArmourImage">
+                <p id="classArmourName"></p>
                 <p id="classArmourType"></p>
             </div>
         </div>
@@ -112,7 +112,7 @@
     
 
     <div class="statsContainer">
-        <p class="containerTitle">Stats</p>
+        <p class="baseStatContainerTitle">Character Base Stats</p>
         <div id="statsGrid">
             <p id="powerStat">Power: 50</p>
             <p id="mobilityStat">Mobility: 50</p>
@@ -124,8 +124,75 @@
         </div>
     </div>
 
-    
-    
-
+    <div class="profileStatContainer">
+        <p class="profileStatContainerTitle">Profile PvE Stats</p>
+        <div id="profileStatsGrid">
+            <p class="profileStatText" id="activitiesCleared"></p>
+            <p class="profileStatText" id="activitiesEntered"></p>
+            <p class="profileStatText" id="assists"></p>
+            <p class="profileStatText" id="totalDeathDistance"></p>
+            <p class="profileStatText" id="averageDeathDistance"></p>
+            <p class="profileStatText" id="totalKillDistance"></p>
+            <p class="profileStatText" id="kills"></p>
+            <p class="profileStatText" id="averageKillDistance"></p>
+            <p class="profileStatText" id="secondsPlayed"></p>
+            <p class="profileStatText" id="deaths"></p>
+            <p class="profileStatText" id="averageLifespan"></p>
+            <p class="profileStatText" id="bestSingleGameKills"></p>
+            <p class="profileStatText" id="bestSingleGameScore"></p>
+            <p class="profileStatText" id="opponentsDefeated"></p>
+            <p class="profileStatText" id="efficiency"></p>
+            <p class="profileStatText" id="killsDeathsRatio"></p>
+            <p class="profileStatText" id="killsDeathsAssists"></p>
+            <p class="profileStatText" id="objectivesCompleted"></p>
+            <p class="profileStatText" id="precisionKills"></p>
+            <p class="profileStatText" id="resurrectionsPerformed"></p>
+            <p class="profileStatText" id="resurrectionsReceived"></p>
+            <p class="profileStatText" id="score"></p>
+            <p class="profileStatText" id="heroicPublicEventsCompleted"></p>
+            <p class="profileStatText" id="adventuresCompleted"></p>
+            <p class="profileStatText" id="suicides"></p>
+            <p class="profileStatText" id="weaponKillsAutoRifle"></p>
+            <p class="profileStatText" id="weaponKillsBeamRifle"></p>
+            <p class="profileStatText" id="weaponKillsBow"></p>
+            <p class="profileStatText" id="weaponKillsGlaive"></p>
+            <p class="profileStatText" id="weaponKillsFusionRifle"></p>
+            <p class="profileStatText" id="weaponKillsHandCannon"></p>
+            <p class="profileStatText" id="weaponKillsTraceRifle"></p>
+            <p class="profileStatText" id="weaponKillsMachineGun"></p>
+            <p class="profileStatText" id="weaponKillsPulseRifle"></p>
+            <p class="profileStatText" id="weaponKillsRocketLauncher"></p>
+            <p class="profileStatText" id="weaponKillsScoutRifle"></p>
+            <p class="profileStatText" id="weaponKillsShotgun"></p>
+            <p class="profileStatText" id="weaponKillsSniper"></p>
+            <p class="profileStatText" id="weaponKillsSubmachinegun"></p>
+            <p class="profileStatText" id="weaponKillsRelic"></p>
+            <p class="profileStatText" id="weaponKillsSideArm"></p>
+            <p class="profileStatText" id="weaponKillsSword"></p>
+            <p class="profileStatText" id="weaponKillsAbility"></p>
+            <p class="profileStatText" id="weaponKillsGrenade"></p>
+            <p class="profileStatText" id="weaponKillsGrenadeLauncher"></p>
+            <p class="profileStatText" id="weaponKillsSuper"></p>
+            <p class="profileStatText" id="weaponKillsMelee"></p>
+            <p class="profileStatText" id="weaponBestType"></p>
+            <p class="profileStatText" id="allParticipantsCount"></p>
+            <p class="profileStatText" id="allParticipantsScore"></p>
+            <p class="profileStatText" id="allParticipantsTimePlayed"></p>
+            <p class="profileStatText" id="longestKillSpree"></p>
+            <p class="profileStatText" id="longestSingleLife"></p>
+            <p class="profileStatText" id="mostPrecisionKills"></p>
+            <p class="profileStatText" id="orbsDropped"></p>
+            <p class="profileStatText" id="orbsGathered"></p>
+            <p class="profileStatText" id="publicEventsCompleted"></p>
+            <p class="profileStatText" id="remainingTimeAfterQuitSeconds"></p>
+            <p class="profileStatText" id="teamScore"></p>
+            <p class="profileStatText" id="totalActivityDurationSeconds"></p>
+            <p class="profileStatText" id="fastestCompletionMs"></p>
+            <p class="profileStatText" id="longestKillDistance"></p>
+            <p class="profileStatText" id="highestCharacterLevel"></p>
+            <p class="profileStatText" id="highestLightLevel"></p>
+            <p class="profileStatText" id="fireTeamActivities"></p>
+        </div>
+    </div>
 </body>
 </html>

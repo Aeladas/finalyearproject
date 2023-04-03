@@ -45,19 +45,16 @@ function loginToAccount(event) {
     //&state=6i0mkLx79Hp91nzWVeHrzHG4
     let loginUrl = "https://www.bungie.net/en/oauth/authorize?client_id=" + my_client_id + "&response_type=code&state=6i0mkLx79Hp91nzWVeHrzHG4";
     window.location.replace(loginUrl);
-    //Tester();
+    //MiddleMan();
     getAccessToken();
 }
 
-function Tester(){
+function MiddleMan(){
     let searchCode = window.location.search;
     let removeAfter = searchCode.indexOf("&");
     removeAfter = removeAfter - 6;
     searchCode = searchCode.replace("?code=","");
     searchCode = searchCode.substring(0, removeAfter);
-
-    let testPara = document.getElementById("testPara");
-    testPara.innerHTML = "Code: "+searchCode;
     getAccessToken();
 }
 
@@ -133,7 +130,216 @@ async function getCharacterInfo() {
 }
 
 async function getProfileStats() {
-
+    let collection = document.getElementsByClassName("profileStatText");
+    let searchGroup = 1;
+    let profileStatsUrl = baseUrl + currentPlayerMembershipType + "/Account/"+currentPlayerMembershipId + "/Stats/?groups="+searchGroup;
+    const response = await fetch(profileStatsUrl, { method: 'GET', headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+        'X-API-Key': apiKey
+    } });
+    const data = await response.json();
+    const pve = data.Response.mergedAllCharacters.results.allPvE.allTime;
+    console.log(pve);
+    for(let e=0; e < collection.length;e++){
+        switch(collection[e].id){
+            case "activitiesCleared":
+                collection[e].innerHTML = pve.activitiesCleared.basic.displayValue;
+                break;
+            case "activitiesEntered":
+                collection[e].innerHTML = pve.activitiesEntered.basic.displayValue;
+                break;
+            case "assists":
+                collection[e].innerHTML = pve.assists.basic.displayValue;
+                break;
+            case "totalDeathDistance":
+                collection[e].innerHTML = pve.totalDeathDistance.basic.displayValue;
+                break;
+            case "averageDeathDistance":
+                collection[e].innerHTML = pve.averageDeathDistance.basic.displayValue;
+                break;
+            case "totalKillDistance":
+                collection[e].innerHTML = pve.totalKillDistance.basic.displayValue;
+                break;
+            case "kills":
+                collection[e].innerHTML = pve.kills.basic.displayValue;
+                break;
+            case "averageKillDistance":
+                collection[e].innerHTML = pve.averageKillDistance.basic.displayValue;
+                break;
+            case "secondsPlayed":
+                collection[e].innerHTML = pve.secondsPlayed.basic.displayValue;
+                break;
+            case "deaths":
+                collection[e].innerHTML = pve.deaths.basic.displayValue;
+                break;
+            case "averageLifespan":
+                collection[e].innerHTML = pve.averageLifespan.basic.displayValue;
+                break;
+            case "bestSingleGameKills":
+                collection[e].innerHTML = pve.bestSingleGameKills.basic.displayValue;
+                break;
+            case "bestSingleGameScore":
+                collection[e].innerHTML = pve.bestSingleGameScore.basic.displayValue;
+                break;
+            case "opponentsDefeated":
+                collection[e].innerHTML = pve.opponentsDefeated.basic.displayValue;
+                break;
+            case "efficiency":
+                collection[e].innerHTML = pve.efficiency.basic.displayValue;
+                break;
+            case "killsDeathsRatio":
+                collection[e].innerHTML = pve.killsDeathsRatio.basic.displayValue;
+                break;
+            case "killsDeathsAssists":
+                collection[e].innerHTML = pve.killsDeathsAssists.basic.displayValue;
+                break;
+            case "objectivesCompleted":
+                collection[e].innerHTML = pve.objectivesCompleted.basic.displayValue;
+                break;
+            case "precisionKills":
+                collection[e].innerHTML = pve.precisionKills.basic.displayValue;
+                break;
+            case "resurrectionsPerformed":
+                collection[e].innerHTML = pve.resurrectionsPerformed.basic.displayValue;
+                break;
+            case "resurrectionsReceived":
+                collection[e].innerHTML = pve.resurrectionsReceived.basic.displayValue;
+                break;
+            case "score":
+                collection[e].innerHTML = pve.score.basic.displayValue;
+                break;
+            case "heroicPublicEventsCompleted":
+                collection[e].innerHTML = pve.heroicPublicEventsCompleted.basic.displayValue;
+                break;
+            case "adventuresCompleted":
+                collection[e].innerHTML = pve.adventuresCompleted.basic.displayValue;
+                break;
+            case "suicides":
+                collection[e].innerHTML = pve.suicides.basic.displayValue;
+                break;
+            case "weaponKillsAutoRifle":
+                collection[e].innerHTML = pve.weaponKillsAutoRifle.basic.displayValue;
+                break;
+            case "weaponKillsBeamRifle":
+                collection[e].innerHTML = pve.weaponKillsBeamRifle.basic.displayValue;
+                break;
+            case "weaponKillsBow":
+                collection[e].innerHTML = pve.weaponKillsBow.basic.displayValue;
+                break;
+            case "weaponKillsGlaive":
+                collection[e].innerHTML = pve.weaponKillsGlaive.basic.displayValue;
+                break;
+            case "weaponKillsFusionRifle":
+                collection[e].innerHTML = pve.weaponKillsFusionRifle.basic.displayValue;
+                break;
+            case "weaponKillsHandCannon":
+                collection[e].innerHTML = pve.weaponKillsHandCannon.basic.displayValue;
+                break;
+            case "weaponKillsTraceRifle":
+                collection[e].innerHTML = pve.weaponKillsTraceRifle.basic.displayValue;
+                break;
+            case "weaponKillsMachineGun":
+                collection[e].innerHTML = pve.weaponKillsMachineGun.basic.displayValue;
+                break;
+            case "weaponKillsPulseRifle":
+                collection[e].innerHTML = pve.weaponKillsPulseRifle.basic.displayValue;
+                break;
+            case "weaponKillsRocketLauncher":
+                collection[e].innerHTML = pve.weaponKillsRocketLauncher.basic.displayValue;
+                break;
+            case "weaponKillsScoutRifle":
+                collection[e].innerHTML = pve.weaponKillsScoutRifle.basic.displayValue;
+                break;
+            case "weaponKillsShotgun":
+                collection[e].innerHTML = pve.weaponKillsShotgun.basic.displayValue;
+                break;
+            case "weaponKillsSniper":
+                collection[e].innerHTML = pve.weaponKillsSniper.basic.displayValue;
+                break;
+            case "weaponKillsSubmachinegun":
+                collection[e].innerHTML = pve.weaponKillsSubmachinegun.basic.displayValue;
+                break;
+            case "weaponKillsRelic":
+                collection[e].innerHTML = pve.weaponKillsRelic.basic.displayValue;
+                break;
+            case "weaponKillsSideArm":
+                collection[e].innerHTML = pve.weaponKillsSideArm.basic.displayValue;
+                break;
+            case "weaponKillsSword":
+                collection[e].innerHTML = pve.weaponKillsSword.basic.displayValue;
+                break;
+            case "weaponKillsAbility":
+                collection[e].innerHTML = pve.weaponKillsAbility.basic.displayValue;
+                break;
+            case "weaponKillsGrenade":
+                collection[e].innerHTML = pve.weaponKillsGrenade.basic.displayValue;
+                break;
+            case "weaponKillsGrenadeLauncher":
+                collection[e].innerHTML = pve.weaponKillsGrenadeLauncher.basic.displayValue;
+                break;
+            case "weaponKillsSuper":
+                collection[e].innerHTML = pve.weaponKillsSuper.basic.displayValue;
+                break;
+            case "weaponKillsMelee":
+                collection[e].innerHTML = pve.weaponKillsMelee.basic.displayValue;
+                break;
+            case "weaponBestType":
+                collection[e].innerHTML = pve.weaponBestType.basic.displayValue;
+                break;
+            case "allParticipantsCount":
+                collection[e].innerHTML = pve.allParticipantsCount.basic.displayValue;
+                break;
+            case "allParticipantsScore":
+                collection[e].innerHTML = pve.allParticipantsScore.basic.displayValue;
+                break;
+            case "allParticipantsTimePlayed":
+                collection[e].innerHTML = pve.allParticipantsTimePlayed.basic.displayValue;
+                break;
+            case "longestKillSpree":
+                collection[e].innerHTML = pve.longestKillSpree.basic.displayValue;
+                break;
+            case "longestSingleLife":
+                collection[e].innerHTML = pve.longestSingleLife.basic.displayValue;
+                break;
+            case "mostPrecisionKills":
+                collection[e].innerHTML = pve.mostPrecisionKills.basic.displayValue;
+                break;
+            case "orbsDropped":
+                collection[e].innerHTML = pve.orbsDropped.basic.displayValue;
+                break;
+            case "orbsGathered":
+                collection[e].innerHTML = pve.orbsGathered.basic.displayValue;
+                break;
+            case "publicEventsCompleted":
+                collection[e].innerHTML = pve.publicEventsCompleted.basic.displayValue;
+                break;
+            case "remainingTimeAfterQuitSeconds":
+                collection[e].innerHTML = pve.remainingTimeAfterQuitSeconds.basic.displayValue;
+                break;
+            case "teamScore":
+                collection[e].innerHTML = pve.teamScore.basic.displayValue;
+                break;
+            case "totalActivityDurationSeconds":
+                collection[e].innerHTML = pve.totalActivityDurationSeconds.basic.displayValue;
+                break;
+            case "fastestCompletionMs":
+                collection[e].innerHTML = pve.fastestCompletionMs.basic.displayValue;
+                break;
+            case "longestKillDistance":
+                collection[e].innerHTML = pve.longestKillDistance.basic.displayValue;
+                break;
+            case "highestCharacterLevel":
+                collection[e].innerHTML = pve.highestCharacterLevel.basic.displayValue;
+                break;
+            case "highestLightLevel":
+                collection[e].innerHTML = pve.highestLightLevel.basic.displayValue;
+                break;
+            case "fireTeamActivities":
+                collection[e].innerHTML = pve.fireTeamActivities.basic.displayValue;
+                break;
+        }
+    }
+    //console.log(data);
 }
 
 //Need to Alter this!!
@@ -178,7 +384,7 @@ async function getCharacterEquipment(idIndex) {
     });
     const equipmentJsonData = await equipmentResponse.json();
     equipmentItems = equipmentJsonData.Response.equipment.data.items;
-    updateItems(itemDefinitionData, statsDefinitionData, equipmentItems);
+    updateItems(itemDefinitionData, equipmentItems);
 }
 
 async function getCharacterInventory(idIndex) {
@@ -226,6 +432,7 @@ async function createSearchResults(searchData, numOfResults) {
         newAccountButton.onclick = function () {
             currentPlayerMembershipId = searchData.Response.searchResults[i].destinyMemberships[0].membershipId;
             currentPlayerMembershipType = searchData.Response.searchResults[i].destinyMemberships[0].membershipType;
+            getProfileStats();
             getCharacterIds();
         };
     }
@@ -324,7 +531,7 @@ function updateCharacterTile(data, idIndex) {
     containerToEdit.style.visibility = "visible";
 }
 
-function updateItems(itemDefinitionData, statsDefinitionData, equipmentItems) {
+function updateItems(itemDefinitionData,equipmentItems) {
     let baseImagePath = "https://www.bungie.net";
     for (let i = 0; i < equipmentItems.length; i++) {
         let currentItem = itemDefinitionData[equipmentItems[i].itemHash];
@@ -409,4 +616,8 @@ function updateItems(itemDefinitionData, statsDefinitionData, equipmentItems) {
 
         }
     }
+    let weaponContainer = document.getElementById("weaponsContainer");
+    let armourContainer = document.getElementById("armourContainer");
+    weaponContainer.style.marginLeft = "10%";
+    armourContainer.style.marginLeft = "10%";
 }
