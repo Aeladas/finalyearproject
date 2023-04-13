@@ -130,9 +130,7 @@ async function getCharacterInfo() {
 }
 
 async function getProfileStats() {
-    let pveCollection = document.getElementsByClassName("profilePVEStatText");
-    let pvpCollection = document.getElementsByClassName("profilePVPStatText");
-
+    let statCollection = document.getElementsByClassName("profileStat");
     let searchGroup = 1;
     let profileStatsUrl = baseUrl + currentPlayerMembershipType + "/Account/"+currentPlayerMembershipId + "/Stats/?groups="+searchGroup;
     const response = await fetch(profileStatsUrl, { method: 'GET', headers: {
@@ -143,408 +141,124 @@ async function getProfileStats() {
     const pve = data.Response.mergedAllCharacters.results.allPvE.allTime;
     const pvp = data.Response.mergedAllCharacters.results.allPvP.allTime;
 
-    for(let e=0; e < pveCollection.length;e++){
-        switch(pveCollection[e].id){
-            case "PVE_activitiesCleared":
-                pveCollection[e].innerHTML += pve.activitiesCleared.basic.displayValue;
+    for(let index = 0; index < statCollection.length;index++){
+        switch(statCollection[index].id){
+            case "highestCharacterLevelStat":
+                statCollection[index].innerHTML = pve.highestCharacterLevel.basic.displayValue
                 break;
-            case "PVE_activitiesEntered":
-                pveCollection[e].innerHTML += pve.activitiesEntered.basic.displayValue;
+            case "highestPowerLevelStat":
+                statCollection[index].innerHTML = pve.highestLightLevel.basic.displayValue
                 break;
-            case "PVE_assists":
-                pveCollection[e].innerHTML += pve.assists.basic.displayValue;
+            case "bestScoreStat":
+                statCollection[index].innerHTML = pve.score.basic.displayValue
                 break;
-            case "PVE_totalDeathDistance":
-                pveCollection[e].innerHTML += pve.totalDeathDistance.basic.displayValue;
+            case "longestSingleLifeStat":
+                statCollection[index].innerHTML = pve.longestSingleLife.basic.displayValue
                 break;
-            case "PVE_averageDeathDistance":
-                pveCollection[e].innerHTML += pve.averageDeathDistance.basic.displayValue;
+            case "bestSingleGameKillsStat":
+                statCollection[index].innerHTML = pve.bestSingleGameKills.basic.displayValue
                 break;
-            case "PVE_totalKillDistance":
-                pveCollection[e].innerHTML += pve.totalKillDistance.basic.displayValue;
+            case "mostPrecisionKillsStat":
+                statCollection[index].innerHTML = pve.mostPrecisionKills.basic.displayValue
                 break;
-            case "PVE_kills":
-                pveCollection[e].innerHTML += pve.kills.basic.displayValue;
+            case "bestKillStreakStat":
+                statCollection[index].innerHTML = pve.longestKillSpree.basic.displayValue
                 break;
-            case "PVE_averageKillDistance":
-                pveCollection[e].innerHTML += pve.averageKillDistance.basic.displayValue;
+            case "longestKillDistanceStat":
+                statCollection[index].innerHTML = pve.longestKillDistance.basic.displayValue + "m";
                 break;
-            case "PVE_secondsPlayed":
-                pveCollection[e].innerHTML += pve.secondsPlayed.basic.displayValue;
+            case "bestWeaponStat":
+                statCollection[index].innerHTML = pve.weaponBestType.basic.displayValue
                 break;
-            case "PVE_deaths":
-                pveCollection[e].innerHTML += pve.deaths.basic.displayValue;
+            case "activitiesEnteredStat":
+                statCollection[index].innerHTML = pve.activitiesEntered.basic.displayValue
                 break;
-            case "PVE_averageLifespan":
-                pveCollection[e].innerHTML += pve.averageLifespan.basic.displayValue;
+            case "activitiesClearedStat":
+                statCollection[index].innerHTML = pve.activitiesCleared.basic.displayValue
                 break;
-            case "PVE_bestSingleGameKills":
-                pveCollection[e].innerHTML += pve.bestSingleGameKills.basic.displayValue;
+            case "timePlayedStat":
+                statCollection[index].innerHTML = pve.secondsPlayed.basic.displayValue
                 break;
-            case "PVE_bestSingleGameScore":
-                pveCollection[e].innerHTML += pve.bestSingleGameScore.basic.displayValue;
+            case "scoreStat":
+                statCollection[index].innerHTML = pve.score.basic.displayValue
                 break;
-            case "PVE_opponentsDefeated":
-                pveCollection[e].innerHTML += pve.opponentsDefeated.basic.displayValue;
+            case "teamScoreStat":
+                statCollection[index].innerHTML = pve.teamScore.basic.displayValue
                 break;
-            case "PVE_efficiency":
-                pveCollection[e].innerHTML += pve.efficiency.basic.displayValue;
+            case "objectivesCompletedStat":
+                statCollection[index].innerHTML = pve.objectivesCompleted.basic.displayValue
                 break;
-            case "PVE_killsDeathsRatio":
-                pveCollection[e].innerHTML += pve.killsDeathsRatio.basic.displayValue;
+            case "publicEventCompletedStat":
+                statCollection[index].innerHTML = pve.publicEventsCompleted.basic.displayValue   //Needs Changing
                 break;
-            case "PVE_killsDeathsAssists":
-                pveCollection[e].innerHTML += pve.killsDeathsAssists.basic.displayValue;
+            case "publicEventsCompletedStat":
+                statCollection[index].innerHTML = pve.publicEventsCompleted.basic.displayValue
                 break;
-            case "PVE_objectivesCompleted":
-                pveCollection[e].innerHTML += pve.objectivesCompleted.basic.displayValue;
+            case "adventuresCompletedStat":
+                statCollection[index].innerHTML = pve.adventuresCompleted.basic.displayValue
                 break;
-            case "PVE_precisionKills":
-                pveCollection[e].innerHTML += pve.precisionKills.basic.displayValue;
+            case "winsStat":
+                statCollection[index].innerHTML = pvp.winLossRatio.basic.displayValue
                 break;
-            case "PVE_resurrectionsPerformed":
-                pveCollection[e].innerHTML += pve.resurrectionsPerformed.basic.displayValue;
+            case "winLossRatioStat":
+                statCollection[index].innerHTML = pvp.winLossRatio.basic.displayValue
                 break;
-            case "PVE_resurrectionsReceived":
-                pveCollection[e].innerHTML += pve.resurrectionsReceived.basic.displayValue;
+            case "killsStat":
+                statCollection[index].innerHTML = pve.kills.basic.displayValue
                 break;
-            case "PVE_score":
-                pveCollection[e].innerHTML += pve.score.basic.displayValue;
+            case "deathsStat":
+                statCollection[index].innerHTML = pve.
                 break;
-            case "PVE_heroicPublicEventsCompleted":
-                pveCollection[e].innerHTML += pve.heroicPublicEventsCompleted.basic.displayValue;
+            case "killDeathRatioStat":
+                statCollection[index].innerHTML = pve.
                 break;
-            case "PVE_adventuresCompleted":
-                pveCollection[e].innerHTML += pve.adventuresCompleted.basic.displayValue;
+            case "killDeathAverageStat":
+                statCollection[index].innerHTML = pve.
                 break;
-            case "PVE_suicides":
-                pveCollection[e].innerHTML += pve.suicides.basic.displayValue;
+            case "averageKillDistanceStat":
+                statCollection[index].innerHTML = pve.
                 break;
-            case "PVE_weaponKillsAutoRifle":
-                pveCollection[e].innerHTML += pve.weaponKillsAutoRifle.basic.displayValue;
+            case "assistsStat":
+                statCollection[index].innerHTML = pve.
                 break;
-            case "PVE_weaponKillsBeamRifle":
-                pveCollection[e].innerHTML += pve.weaponKillsBeamRifle.basic.displayValue;
+            case "precisionKillsStat":
+                statCollection[index].innerHTML = pve.
                 break;
-            case "PVE_weaponKillsBow":
-                pveCollection[e].innerHTML += pve.weaponKillsBow.basic.displayValue;
+            case "opponentsDefeatedStat":
+                statCollection[index].innerHTML = pve.
                 break;
-            case "PVE_weaponKillsGlaive":
-                pveCollection[e].innerHTML += pve.weaponKillsGlaive.basic.displayValue;
+            case "efficiencyStat":
+                statCollection[index].innerHTML = pve.
                 break;
-            case "PVE_weaponKillsFusionRifle":
-                pveCollection[e].innerHTML += pve.weaponKillsFusionRifle.basic.displayValue;
+            case "suicidesStat":
+                statCollection[index].innerHTML = pve.
                 break;
-            case "PVE_weaponKillsHandCannon":
-                pveCollection[e].innerHTML += pve.weaponKillsHandCannon.basic.displayValue;
+            case "averageScorePerKillStat":
+                statCollection[index].innerHTML = pve.
                 break;
-            case "PVE_weaponKillsTraceRifle":
-                pveCollection[e].innerHTML += pve.weaponKillsTraceRifle.basic.displayValue;
+            case "averageScorePerLifeStat":
+                statCollection[index].innerHTML = pve.
                 break;
-            case "PVE_weaponKillsMachineGun":
-                pveCollection[e].innerHTML += pve.weaponKillsMachineGun.basic.displayValue;
+            case "averageLifespanStat":
+                statCollection[index].innerHTML = pve.
                 break;
-            case "PVE_weaponKillsPulseRifle":
-                pveCollection[e].innerHTML += pve.weaponKillsPulseRifle.basic.displayValue;
+            case "resurrectionsStat":
+                statCollection[index].innerHTML = pve.
                 break;
-            case "PVE_weaponKillsRocketLauncher":
-                pveCollection[e].innerHTML += pve.weaponKillsRocketLauncher.basic.displayValue;
+            case "resurrectionsRecievedStat":
+                statCollection[index].innerHTML = pve.
                 break;
-            case "PVE_weaponKillsScoutRifle":
-                pveCollection[e].innerHTML += pve.weaponKillsScoutRifle.basic.displayValue;
+            case "orbsDroppedStat":
+                statCollection[index].innerHTML = pve.
                 break;
-            case "PVE_weaponKillsShotgun":
-                pveCollection[e].innerHTML += pve.weaponKillsShotgun.basic.displayValue;
-                break;
-            case "PVE_weaponKillsSniper":
-                pveCollection[e].innerHTML += pve.weaponKillsSniper.basic.displayValue;
-                break;
-            case "PVE_weaponKillsSubmachinegun":
-                pveCollection[e].innerHTML += pve.weaponKillsSubmachinegun.basic.displayValue;
-                break;
-            case "PVE_weaponKillsRelic":
-                pveCollection[e].innerHTML += pve.weaponKillsRelic.basic.displayValue;
-                break;
-            case "PVE_weaponKillsSideArm":
-                pveCollection[e].innerHTML += pve.weaponKillsSideArm.basic.displayValue;
-                break;
-            case "PVE_weaponKillsSword":
-                pveCollection[e].innerHTML += pve.weaponKillsSword.basic.displayValue;
-                break;
-            case "PVE_weaponKillsAbility":
-                pveCollection[e].innerHTML += pve.weaponKillsAbility.basic.displayValue;
-                break;
-            case "PVE_weaponKillsGrenade":
-                pveCollection[e].innerHTML += pve.weaponKillsGrenade.basic.displayValue;
-                break;
-            case "PVE_weaponKillsGrenadeLauncher":
-                pveCollection[e].innerHTML += pve.weaponKillsGrenadeLauncher.basic.displayValue;
-                break;
-            case "PVE_weaponKillsSuper":
-                pveCollection[e].innerHTML += pve.weaponKillsSuper.basic.displayValue;
-                break;
-            case "PVE_weaponKillsMelee":
-                pveCollection[e].innerHTML += pve.weaponKillsMelee.basic.displayValue;
-                break;
-            case "PVE_weaponBestType":
-                pveCollection[e].innerHTML += pve.weaponBestType.basic.displayValue;
-                break;
-            case "PVE_allParticipantsCount":
-                pveCollection[e].innerHTML += pve.allParticipantsCount.basic.displayValue;
-                break;
-            case "PVE_allParticipantsScore":
-                pveCollection[e].innerHTML += pve.allParticipantsScore.basic.displayValue;
-                break;
-            case "PVE_allParticipantsTimePlayed":
-                pveCollection[e].innerHTML += pve.allParticipantsTimePlayed.basic.displayValue;
-                break;
-            case "PVE_longestKillSpree":
-                pveCollection[e].innerHTML += pve.longestKillSpree.basic.displayValue;
-                break;
-            case "PVE_longestSingleLife":
-                pveCollection[e].innerHTML += pve.longestSingleLife.basic.displayValue;
-                break;
-            case "PVE_mostPrecisionKills":
-                pveCollection[e].innerHTML += pve.mostPrecisionKills.basic.displayValue;
-                break;
-            case "PVE_orbsDropped":
-                pveCollection[e].innerHTML += pve.orbsDropped.basic.displayValue;
-                break;
-            case "PVE_orbsGathered":
-                pveCollection[e].innerHTML += pve.orbsGathered.basic.displayValue;
-                break;
-            case "PVE_publicEventsCompleted":
-                pveCollection[e].innerHTML += pve.publicEventsCompleted.basic.displayValue;
-                break;
-            case "PVE_remainingTimeAfterQuitSeconds":
-                pveCollection[e].innerHTML += pve.remainingTimeAfterQuitSeconds.basic.displayValue;
-                break;
-            case "PVE_teamScore":
-                pveCollection[e].innerHTML += pve.teamScore.basic.displayValue;
-                break;
-            case "PVE_totalActivityDurationSeconds":
-                pveCollection[e].innerHTML += pve.totalActivityDurationSeconds.basic.displayValue;
-                break;
-            case "PVE_fastestCompletionMs":
-                pveCollection[e].innerHTML += pve.fastestCompletionMs.basic.displayValue;
-                break;
-            case "PVE_longestKillDistance":
-                pveCollection[e].innerHTML += pve.longestKillDistance.basic.displayValue;
-                break;
-            case "PVE_highestCharacterLevel":
-                pveCollection[e].innerHTML += pve.highestCharacterLevel.basic.displayValue;
-                break;
-            case "PVE_highestLightLevel":
-                pveCollection[e].innerHTML += pve.highestLightLevel.basic.displayValue;
-                break;
-            case "PVE_fireTeamActivities":
-                pveCollection[e].innerHTML += pve.fireTeamActivities.basic.displayValue;
+            case "orbsGatheredStat":
+                statCollection[index].innerHTML = pve.
                 break;
         }
     }
-    for(let p=0; p < pvpCollection.length;p++){
-        switch(pvpCollection[p].id){
-            case"PVP_activitiesEntered":
-                pvpCollection[p].innerHTML += pvp.activitiesEntered.basic.displayValue;
-                break;
-            case"PVP_activitiesWon":
-                pvpCollection[p].innerHTML += pvp.activitiesWon.basic.displayValue;
-                break;
-            case"PVP_assists":
-                pvpCollection[p].innerHTML += pvp.assists.basic.displayValue;
-                break;
-            case"PVP_totalDeathDistance":
-                pvpCollection[p].innerHTML += pvp.totalDeathDistance.basic.displayValue;
-                break;
-            case"PVP_averageDeathDistance":
-                pvpCollection[p].innerHTML += pvp.averageDeathDistance.basic.displayValue;
-                break;
-            case"PVP_totalKillDistance":
-                pvpCollection[p].innerHTML += pvp.totalKillDistance.basic.displayValue;
-                break;
-            case"PVP_kills":
-                pvpCollection[p].innerHTML += pvp.kills.basic.displayValue;
-                break;
-            case"PVP_averageKillDistance":
-                pvpCollection[p].innerHTML += pvp.averageKillDistance.basic.displayValue;
-                break;
-            case"PVP_secondsPlayed":
-                pvpCollection[p].innerHTML += pvp.secondsPlayed.basic.displayValue;
-                break;
-            case"PVP_deaths":
-                pvpCollection[p].innerHTML += pvp.deaths.basic.displayValue;
-                break;
-            case"PVP_averageLifespan":
-                pvpCollection[p].innerHTML += pvp.averageLifespan.basic.displayValue;
-                break;
-            case"PVP_score":
-                pvpCollection[p].innerHTML += pvp.score.basic.displayValue;
-                break;
-            case"PVP_averageScorePerKill":
-                pvpCollection[p].innerHTML += pvp.averageScorePerKill.basic.displayValue;
-                break;
-            case"PVP_averageScorePerLife":
-                pvpCollection[p].innerHTML += pvp.averageScorePerLife.basic.displayValue;
-                break;
-            case"PVP_bestSingleGameKills":
-                pvpCollection[p].innerHTML += pvp.bestSingleGameKills.basic.displayValue;
-                break;
-            case"PVP_bestSingleGameScore":
-                pvpCollection[p].innerHTML += pvp.bestSingleGameScore.basic.displayValue;
-                break;
-            case"PVP_opponentsDefeated":
-                pvpCollection[p].innerHTML += pvp.opponentsDefeated.basic.displayValue;
-                break;
-            case"PVP_efficiency":
-                pvpCollection[p].innerHTML += pvp.efficiency.basic.displayValue;
-                break;
-            case"PVP_killsDeathsRatio":
-                pvpCollection[p].innerHTML += pvp.killsDeathsRatio.basic.displayValue;
-                break;
-            case"PVP_killsDeathsAssists":
-                pvpCollection[p].innerHTML += pvp.killsDeathsAssists.basic.displayValue;
-                break;
-            case"PVP_objectivesCompleted":
-                pvpCollection[p].innerHTML += pvp.objectivesCompleted.basic.displayValue;
-                break;
-            case"PVP_precisionKills":
-                pvpCollection[p].innerHTML += pvp.precisionKills.basic.displayValue;
-                break;
-            case"PVP_resurrectionsPerformed":
-                pvpCollection[p].innerHTML += pvp.resurrectionsPerformed.basic.displayValue;
-                break;
-            case"PVP_resurrectionsReceived":
-                pvpCollection[p].innerHTML += pvp.resurrectionsReceived.basic.displayValue;
-                break;
-            case"PVP_suicides":
-                pvpCollection[p].innerHTML += pvp.suicides.basic.displayValue;
-                break;
-            case"PVP_weaponKillsAutoRifle":
-                pvpCollection[p].innerHTML += pvp.weaponKillsAutoRifle.basic.displayValue;
-                break;
-            case"PVP_weaponKillsBeamRifle":
-                pvpCollection[p].innerHTML += pvp.weaponKillsBeamRifle.basic.displayValue;
-                break;
-            case"PVP_weaponKillsBow":
-                pvpCollection[p].innerHTML += pvp.weaponKillsBow.basic.displayValue;
-                break;
-            case"PVP_weaponKillsGlaive":
-                pvpCollection[p].innerHTML += pvp.weaponKillsGlaive.basic.displayValue;
-                break;
-            case"PVP_weaponKillsFusionRifle":
-                pvpCollection[p].innerHTML += pvp.weaponKillsFusionRifle.basic.displayValue;
-                break;
-            case"PVP_weaponKillsHandCannon":
-                pvpCollection[p].innerHTML += pvp.weaponKillsHandCannon.basic.displayValue;
-                break;
-            case"PVP_weaponKillsTraceRifle":
-                pvpCollection[p].innerHTML += pvp.weaponKillsTraceRifle.basic.displayValue;
-                break;
-            case"PVP_weaponKillsMachineGun":
-                pvpCollection[p].innerHTML += pvp.weaponKillsMachineGun.basic.displayValue;
-                break;
-            case"PVP_weaponKillsPulseRifle":
-                pvpCollection[p].innerHTML += pvp.weaponKillsPulseRifle.basic.displayValue;
-                break;
-            case"PVP_weaponKillsRocketLauncher":
-                pvpCollection[p].innerHTML += pvp.weaponKillsRocketLauncher.basic.displayValue;
-                break;
-            case"PVP_weaponKillsScoutRifle":
-                pvpCollection[p].innerHTML += pvp.weaponKillsScoutRifle.basic.displayValue;
-                break;
-            case"PVP_weaponKillsShotgun":
-                pvpCollection[p].innerHTML += pvp.weaponKillsShotgun.basic.displayValue;
-                break;
-            case"PVP_weaponKillsSniper":
-                pvpCollection[p].innerHTML += pvp.weaponKillsSniper.basic.displayValue;
-                break;
-            case"PVP_weaponKillsSubmachinegun":
-                pvpCollection[p].innerHTML += pvp.weaponKillsSubmachinegun.basic.displayValue;
-                break;
-            case"PVP_weaponKillsRelic":
-                pvpCollection[p].innerHTML += pvp.weaponKillsRelic.basic.displayValue;
-                break;
-            case"PVP_weaponKillsSideArm":
-                pvpCollection[p].innerHTML += pvp.weaponKillsSideArm.basic.displayValue;
-                break;
-            case"PVP_weaponKillsSword":
-                pvpCollection[p].innerHTML += pvp.weaponKillsSword.basic.displayValue;
-                break;
-            case"PVP_weaponKillsAbility":
-                pvpCollection[p].innerHTML += pvp.weaponKillsAbility.basic.displayValue;
-                break;
-            case"PVP_weaponKillsGrenade":
-                pvpCollection[p].innerHTML += pvp.weaponKillsGrenade.basic.displayValue;
-                break;
-            case"PVP_weaponKillsGrenadeLauncher":
-                pvpCollection[p].innerHTML += pvp.weaponKillsGrenadeLauncher.basic.displayValue;
-                break;
-            case"PVP_weaponKillsSuper":
-                pvpCollection[p].innerHTML += pvp.weaponKillsSuper.basic.displayValue;
-                break;
-            case"PVP_weaponKillsMelee":
-                pvpCollection[p].innerHTML += pvp.weaponKillsMelee.basic.displayValue;
-                break;
-            case"PVP_weaponBestType":
-                pvpCollection[p].innerHTML += pvp.weaponBestType.basic.displayValue;
-                break;
-            case"PVP_winLossRatio":
-                pvpCollection[p].innerHTML += pvp.winLossRatio.basic.displayValue;
-                break;
-            case"PVP_allParticipantsCount":
-                pvpCollection[p].innerHTML += pvp.allParticipantsCount.basic.displayValue;
-                break;
-            case"PVP_allParticipantsScore":
-                pvpCollection[p].innerHTML += pvp.allParticipantsScore.basic.displayValue;
-                break;
-            case"PVP_allParticipantsTimePlayed":
-                pvpCollection[p].innerHTML += pvp.allParticipantsTimePlayed.basic.displayValue;
-                break;
-            case"PVP_longestKillSpree":
-                pvpCollection[p].innerHTML += pvp.longestKillSpree.basic.displayValue;
-                break;
-            case"PVP_longestSingleLife":
-                pvpCollection[p].innerHTML += pvp.longestSingleLife.basic.displayValue;
-                break;
-            case"PVP_mostPrecisionKills":
-                pvpCollection[p].innerHTML += pvp.mostPrecisionKills.basic.displayValue;
-                break;
-            case"PVP_orbsDropped":
-                pvpCollection[p].innerHTML += pvp.orbsDropped.basic.displayValue;
-                break;
-            case"PVP_orbsGathered":
-                pvpCollection[p].innerHTML += pvp.orbsGathered.basic.displayValue;
-                break;
-            case"PVP_remainingTimeAfterQuitSeconds":
-                pvpCollection[p].innerHTML += pvp.remainingTimeAfterQuitSeconds.basic.displayValue;
-                break;
-            case"PVP_teamScore":
-                pvpCollection[p].innerHTML += pvp.teamScore.basic.displayValue;
-                break;
-            case"PVP_totalActivityDurationSeconds":
-                pvpCollection[p].innerHTML += pvp.totalActivityDurationSeconds.basic.displayValue;
-                break;
-            case"PVP_combatRating":
-                pvpCollection[p].innerHTML += pvp.combatRating.basic.displayValue;
-                break;
-            case"PVP_fastestCompletionMs":
-                pvpCollection[p].innerHTML += pvp.fastestCompletionMs.basic.displayValue;
-                break;
-            case"PVP_longestKillDistance":
-                pvpCollection[p].innerHTML += pvp.longestKillDistance.basic.displayValue;
-                break;
-            case"PVP_highestCharacterLevel":
-                pvpCollection[p].innerHTML += pvp.highestCharacterLevel.basic.displayValue;
-                break;
-            case"PVP_highestLightLevel":
-                pvpCollection[p].innerHTML += pvp.highestLightLevel.basic.displayValue;
-                break;
-            case"PVP_fireTeamActivities":
-                pvpCollection[p].innerHTML += pvp.fireTeamActivities.basic.displayValue;
-                break;
-        }
-    }
-    //console.log(data);
+
+    console.log(pve);
+    console.log(pvp);
 }
 
 function GetGeneralStats(){
@@ -562,6 +276,26 @@ async function GetWeaponStats(){
     } });
     const data = await response.json();
     console.log(data);
+}
+
+function testSwitch(){
+    let winsDiv = document.getElementById("winsDiv");
+    let winLossRatioDiv = document.getElementById("winLossRatioDiv");
+    let averageScorePerKillDiv = document.getElementById("averageScorePerKillDiv");
+    let averageScorePerLifeDiv = document.getElementById("averageScorePerLifeDiv");
+    let pvpSwitch = document.getElementById("pvpSwitch");
+    if (pvpSwitch.checked){
+        winsDiv.style.visibility = "visible";
+        winLossRatioDiv.style.visibility = "visible";
+        averageScorePerKillDiv.style.visibility = "visible";
+        averageScorePerLifeDiv.style.visibility = "visible";
+    }
+    else{
+        winsDiv.style.visibility = "hidden";
+        winLossRatioDiv.style.visibility = "hidden";
+        averageScorePerKillDiv.style.visibility = "hidden";
+        averageScorePerLifeDiv.style.visibility = "hidden";
+    }
 }
 
 //Need to Alter this!!

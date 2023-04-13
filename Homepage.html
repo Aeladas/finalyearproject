@@ -131,334 +131,184 @@
         </div>
     </div>
 
-    <div>
-        <p id="ProfileStatText">Profile PvE Stats</p>
+    <div class="profileStatBorder">
+        <p id="profileStatBoxTitle">Profile Stats</p>
         <div class="PvPToggle">
-            <p>PvP: </p>
+            <p>PvP Stats: </p>
             <label class="switch">
-                <input type="checkbox">
+                <input id="pvpSwitch" type="checkbox" onclick="testSwitch()">
                 <span class="slider round"></span>
             </label>
         </div>
-        <div>
+        <div class="BestStatsBorder">
             <p id="testStatTitle">Best</p>
-            <div class="TestBestStats">
+            <div class="BestStatsGrid">
                 <div>
                     <p>Highest Character Level</p>
-                    <p>Value</p>
+                    <p class="profileStat" id="highestCharacterLevelStat">Value</p>
                 </div>
                 <div>
                     <p>Highest Power Level</p>
-                    <p>Value</p>
+                    <p class="profileStat" id="highestPowerLevelStat">Value</p>
                 </div>
                 <div>
                     <p>Best Score</p>
-                    <p>Value</p>
+                    <p class="profileStat" id="bestScoreStat">Value</p>
                 </div>
                 <div>
                     <p>Longest Single Life</p>
-                    <p>Value</p>
+                    <p class="profileStat" id="longestSingleLifeStat">Value</p>
                 </div>
                 <div>
                     <p>Best Single Game Kills</p>
-                    <p>Value</p>
+                    <p class="profileStat" id="bestSingleGameKillsStat">Value</p>
                 </div>
                 <div>
                     <p>Most Precision Kills</p>
-                    <p>Value</p>
+                    <p class="profileStat" id="mostPrecisionKillsStat">Value</p>
                 </div>
                 <div>
                     <p>Best Kill Streak</p>
-                    <p>Value</p>
+                    <p class="profileStat" id="bestKillStreakStat">Value</p>
                 </div>
                 <div>
                     <p>Longest Kill Distance</p>
-                    <p>Value</p>
+                    <p class="profileStat" id="longestKillDistanceStat">Value</p>
                 </div>
                 <div>
                     <p>Best Weapon</p>
-                    <p>Value</p>
+                    <p class="profileStat" id="bestWeaponStat">Value</p>
                 </div>
             </div>
         </div>
         <div>
             <p>General</p>
-            <div class="TestGeneralStats">
+            <div class="GeneralStatsGrid">
                 <div>
                     <p>Activities Entered</p>
-                    <p>Value</p>
+                    <p class="profileStat" id="activitiesEnteredStat">Value</p>
                 </div>
                 <div>
                     <p>Activities Cleared</p>
-                    <p>Value</p>
+                    <p class="profileStat" id="activitiesClearedStat">Value</p>
                 </div>
                 <div>
                     <p>Time Played</p>
-                    <p>Value</p>
+                    <p class="profileStat" id="timePlayedStat">Value</p>
                 </div>
                 <div>
                     <p>Score</p>
-                    <p>Value</p>
+                    <p class="profileStat" id="scoreStat">Value</p>
                 </div>
                 <div>
                     <p>Team Score</p>
-                    <p>Value</p>
+                    <p class="profileStat" id="teamScoreStat">Value</p>
                 </div>
                 <div>
                     <p>Objectives Completed</p>
-                    <p>Value</p>
+                    <p class="profileStat" id="objectivesCompletedStat">Value</p>
                 </div>
                 <div>
                     <p>Public Event Completed</p>
-                    <p>Value</p>
+                    <p class="profileStat" id="publicEventCompletedStat">Value</p>
                 </div>
                 <div>
                     <p>Public Events Completed</p>
-                    <p>Value</p>
+                    <p class="profileStat" id="publicEventsCompletedStat">Value</p>
                 </div>
                 <div>
-                    <p>Activities Completed</p>
-                    <p>Value</p>
+                    <p>Adventures Completed</p>
+                    <p class="profileStat" id="adventuresCompletedStat">Value</p>
+                </div>
+                <div id="winsDiv">
+                    <p>Wins</p>
+                    <p class="profileStat" id="winsStat">Value</p>
+                </div>
+                <div id="winLossRatioDiv">
+                    <p>Win/Loss Ratio</p>
+                    <p class="profileStat" id="winLossRatioStat">Value</p>
                 </div>
             </div>
         </div>
         <div>
             <p>Combat</p>
-            <div class="TestCombatStats">
+            <div class="CombatStatsGrid">
                 <div>
-                    <p>Activities Entered</p>
-                    <p>Value</p>
+                    <p>Kills</p>
+                    <p class="profileStat" id="killsStat">Value</p>
                 </div>
                 <div>
-                    <p>Activities Cleared</p>
-                    <p>Value</p>
+                    <p>Deaths</p>
+                    <p class="profileStat" id="deathsStat">Value</p>
                 </div>
                 <div>
-                    <p>Time Played</p>
-                    <p>Value</p>
+                    <p>K/D Ratio</p>
+                    <p class="profileStat" id="killDeathRatioStat">Value</p>
                 </div>
                 <div>
-                    <p>Score</p>
-                    <p>Value</p>
+                    <p>K/D Average</p>
+                    <p class="profileStat" id="killDeathAverageStat">Value</p>
                 </div>
                 <div>
-                    <p>Team Score</p>
-                    <p>Value</p>
+                    <p>Average Kill Distance</p>
+                    <p class="profileStat" id="averageKillDistanceStat">Value</p>
                 </div>
                 <div>
-                    <p>Objectives Completed</p>
-                    <p>Value</p>
+                    <p>Assists</p>
+                    <p class="profileStat" id="assistsStat">Value</p>
                 </div>
                 <div>
-                    <p>Public Event Completed</p>
-                    <p>Value</p>
+                    <p>Precision Kills</p>
+                    <p class="profileStat" id="precisionKillsStat">Value</p>
                 </div>
                 <div>
-                    <p>Public Events Completed</p>
-                    <p>Value</p>
+                    <p>Opponents Defeated</p>
+                    <p class="profileStat" id="opponentsDefeatedStat">Value</p>
                 </div>
                 <div>
-                    <p>Activities Completed</p>
-                    <p>Value</p>
+                    <p>Efficiency</p>
+                    <p class="profileStat" id="efficiencyStat">Value</p>
+                </div>
+                <div>
+                    <p>Suicides</p>
+                    <p class="profileStat" id="suicidesStat">Value</p>
+                </div>
+                <div id="averageScorePerKillDiv">
+                    <p>Average Score per Kill</p>
+                    <p class="profileStat" id="averageScorePerKillStat">Value</p>
+                </div>
+                <div id="averageScorePerLifeDiv">
+                    <p>Average Score per Life</p>
+                    <p class="profileStat" id="averageScorePerLifeStat">Value</p>
                 </div>
             </div>
         </div>
         <div>
             <p>Support</p>
-            <div class="TestSupportStats">
+            <div class="SupportStatsGrid">
                 <div>
-                    <p>Activities Entered</p>
-                    <p>Value</p>
+                    <p>Average Lifespan</p>
+                    <p class="profileStat" id="averageLifespanStat">Value</p>
                 </div>
                 <div>
-                    <p>Activities Cleared</p>
-                    <p>Value</p>
+                    <p>Resurrections</p>
+                    <p class="profileStat" id="resurrectionsStat">Value</p>
                 </div>
                 <div>
-                    <p>Time Played</p>
-                    <p>Value</p>
+                    <p>Resurrections Recieved</p>
+                    <p class="profileStat" id="resurrectionsRecievedStat">Value</p>
                 </div>
                 <div>
-                    <p>Score</p>
-                    <p>Value</p>
+                    <p>Orbs Dropped</p>
+                    <p class="profileStat" id="orbsDroppedStat">Value</p>
                 </div>
                 <div>
-                    <p>Team Score</p>
-                    <p>Value</p>
-                </div>
-                <div>
-                    <p>Objectives Completed</p>
-                    <p>Value</p>
-                </div>
-                <div>
-                    <p>Public Event Completed</p>
-                    <p>Value</p>
-                </div>
-                <div>
-                    <p>Public Events Completed</p>
-                    <p>Value</p>
-                </div>
-                <div>
-                    <p>Activities Completed</p>
-                    <p>Value</p>
+                    <p>Orbs Gathered</p>
+                    <p class="profileStat" id="orbsGatheredStat">Value</p>
                 </div>
             </div>
         </div>
 
-    </div>
-    <div class="profilePVEStatContainer">
-        <p class="profilePVEStatContainerTitle">Profile PvE Stats</p>
-        <div id="profilePVEStatsGrid">
-            <p class="profilePVEStatText" id="PVE_activitiesCleared">Activities Cleared: </p>
-            <p class="profilePVEStatText" id="PVE_activitiesEntered">Activities Entered: </p>
-            <p class="profilePVEStatText" id="PVE_assists">Assists: </p>
-            <p class="profilePVEStatText" id="PVE_totalDeathDistance">Total Death Distance: </p>
-            <p class="profilePVEStatText" id="PVE_averageDeathDistance">Average Death Distance: </p>
-            <p class="profilePVEStatText" id="PVE_totalKillDistance">Total Kill Distance: </p>
-            <p class="profilePVEStatText" id="PVE_kills">Kills: </p>
-            <p class="profilePVEStatText" id="PVE_averageKillDistance">Average Kill Distance: </p>
-            <p class="profilePVEStatText" id="PVE_secondsPlayed">Seconds Played: </p>
-            <p class="profilePVEStatText" id="PVE_deaths">Deaths: </p>
-            <p class="profilePVEStatText" id="PVE_averageLifespan">Average Lifespan: </p>
-            <p class="profilePVEStatText" id="PVE_bestSingleGameKills">Best Single Game Kills: </p>
-            <p class="profilePVEStatText" id="PVE_bestSingleGameScore">Best Single Game Score: </p>
-            <p class="profilePVEStatText" id="PVE_opponentsDefeated">Opponents Defeated: </p>
-            <p class="profilePVEStatText" id="PVE_efficiency">Efficiency: </p>
-            <p class="profilePVEStatText" id="PVE_killsDeathsRatio">Kill to Death Ratio: </p>
-            <p class="profilePVEStatText" id="PVE_killsDeathsAssists">Kill to Death Assists: </p>
-            <p class="profilePVEStatText" id="PVE_objectivesCompleted">Objectives Completed: </p>
-            <p class="profilePVEStatText" id="PVE_precisionKills">Precision Kills: </p>
-            <p class="profilePVEStatText" id="PVE_resurrectionsPerformed">Resurrections Performed: </p>
-            <p class="profilePVEStatText" id="PVE_resurrectionsReceived">Resurrections Recieved: </p>
-            <p class="profilePVEStatText" id="PVE_score">Score: </p>
-            <p class="profilePVEStatText" id="PVE_heroicPublicEventsCompleted">Heroic Public Events Completed: </p>
-            <p class="profilePVEStatText" id="PVE_adventuresCompleted">Adventures Completed: </p>
-            <p class="profilePVEStatText" id="PVE_suicides">Suicides: </p>
-            <p class="profilePVEStatText" id="PVE_weaponKillsAutoRifle">Weapon Kills Auto Rifle: </p>
-            <p class="profilePVEStatText" id="PVE_weaponKillsBeamRifle">Weapon Kills Beam Rifle: </p>
-            <p class="profilePVEStatText" id="PVE_weaponKillsBow">Weapon Kills Bow: </p>
-            <p class="profilePVEStatText" id="PVE_weaponKillsGlaive">Weapon Kills Glaive: </p>
-            <p class="profilePVEStatText" id="PVE_weaponKillsFusionRifle">Weapon Kills Fusion Rifle: </p>
-            <p class="profilePVEStatText" id="PVE_weaponKillsHandCannon">Weapon Kills Hand Cannon: </p>
-            <p class="profilePVEStatText" id="PVE_weaponKillsTraceRifle">Weapon Kills Trace Rifle: </p>
-            <p class="profilePVEStatText" id="PVE_weaponKillsMachineGun">Weapon Kills Machine Gun: </p>
-            <p class="profilePVEStatText" id="PVE_weaponKillsPulseRifle">Weapon Kills Pulse Rifle: </p>
-            <p class="profilePVEStatText" id="PVE_weaponKillsRocketLauncher">Weapon Kills Rocket Launcher: </p>
-            <p class="profilePVEStatText" id="PVE_weaponKillsScoutRifle">Weapon Kills Scout Rifle: </p>
-            <p class="profilePVEStatText" id="PVE_weaponKillsShotgun">Weapon Kills Shotgun: </p>
-            <p class="profilePVEStatText" id="PVE_weaponKillsSniper">Weapon Kills Sniper: </p>
-            <p class="profilePVEStatText" id="PVE_weaponKillsSubmachinegun">Weapon Kills SMG: </p>
-            <p class="profilePVEStatText" id="PVE_weaponKillsRelic">Weapon Kills Relic: </p>
-            <p class="profilePVEStatText" id="PVE_weaponKillsSideArm">Weapon Kills Side Arm: </p>
-            <p class="profilePVEStatText" id="PVE_weaponKillsSword">Weapon Kills Sword: </p>
-            <p class="profilePVEStatText" id="PVE_weaponKillsAbility">Weapon Kills Ability: </p>
-            <p class="profilePVEStatText" id="PVE_weaponKillsGrenade">Weapon Kills Grenade: </p>
-            <p class="profilePVEStatText" id="PVE_weaponKillsGrenadeLauncher">Weapon Kills Grenade Launcher: </p>
-            <p class="profilePVEStatText" id="PVE_weaponKillsSuper">Weapon Kills Super: </p>
-            <p class="profilePVEStatText" id="PVE_weaponKillsMelee">Weapon Kills Melee: </p>
-            <p class="profilePVEStatText" id="PVE_weaponBestType">Best Weapon: </p>
-            <p class="profilePVEStatText" id="PVE_allParticipantsCount">All Participants Count: </p>
-            <p class="profilePVEStatText" id="PVE_allParticipantsScore">All Participants Score: </p>
-            <p class="profilePVEStatText" id="PVE_allParticipantsTimePlayed">All Participants Time Played: </p>
-            <p class="profilePVEStatText" id="PVE_longestKillSpree">Longest Kill Spree: </p>
-            <p class="profilePVEStatText" id="PVE_longestSingleLife">Longest Single Life: </p>
-            <p class="profilePVEStatText" id="PVE_mostPrecisionKills">Most Precision Kills: </p>
-            <p class="profilePVEStatText" id="PVE_orbsDropped">Orbs Dropped: </p>
-            <p class="profilePVEStatText" id="PVE_orbsGathered">Orbs Gathered: </p>
-            <p class="profilePVEStatText" id="PVE_publicEventsCompleted">Public Events Completed: </p>
-            <p class="profilePVEStatText" id="PVE_remainingTimeAfterQuitSeconds">Remaining Time After Quit Seconds: </p>
-            <p class="profilePVEStatText" id="PVE_teamScore">Team Score: </p>
-            <p class="profilePVEStatText" id="PVE_totalActivityDurationSeconds">Total Activity Duration Seconds: </p>
-            <p class="profilePVEStatText" id="PVE_fastestCompletionMs">Fastest Completion (Ms): </p>
-            <p class="profilePVEStatText" id="PVE_longestKillDistance">Longest Kill Distance: </p>
-            <p class="profilePVEStatText" id="PVE_highestCharacterLevel">Highest Character Level: </p>
-            <p class="profilePVEStatText" id="PVE_highestLightLevel">Highest Light Level: </p>
-            <p class="profilePVEStatText" id="PVE_fireTeamActivities">Fire Team Activities: </p>
-        </div>
-    </div>
-    <div class="profilePVPStatContainer">
-        <p class="profilePVPStatContainerTitle">Profile PvP Stats</p>
-        <div id="profilePVPStatsGrid">
-            <p class="profilePVPStatText" id="PVP_activitiesEntered">Activities Entered: </p>
-            <p class="profilePVPStatText" id="PVP_activitiesWon">Activities Won: </p>
-            <p class="profilePVPStatText" id="PVP_assists">Assists: </p>
-            <p class="profilePVPStatText" id="PVP_totalDeathDistance">Total Death Distance: </p>
-            <p class="profilePVPStatText" id="PVP_averageDeathDistance">Average Death Distance: </p>
-            <p class="profilePVPStatText" id="PVP_totalKillDistance">Total Kill Distance: </p>
-            <p class="profilePVPStatText" id="PVP_kills">Kills: </p>
-            <p class="profilePVPStatText" id="PVP_averageKillDistance">Average Kill Distance: </p>
-            <p class="profilePVPStatText" id="PVP_secondsPlayed">Seconds Played: </p>
-            <p class="profilePVPStatText" id="PVP_deaths">Deaths: </p>
-            <p class="profilePVPStatText" id="PVP_averageLifespan">Average Lifespan: </p>
-            <p class="profilePVPStatText" id="PVP_score">Score: </p>
-            <p class="profilePVPStatText" id="PVP_averageScorePerKill">Average Score per Kill: </p>
-            <p class="profilePVPStatText" id="PVP_averageScorePerLife">Average Score per Life: </p>
-            <p class="profilePVPStatText" id="PVP_bestSingleGameKills">Best Single Game Kills: </p>
-            <p class="profilePVPStatText" id="PVP_bestSingleGameScore">Best Single Game Score: </p>
-            <p class="profilePVPStatText" id="PVP_opponentsDefeated">Opponents Defeated: </p>
-            <p class="profilePVPStatText" id="PVP_efficiency">Efficiency: </p>
-            <p class="profilePVPStatText" id="PVP_killsDeathsRatio">Kill to Death Ratio: </p>
-            <p class="profilePVPStatText" id="PVP_killsDeathsAssists">Kill to Death Assists: </p>
-            <p class="profilePVPStatText" id="PVP_objectivesCompleted">Objectives Completed: </p>
-            <p class="profilePVPStatText" id="PVP_precisionKills">Precision Kills: </p>
-            <p class="profilePVPStatText" id="PVP_resurrectionsPerformed">Resurrections Performed: </p>
-            <p class="profilePVPStatText" id="PVP_resurrectionsReceived">Resurrections Recieved: </p>
-            <p class="profilePVPStatText" id="PVP_suicides">Suicides: </p>
-            <p class="profilePVPStatText" id="PVP_weaponKillsAutoRifle">Weapon Kills Auto Rifle: </p>
-            <p class="profilePVPStatText" id="PVP_weaponKillsBeamRifle">Weapon Kills Beam Rifle: </p>
-            <p class="profilePVPStatText" id="PVP_weaponKillsBow">Weapon Kills Bow: </p>
-            <p class="profilePVPStatText" id="PVP_weaponKillsGlaive">Weapon Kills Glaive: </p>
-            <p class="profilePVPStatText" id="PVP_weaponKillsFusionRifle">Weapon Kills Fusion Rifle: </p>
-            <p class="profilePVPStatText" id="PVP_weaponKillsHandCannon">Weapon Kills Hand Cannon: </p>
-            <p class="profilePVPStatText" id="PVP_weaponKillsTraceRifle">Weapon Kills Trace Rifle: </p>
-            <p class="profilePVPStatText" id="PVP_weaponKillsMachineGun">Weapon Kills Machine Gun: </p>
-            <p class="profilePVPStatText" id="PVP_weaponKillsPulseRifle">Weapon Kills Pulse Rifle: </p>
-            <p class="profilePVPStatText" id="PVP_weaponKillsRocketLauncher">Weapon Kills Rocket Launcher: </p>
-            <p class="profilePVPStatText" id="PVP_weaponKillsScoutRifle">Weapon Kills Scout Rifle: </p>
-            <p class="profilePVPStatText" id="PVP_weaponKillsShotgun">Weapon Kills Shotgun: </p>
-            <p class="profilePVPStatText" id="PVP_weaponKillsSniper">Weapon Kills Sniper: </p>
-            <p class="profilePVPStatText" id="PVP_weaponKillsSubmachinegun">Weapon Kills SMG: </p>
-            <p class="profilePVPStatText" id="PVP_weaponKillsRelic">Weapon Kills Relic: </p>
-            <p class="profilePVPStatText" id="PVP_weaponKillsSideArm">Weapon Kills Side Arm: </p>
-            <p class="profilePVPStatText" id="PVP_weaponKillsSword">Weapon Kills Sword: </p>
-            <p class="profilePVPStatText" id="PVP_weaponKillsAbility">Weapon Kills Ability: </p>
-            <p class="profilePVPStatText" id="PVP_weaponKillsGrenade">Weapon Kills Grenade: </p>
-            <p class="profilePVPStatText" id="PVP_weaponKillsGrenadeLauncher">Weapon Kills Grenade Launcher: </p>
-            <p class="profilePVPStatText" id="PVP_weaponKillsSuper">Weapon Kills Super: </p>
-            <p class="profilePVPStatText" id="PVP_weaponKillsMelee">Weapon Kills Melee: </p>
-            <p class="profilePVPStatText" id="PVP_weaponBestType">Best Weapon: </p>
-            <p class="profilePVPStatText" id="PVP_winLossRatio">Win to Loss Ratio: </p>
-            <p class="profilePVPStatText" id="PVP_allParticipantsCount">All Participants Count: </p>
-            <p class="profilePVPStatText" id="PVP_allParticipantsScore">All Participants Score: </p>
-            <p class="profilePVPStatText" id="PVP_allParticipantsTimePlayed">All Participants Time Played: </p>
-            <p class="profilePVPStatText" id="PVP_longestKillSpree">Longest Kill Spree: </p>
-            <p class="profilePVPStatText" id="PVP_longestSingleLife">Longest Single Life: </p>
-            <p class="profilePVPStatText" id="PVP_mostPrecisionKills">Most Precision Kills: </p>
-            <p class="profilePVPStatText" id="PVP_orbsDropped">Orbs Dropped: </p>
-            <p class="profilePVPStatText" id="PVP_orbsGathered">Orbs Gathered: </p>
-            <p class="profilePVPStatText" id="PVP_remainingTimeAfterQuitSeconds">Remaining Time After Quit Seconds: </p>
-            <p class="profilePVPStatText" id="PVP_teamScore">Team Score: </p>
-            <p class="profilePVPStatText" id="PVP_totalActivityDurationSeconds">Total Activity Duration Seconds: </p>
-            <p class="profilePVPStatText" id="PVP_combatRating">Combat Rating: </p>
-            <p class="profilePVPStatText" id="PVP_fastestCompletionMs">Fastest Completion (Ms): </p>
-            <p class="profilePVPStatText" id="PVP_longestKillDistance">Longest Kill Distance: </p>
-            <p class="profilePVPStatText" id="PVP_highestCharacterLevel">Highest Character Level: </p>
-            <p class="profilePVPStatText" id="PVP_highestLightLevel">Highest Light Level: </p>
-            <p class="profilePVPStatText" id="PVP_fireTeamActivities">Fire Team Activities: </p>
-        </div>
-    </div>
-
-
-
-    <div data-v-65b7fd66="" class="numbers">
-        <span data-v-65b7fd66="" title="Best Single Game Kills" class="name">Best Single Game Kills</span>
-        <!---->
-        <span data-v-65b7fd66="" class="value">355</span>
-        <!---->
-        <div data-v-65b7fd66="" class="bottom">
-            <!---->
-            <!---->
-        </div>
     </div>
 </body>
 </html>

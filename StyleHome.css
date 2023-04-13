@@ -136,6 +136,15 @@
     height:fit-content;
 }
 
+.profileStatBorder{
+    outline-style: solid;
+    outline-color: black;
+}
+
+#profileStatBoxTitle{
+    margin-left: 2%;
+    font-weight: bold;
+}
 .PvPToggle
 {
     display:flex;
@@ -203,66 +212,35 @@
     border-radius: 50%;
   }
 
-.TestBestStats{
+.BestStatsGrid{
     display: grid;
     grid-template-columns: auto auto auto auto auto auto auto auto;
 }
-.TestGeneralStats{
+.GeneralStatsGrid{
     display: grid;
     grid-template-columns: auto auto auto auto auto auto auto auto;
 }
-.TestCombatStats{
+#winsDiv{
+    visibility: hidden;
+}
+#winLossRatioDiv{
+    visibility: hidden;
+}
+.CombatStatsGrid{
     display: grid;
     grid-template-columns: auto auto auto auto auto auto auto auto;
 }
-.TestSupportStats{
+#averageScorePerKillDiv{
+    visibility: hidden;
+}
+#averageScorePerLifeDiv{
+    visibility: hidden;
+}
+.SupportStatsGrid{
     display: grid;
     grid-template-columns: auto auto auto auto auto auto auto auto;
 }
 
-
-
-
-
-.profilePVEStatContainer{
-    width: fit-content;
-    height: fit-content;
-    outline-style: solid;
-}
-.profilePVEStatContainerTitle{
-    width: fit-content;
-    height: fit-content;
-    margin-left:20%;
-    margin-bottom:5%;
-    font-style:normal;
-    font-weight: bold;
-    text-align: center;
-}
-#profilePVEStatsGrid{
-    display: grid;
-    grid-template-columns: auto auto auto auto auto auto auto auto auto auto auto auto auto;
-    grid-template-columns: fit-content;
-}
-
-.profilePVPStatContainer{
-    width: fit-content;
-    height: fit-content;
-    outline-style: solid;
-}
-.profilePVPStatContainerTitle{
-    width: fit-content;
-    height: fit-content;
-    margin-left:20%;
-    margin-bottom:5%;
-    font-style:normal;
-    font-weight: bold;
-    text-align: center;
-}
-#profilePVPStatsGrid{
-    display: grid;
-    grid-template-columns: auto auto auto auto auto auto auto auto auto auto auto auto auto;
-    grid-template-columns: fit-content;
-}
 
 /*region EquipmentContainer*/
 .weaponsContainer{
