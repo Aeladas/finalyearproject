@@ -10,27 +10,25 @@
 <body>
     <h1 id="title">Destiny 2 Stat Tracker</h1>
 
-    <div class="searchBox">
-        <h2>Player Search</h2>
-        <form id="userSearchForm" onsubmit="return false">
-            <p id="playerNameLabel">Player Name: </p>
-            <input id="testInputBox" class="search" placeholder="JohnSmith"/>
-            <button id="UserInfoTest" type="button" onclick="searchForUser()">Search</button>    
-        </form>
+    <div class="searchAndLoginDiv">
+        <div class="searchBox">
+            <h2>Player Search</h2>
+            <form id="userSearchForm" onsubmit="return false">
+                <p id="playerNameLabel">Player Name: </p>
+                <input id="testInputBox" class="search" placeholder="JohnSmith"/>
+                <button id="UserInfoTest" type="button" onclick="searchForUser()">Search</button>
+            </form>
+        </div>
+        <div class="loginButtonBox">
+            <button id="loginButton" type="button" onclick="loginToAccount(event); return false;">Login</button>
+            <button id="tester" type="button" onclick="Tester()">Test</button>
+        </div>
     </div>
-    <button id="loginButton" type="button" onclick="loginToAccount(event); return false;">Login</button>
-    <button id="tester" type="button" onclick="Tester()">Test</button>
+
     <div class="historyBox">
         <h3 id="searchResultsTitle">Recent Searches</h3>
         <div id="searchResultsBox"></div>
     </div>
-
-    <div class="StatButtons">
-        <button type="button" onclick="GetGeneralStats()">General Stats</button>
-        <button type="button" onclick="GetWeaponStats()">Weapon Stats</button>
-    </div>
-
-    <p id="TestPara">Hello</p>
 
     <div class="parentGrid">
         <div class="charactersContainer">
@@ -140,171 +138,171 @@
                 <span class="slider round"></span>
             </label>
         </div>
-        <div class="BestStatsBorder">
+        <div class="bestStatsBorder">
             <p id="testStatTitle">Best</p>
             <div class="BestStatsGrid">
                 <div>
                     <p>Highest Character Level</p>
-                    <p class="profileStat" id="highestCharacterLevelStat">Value</p>
+                    <p class="profileStat" id="highestCharacterLevelStat"></p>
                 </div>
                 <div>
                     <p>Highest Power Level</p>
-                    <p class="profileStat" id="highestPowerLevelStat">Value</p>
+                    <p class="profileStat" id="highestPowerLevelStat"></p>
                 </div>
                 <div>
                     <p>Best Score</p>
-                    <p class="profileStat" id="bestScoreStat">Value</p>
+                    <p class="profileStat" id="bestScoreStat"></p>
                 </div>
                 <div>
                     <p>Longest Single Life</p>
-                    <p class="profileStat" id="longestSingleLifeStat">Value</p>
+                    <p class="profileStat" id="longestSingleLifeStat"></p>
                 </div>
                 <div>
                     <p>Best Single Game Kills</p>
-                    <p class="profileStat" id="bestSingleGameKillsStat">Value</p>
+                    <p class="profileStat" id="bestSingleGameKillsStat"></p>
                 </div>
                 <div>
                     <p>Most Precision Kills</p>
-                    <p class="profileStat" id="mostPrecisionKillsStat">Value</p>
+                    <p class="profileStat" id="mostPrecisionKillsStat"></p>
                 </div>
                 <div>
                     <p>Best Kill Streak</p>
-                    <p class="profileStat" id="bestKillStreakStat">Value</p>
+                    <p class="profileStat" id="bestKillStreakStat"></p>
                 </div>
                 <div>
                     <p>Longest Kill Distance</p>
-                    <p class="profileStat" id="longestKillDistanceStat">Value</p>
+                    <p class="profileStat" id="longestKillDistanceStat"></p>
                 </div>
                 <div>
                     <p>Best Weapon</p>
-                    <p class="profileStat" id="bestWeaponStat">Value</p>
+                    <p class="profileStat" id="bestWeaponStat"></p>
                 </div>
             </div>
         </div>
-        <div>
+        <div class="generalStatsBorder">
             <p>General</p>
             <div class="GeneralStatsGrid">
                 <div>
                     <p>Activities Entered</p>
-                    <p class="profileStat" id="activitiesEnteredStat">Value</p>
+                    <p class="profileStat" id="activitiesEnteredStat"></p>
                 </div>
                 <div>
                     <p>Activities Cleared</p>
-                    <p class="profileStat" id="activitiesClearedStat">Value</p>
+                    <p class="profileStat" id="activitiesClearedStat"></p>
                 </div>
                 <div>
                     <p>Time Played</p>
-                    <p class="profileStat" id="timePlayedStat">Value</p>
+                    <p class="profileStat" id="timePlayedStat"></p>
                 </div>
                 <div>
                     <p>Score</p>
-                    <p class="profileStat" id="scoreStat">Value</p>
+                    <p class="profileStat" id="scoreStat"></p>
                 </div>
                 <div>
                     <p>Team Score</p>
-                    <p class="profileStat" id="teamScoreStat">Value</p>
+                    <p class="profileStat" id="teamScoreStat"></p>
                 </div>
                 <div>
                     <p>Objectives Completed</p>
-                    <p class="profileStat" id="objectivesCompletedStat">Value</p>
+                    <p class="profileStat" id="objectivesCompletedStat"></p>
                 </div>
                 <div>
                     <p>Public Event Completed</p>
-                    <p class="profileStat" id="publicEventCompletedStat">Value</p>
+                    <p class="profileStat" id="publicEventCompletedStat"></p>
                 </div>
                 <div>
                     <p>Public Events Completed</p>
-                    <p class="profileStat" id="publicEventsCompletedStat">Value</p>
+                    <p class="profileStat" id="publicEventsCompletedStat"></p>
                 </div>
                 <div>
                     <p>Adventures Completed</p>
-                    <p class="profileStat" id="adventuresCompletedStat">Value</p>
+                    <p class="profileStat" id="adventuresCompletedStat"></p>
                 </div>
                 <div id="winsDiv">
                     <p>Wins</p>
-                    <p class="profileStat" id="winsStat">Value</p>
+                    <p class="profileStat" id="winsStat"></p>
                 </div>
                 <div id="winLossRatioDiv">
                     <p>Win/Loss Ratio</p>
-                    <p class="profileStat" id="winLossRatioStat">Value</p>
+                    <p class="profileStat" id="winLossRatioStat"></p>
                 </div>
             </div>
         </div>
-        <div>
+        <div class="combatStatsBorder">
             <p>Combat</p>
             <div class="CombatStatsGrid">
                 <div>
                     <p>Kills</p>
-                    <p class="profileStat" id="killsStat">Value</p>
+                    <p class="profileStat" id="killsStat"></p>
                 </div>
                 <div>
                     <p>Deaths</p>
-                    <p class="profileStat" id="deathsStat">Value</p>
+                    <p class="profileStat" id="deathsStat"></p>
                 </div>
                 <div>
                     <p>K/D Ratio</p>
-                    <p class="profileStat" id="killDeathRatioStat">Value</p>
+                    <p class="profileStat" id="killDeathRatioStat"></p>
                 </div>
                 <div>
                     <p>K/D Average</p>
-                    <p class="profileStat" id="killDeathAverageStat">Value</p>
+                    <p class="profileStat" id="killDeathAverageStat"></p>
                 </div>
                 <div>
                     <p>Average Kill Distance</p>
-                    <p class="profileStat" id="averageKillDistanceStat">Value</p>
+                    <p class="profileStat" id="averageKillDistanceStat"></p>
                 </div>
                 <div>
                     <p>Assists</p>
-                    <p class="profileStat" id="assistsStat">Value</p>
+                    <p class="profileStat" id="assistsStat"></p>
                 </div>
                 <div>
                     <p>Precision Kills</p>
-                    <p class="profileStat" id="precisionKillsStat">Value</p>
+                    <p class="profileStat" id="precisionKillsStat"></p>
                 </div>
                 <div>
                     <p>Opponents Defeated</p>
-                    <p class="profileStat" id="opponentsDefeatedStat">Value</p>
+                    <p class="profileStat" id="opponentsDefeatedStat"></p>
                 </div>
                 <div>
                     <p>Efficiency</p>
-                    <p class="profileStat" id="efficiencyStat">Value</p>
+                    <p class="profileStat" id="efficiencyStat"></p>
                 </div>
                 <div>
                     <p>Suicides</p>
-                    <p class="profileStat" id="suicidesStat">Value</p>
+                    <p class="profileStat" id="suicidesStat"></p>
                 </div>
                 <div id="averageScorePerKillDiv">
                     <p>Average Score per Kill</p>
-                    <p class="profileStat" id="averageScorePerKillStat">Value</p>
+                    <p class="profileStat" id="averageScorePerKillStat"></p>
                 </div>
                 <div id="averageScorePerLifeDiv">
                     <p>Average Score per Life</p>
-                    <p class="profileStat" id="averageScorePerLifeStat">Value</p>
+                    <p class="profileStat" id="averageScorePerLifeStat"></p>
                 </div>
             </div>
         </div>
-        <div>
+        <div class="supoortStatsBorder">
             <p>Support</p>
             <div class="SupportStatsGrid">
                 <div>
                     <p>Average Lifespan</p>
-                    <p class="profileStat" id="averageLifespanStat">Value</p>
+                    <p class="profileStat" id="averageLifespanStat"></p>
                 </div>
                 <div>
                     <p>Resurrections</p>
-                    <p class="profileStat" id="resurrectionsStat">Value</p>
+                    <p class="profileStat" id="resurrectionsStat"></p>
                 </div>
                 <div>
                     <p>Resurrections Recieved</p>
-                    <p class="profileStat" id="resurrectionsRecievedStat">Value</p>
+                    <p class="profileStat" id="resurrectionsRecievedStat"></p>
                 </div>
                 <div>
                     <p>Orbs Dropped</p>
-                    <p class="profileStat" id="orbsDroppedStat">Value</p>
+                    <p class="profileStat" id="orbsDroppedStat"></p>
                 </div>
                 <div>
                     <p>Orbs Gathered</p>
-                    <p class="profileStat" id="orbsGatheredStat">Value</p>
+                    <p class="profileStat" id="orbsGatheredStat"></p>
                 </div>
             </div>
         </div>

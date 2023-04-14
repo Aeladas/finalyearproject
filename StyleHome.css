@@ -10,9 +10,18 @@
     text-decoration: underline;
 }
 
+.searchAndLoginDiv{
+    display:flex;
+}
+
 .searchBox{
     width: fit-content;
     outline-style: solid;
+
+}
+
+.loginButtonBox{
+    margin-left: 2%;
 }
 
 .historyBox{
@@ -145,8 +154,7 @@
     margin-left: 2%;
     font-weight: bold;
 }
-.PvPToggle
-{
+.PvPToggle{
     display:flex;
 }
 
