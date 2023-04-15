@@ -266,18 +266,21 @@ function pvpStatSwitch(){
     let winLossRatioDiv = document.getElementById("winLossRatioDiv");
     let averageScorePerKillDiv = document.getElementById("averageScorePerKillDiv");
     let averageScorePerLifeDiv = document.getElementById("averageScorePerLifeDiv");
+    let combatRatingDiv = document.getElementById("combatRatingDiv");
     let pvpSwitch = document.getElementById("pvpSwitch");
     if (pvpSwitch.checked){
         winsDiv.style.visibility = "visible";
         winLossRatioDiv.style.visibility = "visible";
         averageScorePerKillDiv.style.visibility = "visible";
         averageScorePerLifeDiv.style.visibility = "visible";
+        combatRatingDiv.style.visibility = "visible";
     }
     else{
         winsDiv.style.visibility = "hidden";
         winLossRatioDiv.style.visibility = "hidden";
         averageScorePerKillDiv.style.visibility = "hidden";
         averageScorePerLifeDiv.style.visibility = "hidden";
+        combatRatingDiv.style.visibility = "hidden";
     }
 }
 
@@ -315,21 +318,27 @@ async function getCharacterEquipment(idIndex) {
     const equipmentJsonData = await equipmentResponse.json();
     equipmentItems = equipmentJsonData.Response.equipment.data.items;
     updateItems(itemDefinitionData, equipmentItems);
+    getCharacterInventory(idIndex);
 }
 
 async function getCharacterInventory(idIndex) {
-    ///Platform/Destiny2/3/Profile/4611686018523938391/Character/2305843010090644510/?components=201
-    let characterId = characterIds[idIndex];
-    let characterInventoryRequestUrl = baseUrl + platformIndex + "/Profile/" + currentPlayerMembershipId + "/Character/" + characterId + "/?components=201";
 
-    const inventoryResponse = await fetch(characterInventoryRequestUrl, {
-        method: 'GET', headers: {
-            'Content-Type': 'application/json;charset=UTF-8',
-            'X-API-Key': apiKey
-        }
-    });
-    const inventoryJsonData = await inventoryResponse.json();
-    console.log(inventoryJsonData);
+    if (window.location.search == ""){
+        alert("Please Sign in to Bungie!");
+    }
+    else{
+        ///Platform/Destiny2/3/Profile/4611686018523938391/Character/2305843010090644510/?components=201
+        let characterId = characterIds[idIndex];
+        let characterInventoryRequestUrl = baseUrl + platformIndex + "/Profile/" + currentPlayerMembershipId + "/Character/" + characterId + "/?components=201";
+        const inventoryResponse = await fetch(characterInventoryRequestUrl, {
+            method: 'GET', headers: {
+                'Content-Type': 'application/json;charset=UTF-8',
+                'X-API-Key': apiKey
+            }
+        });
+        const inventoryJsonData = await inventoryResponse.json();
+        console.log(inventoryJsonData);
+    }
 }
 
 // SUB FUNCTIONS

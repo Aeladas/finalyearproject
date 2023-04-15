@@ -244,6 +244,9 @@
 #averageScorePerLifeDiv{
     visibility: hidden;
 }
+#combatRatingDiv{
+    visibility: hidden;
+}
 .SupportStatsGrid{
     display: grid;
     grid-template-columns: auto auto auto auto auto auto auto auto;
