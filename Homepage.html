@@ -5,7 +5,8 @@
     <meta charset="utf-8" />
     <title>Destiny 2 Stat Tracker - Honours Project</title>
     <link rel="stylesheet" href="StyleHome.css" />
-    <script src="JavaScript1.js">hello</script>
+    <script src="JavaScript1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 </head>
 <body>
     <h1 id="title">Destiny 2 Stat Tracker</h1>
@@ -22,6 +23,7 @@
         <div class="loginButtonBox">
             <button id="loginButton" type="button" onclick="loginToAccount(event); return false;">Login</button>
             <button id="tester" type="button" onclick="Tester()">Test</button>
+            <button type="button" onclick="DrawGraphs()">Graph</button>
         </div>
     </div>
 
@@ -312,5 +314,7 @@
         </div>
 
     </div>
+
+    <canvas id="myChart" style="width:100%;max-width:700px"></canvas>
 </body>
 </html>
