@@ -14,8 +14,10 @@ var manifestJsonData = null;
 var itemDefinitionData = null;
 var statsDefinitionData = null;
 
-let pveStatData = null;
-let pvpStatData = null;
+let pveGeneralStatData = null;
+let pvpGeneralStatData = null;
+let pveWeaponStatData = null;
+let pvpWeaponStatData = null;
 
 async function searchForUser() {
     if (manifestJsonData == null && itemDefinitionData == null && statsDefinitionData == null) {
@@ -134,133 +136,144 @@ async function getCharacterInfo() {
 
 async function getProfileStats() {
     let statCollection = document.getElementsByClassName("profileStat");
-    let searchGroup = 1;
-    let profileStatsUrl = baseUrl + currentPlayerMembershipType + "/Account/"+currentPlayerMembershipId + "/Stats/?groups="+searchGroup;
-    const response = await fetch(profileStatsUrl, { method: 'GET', headers: {
+    let generalSearchGroup = 1;
+    let weaponSearchGroup = 2;
+    let activitySearchGroup = 102;
+    let profileStatsUrl = baseUrl + currentPlayerMembershipType + "/Account/"+currentPlayerMembershipId + "/Stats/?groups="+generalSearchGroup;
+    let profileWeaponStatsUrl = baseUrl + currentPlayerMembershipType + "/Account/"+currentPlayerMembershipId + "/Stats/?groups="+weaponSearchGroup;
+    const generalSearchResponse = await fetch(profileStatsUrl, { method: 'GET', headers: {
         'Content-Type': 'application/json;charset=UTF-8',
         'X-API-Key': apiKey
     } });
-    const data = await response.json();
+    const weaponSearchResponse = await fetch(profileStatsUrl, { method: 'GET', headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+        'X-API-Key': apiKey
+    } });
+    const generalStatData = await generalSearchResponse.json();
+    const weaponStatData = await weaponSearchResponse.json();
+    console.log(weaponStatData);
     //console.log(data);    
-    pveStatData = data.Response.mergedAllCharacters.results.allPvE.allTime;
-    pvpStatData = data.Response.mergedAllCharacters.results.allPvP.allTime;
-    //console.log(pveStatData);
-    console.log(pvpStatData);
+    pveGeneralStatData = generalStatData.Response.mergedAllCharacters.results.allPvE.allTime;
+    pvpGeneralStatData = generalStatData.Response.mergedAllCharacters.results.allPvP.allTime;
+    pveWeaponStatData = weaponStatData.Response.mergedAllCharacters.results.allPvE.allTime;
+    pvpWeaponStatData = generalStatData.Response.mergedAllCharacters.results.allPvP.allTime;
+    //console.log(pveGeneralStatData);
+    //console.log(pvpGeneralStatData);
     for(let index = 0; index < statCollection.length;index++){
         switch(statCollection[index].id){
             case "highestCharacterLevelStat":
-                statCollection[index].innerHTML = pveStatData.highestCharacterLevel.basic.displayValue;
+                statCollection[index].innerHTML = pveGeneralStatData.highestCharacterLevel.basic.displayValue;
                 break;
             case "highestPowerLevelStat":
-                statCollection[index].innerHTML = pveStatData.highestLightLevel.basic.displayValue;
+                statCollection[index].innerHTML = pveGeneralStatData.highestLightLevel.basic.displayValue;
                 break;
             case "bestScoreStat":
-                statCollection[index].innerHTML = pveStatData.score.basic.displayValue;
+                statCollection[index].innerHTML = pveGeneralStatData.score.basic.displayValue;
                 break;
             case "longestSingleLifeStat":
-                statCollection[index].innerHTML = pveStatData.longestSingleLife.basic.displayValue;
+                statCollection[index].innerHTML = pveGeneralStatData.longestSingleLife.basic.displayValue;
                 break;
             case "bestSingleGameKillsStat":
-                statCollection[index].innerHTML = pveStatData.bestSingleGameKills.basic.displayValue;
+                statCollection[index].innerHTML = pveGeneralStatData.bestSingleGameKills.basic.displayValue;
                 break;
             case "mostPrecisionKillsStat":
-                statCollection[index].innerHTML = pveStatData.mostPrecisionKills.basic.displayValue;
+                statCollection[index].innerHTML = pveGeneralStatData.mostPrecisionKills.basic.displayValue;
                 break;
             case "bestKillStreakStat":
-                statCollection[index].innerHTML = pveStatData.longestKillSpree.basic.displayValue;
+                statCollection[index].innerHTML = pveGeneralStatData.longestKillSpree.basic.displayValue;
                 break;
             case "longestKillDistanceStat":
-                statCollection[index].innerHTML = pveStatData.longestKillDistance.basic.displayValue + "m";
+                statCollection[index].innerHTML = pveGeneralStatData.longestKillDistance.basic.displayValue + "m";
                 break;
             case "bestWeaponStat":
-                statCollection[index].innerHTML = pveStatData.weaponBestType.basic.displayValue;
+                statCollection[index].innerHTML = pveGeneralStatData.weaponBestType.basic.displayValue;
                 break;
             case "activitiesEnteredStat":
-                statCollection[index].innerHTML = pveStatData.activitiesEntered.basic.displayValue;
+                statCollection[index].innerHTML = pveGeneralStatData.activitiesEntered.basic.displayValue;
                 break;
             case "activitiesClearedStat":
-                statCollection[index].innerHTML = pveStatData.activitiesCleared.basic.displayValue;
+                statCollection[index].innerHTML = pveGeneralStatData.activitiesCleared.basic.displayValue;
                 break;
             case "timePlayedStat":
-                statCollection[index].innerHTML = pveStatData.secondsPlayed.basic.displayValue;
+                statCollection[index].innerHTML = pveGeneralStatData.secondsPlayed.basic.displayValue;
                 break;
             case "scoreStat":
-                statCollection[index].innerHTML = pveStatData.score.basic.displayValue;
+                statCollection[index].innerHTML = pveGeneralStatData.score.basic.displayValue;
                 break;
             case "teamScoreStat":
-                statCollection[index].innerHTML = pveStatData.teamScore.basic.displayValue;
+                statCollection[index].innerHTML = pveGeneralStatData.teamScore.basic.displayValue;
                 break;
             case "objectivesCompletedStat":
-                statCollection[index].innerHTML = pveStatData.objectivesCompleted.basic.displayValue;
+                statCollection[index].innerHTML = pveGeneralStatData.objectivesCompleted.basic.displayValue;
                 break;
             case "publicEventCompletedStat":
-                statCollection[index].innerHTML = pveStatData.publicEventsCompleted.basic.displayValue;   //Needs Changing
+                statCollection[index].innerHTML = pveGeneralStatData.publicEventsCompleted.basic.displayValue;   //Needs Changing
                 break;
             case "publicEventsCompletedStat":
-                statCollection[index].innerHTML = pveStatData.publicEventsCompleted.basic.displayValue;
+                statCollection[index].innerHTML = pveGeneralStatData.publicEventsCompleted.basic.displayValue;
                 break;
             case "adventuresCompletedStat":
-                statCollection[index].innerHTML = pveStatData.adventuresCompleted.basic.displayValue;
+                statCollection[index].innerHTML = pveGeneralStatData.adventuresCompleted.basic.displayValue;
                 break;
             case "winsStat":
-                statCollection[index].innerHTML = pvpStatData.winLossRatio.basic.displayValue;
+                statCollection[index].innerHTML = pvpGeneralStatData.winLossRatio.basic.displayValue;
                 break;
             case "winLossRatioStat":
-                statCollection[index].innerHTML = pvpStatData.winLossRatio.basic.displayValue;
+                statCollection[index].innerHTML = pvpGeneralStatData.winLossRatio.basic.displayValue;
                 break;
             case "combatRatingStat":
-                statCollection[index].innerHTML = pvpStatData.combatRating.basic.displayValue;
+                statCollection[index].innerHTML = pvpGeneralStatData.combatRating.basic.displayValue;
                 break;
             case "killsStat":
-                statCollection[index].innerHTML = pveStatData.kills.basic.displayValue;
+                statCollection[index].innerHTML = pveGeneralStatData.kills.basic.displayValue;
                 break;
             case "deathsStat":
-                statCollection[index].innerHTML = pveStatData.deaths.basic.displayValue;
+                statCollection[index].innerHTML = pveGeneralStatData.deaths.basic.displayValue;
                 break;
             case "killDeathRatioStat":
-                statCollection[index].innerHTML = pveStatData.killsDeathsRatio.basic.displayValue;
+                statCollection[index].innerHTML = pveGeneralStatData.killsDeathsRatio.basic.displayValue;
                 break;
             case "killDeathAverageStat":
-                statCollection[index].innerHTML = pvpStatData.killsDeathsRatio.basic.displayValue;
+                statCollection[index].innerHTML = pvpGeneralStatData.killsDeathsRatio.basic.displayValue;
                 break;
             case "averageKillDistanceStat":
-                statCollection[index].innerHTML = pveStatData.averageKillDistance.basic.displayValue;
+                statCollection[index].innerHTML = pveGeneralStatData.averageKillDistance.basic.displayValue;
                 break;
             case "assistsStat":
-                statCollection[index].innerHTML = pveStatData.assists.basic.displayValue;
+                statCollection[index].innerHTML = pveGeneralStatData.assists.basic.displayValue;
                 break;
             case "precisionKillsStat":
-                statCollection[index].innerHTML = pveStatData.precisionKills.basic.displayValue;
+                statCollection[index].innerHTML = pveGeneralStatData.precisionKills.basic.displayValue;
                 break;
             case "opponentsDefeatedStat":
-                statCollection[index].innerHTML = pveStatData.opponentsDefeated.basic.displayValue;
+                statCollection[index].innerHTML = pveGeneralStatData.opponentsDefeated.basic.displayValue;
                 break;
             case "efficiencyStat":
-                statCollection[index].innerHTML = pveStatData.efficiency.basic.displayValue;
+                statCollection[index].innerHTML = pveGeneralStatData.efficiency.basic.displayValue;
                 break;
             case "suicidesStat":
-                statCollection[index].innerHTML = pveStatData.suicides.basic.displayValue;
+                statCollection[index].innerHTML = pveGeneralStatData.suicides.basic.displayValue;
                 break;
             case "averageScorePerKillStat":
-                statCollection[index].innerHTML = pvpStatData.averageScorePerKill.basic.displayValue;
+                statCollection[index].innerHTML = pvpGeneralStatData.averageScorePerKill.basic.displayValue;
                 break;
             case "averageScorePerLifeStat":
-                statCollection[index].innerHTML = pvpStatData.averageScorePerLife.basic.displayValue;
+                statCollection[index].innerHTML = pvpGeneralStatData.averageScorePerLife.basic.displayValue;
                 break;
             case "averageLifespanStat":
-                statCollection[index].innerHTML = pveStatData.averageLifespan.basic.displayValue;
+                statCollection[index].innerHTML = pveGeneralStatData.averageLifespan.basic.displayValue;
                 break;
             case "resurrectionsStat":
-                statCollection[index].innerHTML = pveStatData.resurrectionsPerformed.basic.displayValue;
+                statCollection[index].innerHTML = pveGeneralStatData.resurrectionsPerformed.basic.displayValue;
                 break;
             case "resurrectionsRecievedStat":
-                statCollection[index].innerHTML = pveStatData.resurrectionsReceived.basic.displayValue;
+                statCollection[index].innerHTML = pveGeneralStatData.resurrectionsReceived.basic.displayValue;
                 break;
             case "orbsDroppedStat":
-                statCollection[index].innerHTML = pveStatData.orbsDropped.basic.displayValue;
+                statCollection[index].innerHTML = pveGeneralStatData.orbsDropped.basic.displayValue;
                 break;
             case "orbsGatheredStat":
-                statCollection[index].innerHTML = pveStatData.orbsGathered.basic.displayValue;
+                statCollection[index].innerHTML = pveGeneralStatData.orbsGathered.basic.displayValue;
                 break;
         }
     }
@@ -299,45 +312,45 @@ function pvpStatSwitch(){
         for (let indexForSwitch = 0; indexForSwitch < statCollectionForSwitch.length; indexForSwitch++) {
             switch (statCollectionForSwitch[indexForSwitch].id) {
                 case "bestScoreStat":
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pveStatData.score.basic.displayValue;
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pveGeneralStatData.score.basic.displayValue;
                     break;
                 case "longestSingleLifeStat":
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pveStatData.longestSingleLife.basic.displayValue;
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pveGeneralStatData.longestSingleLife.basic.displayValue;
                     break;
                 case "bestSingleGameKillsStat":
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pveStatData.bestSingleGameKills.basic.displayValue;
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pveGeneralStatData.bestSingleGameKills.basic.displayValue;
                     break;
                 case "mostPrecisionKillsStat":
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pveStatData.mostPrecisionKills.basic.displayValue;
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pveGeneralStatData.mostPrecisionKills.basic.displayValue;
                     break;
                 case "bestKillStreakStat":
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pveStatData.longestKillSpree.basic.displayValue;
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pveGeneralStatData.longestKillSpree.basic.displayValue;
                     break;
                 case "longestKillDistanceStat":
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pveStatData.longestKillDistance.basic.displayValue + "m";
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pveGeneralStatData.longestKillDistance.basic.displayValue + "m";
                     break;
                 case "bestWeaponStat":
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pveStatData.weaponBestType.basic.displayValue;
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pveGeneralStatData.weaponBestType.basic.displayValue;
                     break;
                 case "activitiesEnteredStat":
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pveStatData.activitiesEntered.basic.displayValue;
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pveGeneralStatData.activitiesEntered.basic.displayValue;
                     break;
                 case "activitiesClearedStat":
                     let activitiesClearedTitle = document.getElementById("activititesClearedandWon");
                     activitiesClearedTitle.innerHTML = "Activities Cleared";
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pveStatData.activitiesCleared.basic.displayValue;
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pveGeneralStatData.activitiesCleared.basic.displayValue;
                     break;
                 case "timePlayedStat":
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pveStatData.secondsPlayed.basic.displayValue;
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pveGeneralStatData.secondsPlayed.basic.displayValue;
                     break;
                 case "scoreStat":
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pveStatData.score.basic.displayValue;
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pveGeneralStatData.score.basic.displayValue;
                     break;
                 case "teamScoreStat":
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pveStatData.teamScore.basic.displayValue;
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pveGeneralStatData.teamScore.basic.displayValue;
                     break;
                 case "objectivesCompletedStat":
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pveStatData.objectivesCompleted.basic.displayValue;
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pveGeneralStatData.objectivesCompleted.basic.displayValue;
                     break;
                 case "publicEventCompletedStat":
                     let publicEventCompletedDiv = document.getElementById("publicEventCompletedDiv");
@@ -352,64 +365,64 @@ function pvpStatSwitch(){
                     adventuresCompletedDiv.style.visibility = "visible";
                     break;
                 case "winsStat":
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpStatData.winLossRatio.basic.displayValue;
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpGeneralStatData.winLossRatio.basic.displayValue;
                     break;
                 case "winLossRatioStat":
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpStatData.winLossRatio.basic.displayValue;
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpGeneralStatData.winLossRatio.basic.displayValue;
                     break;
                 case "combatRatingStat":
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpStatData.combatRating.basic.displayValue;
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpGeneralStatData.combatRating.basic.displayValue;
                     break;
                 case "killsStat":
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pveStatData.kills.basic.displayValue;
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pveGeneralStatData.kills.basic.displayValue;
                     break;
                 case "deathsStat":
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pveStatData.deaths.basic.displayValue;
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pveGeneralStatData.deaths.basic.displayValue;
                     break;
                 case "killDeathRatioStat":
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pveStatData.killsDeathsRatio.basic.displayValue;
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pveGeneralStatData.killsDeathsRatio.basic.displayValue;
                     break;
                 case "killDeathAverageStat":
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pveStatData.killsDeathsRatio.basic.displayValue;
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pveGeneralStatData.killsDeathsRatio.basic.displayValue;
                     break;
                 case "averageKillDistanceStat":
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pveStatData.averageKillDistance.basic.displayValue;
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pveGeneralStatData.averageKillDistance.basic.displayValue;
                     break;
                 case "assistsStat":
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pveStatData.assists.basic.displayValue;
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pveGeneralStatData.assists.basic.displayValue;
                     break;
                 case "precisionKillsStat":
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pveStatData.precisionKills.basic.displayValue;
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pveGeneralStatData.precisionKills.basic.displayValue;
                     break;
                 case "opponentsDefeatedStat":
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pveStatData.opponentsDefeated.basic.displayValue;
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pveGeneralStatData.opponentsDefeated.basic.displayValue;
                     break;
                 case "efficiencyStat":
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pveStatData.efficiency.basic.displayValue;
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pveGeneralStatData.efficiency.basic.displayValue;
                     break;
                 case "suicidesStat":
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pveStatData.suicides.basic.displayValue;
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pveGeneralStatData.suicides.basic.displayValue;
                     break;
                 case "averageScorePerKillStat":
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpStatData.averageScorePerKill.basic.displayValue;
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpGeneralStatData.averageScorePerKill.basic.displayValue;
                     break;
                 case "averageScorePerLifeStat":
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpStatData.averageScorePerLife.basic.displayValue;
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpGeneralStatData.averageScorePerLife.basic.displayValue;
                     break;
                 case "averageLifespanStat":
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pveStatData.averageLifespan.basic.displayValue;
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pveGeneralStatData.averageLifespan.basic.displayValue;
                     break;
                 case "resurrectionsStat":
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pveStatData.resurrectionsPerformed.basic.displayValue;
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pveGeneralStatData.resurrectionsPerformed.basic.displayValue;
                     break;
                 case "resurrectionsRecievedStat":
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pveStatData.resurrectionsReceived.basic.displayValue;
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pveGeneralStatData.resurrectionsReceived.basic.displayValue;
                     break;
                 case "orbsDroppedStat":
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pveStatData.orbsDropped.basic.displayValue;
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pveGeneralStatData.orbsDropped.basic.displayValue;
                     break;
                 case "orbsGatheredStat":
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pveStatData.orbsGathered.basic.displayValue;
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pveGeneralStatData.orbsGathered.basic.displayValue;
                     break;
             }
         }
@@ -419,45 +432,45 @@ function pvpStatSwitch(){
         for (let indexForSwitch = 0; indexForSwitch < statCollectionForSwitch.length; indexForSwitch++) {
             switch (statCollectionForSwitch[indexForSwitch].id) {
                 case "bestScoreStat":
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpStatData.score.basic.displayValue;
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpGeneralStatData.score.basic.displayValue;
                     break;
                 case "longestSingleLifeStat":
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpStatData.longestSingleLife.basic.displayValue;
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpGeneralStatData.longestSingleLife.basic.displayValue;
                     break;
                 case "bestSingleGameKillsStat":
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpStatData.bestSingleGameKills.basic.displayValue;
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpGeneralStatData.bestSingleGameKills.basic.displayValue;
                     break;
                 case "mostPrecisionKillsStat":
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpStatData.mostPrecisionKills.basic.displayValue;
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpGeneralStatData.mostPrecisionKills.basic.displayValue;
                     break;
                 case "bestKillStreakStat":
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpStatData.longestKillSpree.basic.displayValue;
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpGeneralStatData.longestKillSpree.basic.displayValue;
                     break;
                 case "longestKillDistanceStat":
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpStatData.longestKillDistance.basic.displayValue + "m";
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpGeneralStatData.longestKillDistance.basic.displayValue + "m";
                     break;
                 case "bestWeaponStat":
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpStatData.weaponBestType.basic.displayValue;
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpGeneralStatData.weaponBestType.basic.displayValue;
                     break;
                 case "activitiesEnteredStat":
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpStatData.activitiesEntered.basic.displayValue;
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpGeneralStatData.activitiesEntered.basic.displayValue;
                     break;
                 case "activitiesClearedStat":
                     let activitiesClearedTitle = document.getElementById("activititesClearedandWon");
                     activitiesClearedTitle.innerHTML = "Activities Won";
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpStatData.activitiesWon.basic.displayValue;
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpGeneralStatData.activitiesWon.basic.displayValue;
                     break;
                 case "timePlayedStat":
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpStatData.secondsPlayed.basic.displayValue;
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpGeneralStatData.secondsPlayed.basic.displayValue;
                     break;
                 case "scoreStat":
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpStatData.score.basic.displayValue;
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpGeneralStatData.score.basic.displayValue;
                     break;
                 case "teamScoreStat":
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpStatData.teamScore.basic.displayValue;
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpGeneralStatData.teamScore.basic.displayValue;
                     break;
                 case "objectivesCompletedStat":
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpStatData.objectivesCompleted.basic.displayValue;
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpGeneralStatData.objectivesCompleted.basic.displayValue;
                     break;
                 case "publicEventCompletedStat":
                     let publicEventCompletedDiv = document.getElementById("publicEventCompletedDiv");
@@ -472,64 +485,64 @@ function pvpStatSwitch(){
                     adventuresCompletedDiv.style.visibility = "hidden";
                     break;
                 case "winsStat":
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpStatData.winLossRatio.basic.displayValue;
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpGeneralStatData.winLossRatio.basic.displayValue;
                     break;
                 case "winLossRatioStat":
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpStatData.winLossRatio.basic.displayValue;
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpGeneralStatData.winLossRatio.basic.displayValue;
                     break;
                 case "combatRatingStat":
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpStatData.combatRating.basic.displayValue;
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpGeneralStatData.combatRating.basic.displayValue;
                     break;
                 case "killsStat":
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpStatData.kills.basic.displayValue;
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpGeneralStatData.kills.basic.displayValue;
                     break;
                 case "deathsStat":
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpStatData.deaths.basic.displayValue;
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpGeneralStatData.deaths.basic.displayValue;
                     break;
                 case "killDeathRatioStat":
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpStatData.killsDeathsRatio.basic.displayValue;
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpGeneralStatData.killsDeathsRatio.basic.displayValue;
                     break;
                 case "killDeathAverageStat":
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpStatData.killsDeathsRatio.basic.displayValue;
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpGeneralStatData.killsDeathsRatio.basic.displayValue;
                     break;
                 case "averageKillDistanceStat":
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpStatData.averageKillDistance.basic.displayValue;
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpGeneralStatData.averageKillDistance.basic.displayValue;
                     break;
                 case "assistsStat":
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpStatData.assists.basic.displayValue;
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpGeneralStatData.assists.basic.displayValue;
                     break;
                 case "precisionKillsStat":
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpStatData.precisionKills.basic.displayValue;
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpGeneralStatData.precisionKills.basic.displayValue;
                     break;
                 case "opponentsDefeatedStat":
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpStatData.opponentsDefeated.basic.displayValue;
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpGeneralStatData.opponentsDefeated.basic.displayValue;
                     break;
                 case "efficiencyStat":
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpStatData.efficiency.basic.displayValue;
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpGeneralStatData.efficiency.basic.displayValue;
                     break;
                 case "suicidesStat":
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpStatData.suicides.basic.displayValue;
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpGeneralStatData.suicides.basic.displayValue;
                     break;
                 case "averageScorePerKillStat":
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpStatData.averageScorePerKill.basic.displayValue;
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpGeneralStatData.averageScorePerKill.basic.displayValue;
                     break;
                 case "averageScorePerLifeStat":
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpStatData.averageScorePerLife.basic.displayValue;
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpGeneralStatData.averageScorePerLife.basic.displayValue;
                     break;
                 case "averageLifespanStat":
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpStatData.averageLifespan.basic.displayValue;
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpGeneralStatData.averageLifespan.basic.displayValue;
                     break;
                 case "resurrectionsStat":
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpStatData.resurrectionsPerformed.basic.displayValue;
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpGeneralStatData.resurrectionsPerformed.basic.displayValue;
                     break;
                 case "resurrectionsRecievedStat":
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpStatData.resurrectionsReceived.basic.displayValue;
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpGeneralStatData.resurrectionsReceived.basic.displayValue;
                     break;
                 case "orbsDroppedStat":
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpStatData.orbsDropped.basic.displayValue;
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpGeneralStatData.orbsDropped.basic.displayValue;
                     break;
                 case "orbsGatheredStat":
-                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpStatData.orbsGathered.basic.displayValue;
+                    statCollectionForSwitch[indexForSwitch].innerHTML = pvpGeneralStatData.orbsGathered.basic.displayValue;
                     break;
             }
         }
@@ -679,16 +692,40 @@ function DrawGraphs(){
     });
     */
     var xValues = ["PvE", "PvP"];
-    var yValues = [pveStatData.kills.basic.displayValue, pvpStatData.kills.basic.displayValue];
+    var killYValues = [pveGeneralStatData.kills.basic.displayValue, pvpGeneralStatData.kills.basic.displayValue];
+    var deathYValues = [pveGeneralStatData.deaths.basic.displayValue, pvpGeneralStatData.deaths.basic.displayValue];
+    var weaponXValues = ["AutoRifle Kills","BeamRifle Kills","Bow Kills","Glaive Kills","FusionRifle Kills","HandCannon Kills",
+    "TraceRifle Kills","MachineGun Kills","PulseRifle Kills","RocketLauncher Kills","ScoutRifle Kills","Shotgun Kills",
+    "Sniper Kills","Submachinegun Kills","Relic Kills","SideArm Kills","Sword Kills","Ability Kills",
+    "Grenade Kills","GrenadeLauncher Kills","Super Kills","Melee Kills"];
+    var weaponKillYValues = [pveWeaponStatData.weaponKillsAutoRifle.basic.displayValue,pveWeaponStatData.weaponKillsBeamRifle.basic.displayValue,pveWeaponStatData.weaponKillsBow.basic.displayValue,
+        pveWeaponStatData.weaponKillsGlaive.basic.displayValue,pveWeaponStatData.weaponKillsFusionRifle.basic.displayValue,pveWeaponStatData.weaponKillsHandCannon.basic.displayValue,
+        pveWeaponStatData.weaponKillsTraceRifle.basic.displayValue,pveWeaponStatData.weaponKillsMachineGun.basic.displayValue,pveWeaponStatData.weaponKillsPulseRifle.basic.displayValue,
+        pveWeaponStatData.weaponKillsRocketLauncher.basic.displayValue,pveWeaponStatData.weaponKillsScoutRifle.basic.displayValue,pveWeaponStatData.weaponKillsShotgun.basic.displayValue,
+        pveWeaponStatData.weaponKillsSniper.basic.displayValue,pveWeaponStatData.weaponKillsSubmachinegun.basic.displayValue,pveWeaponStatData.weaponKillsRelic.basic.displayValue,
+        pveWeaponStatData.weaponKillsSideArm.basic.displayValue,pveWeaponStatData.weaponKillsSword.basic.displayValue,pveWeaponStatData.weaponKillsAbility.basic.displayValue,
+        pveWeaponStatData.weaponKillsGrenade.basic.displayValue,pveWeaponStatData.weaponKillsGrenadeLauncher.basic.displayValue,pveWeaponStatData.weaponKillsSuper.basic.displayValue,
+        pveWeaponStatData.weaponKillsMelee.basic.displayValue];
+    var weaponKillPvPYValues = [pvpWeaponStatData.weaponKillsAutoRifle.basic.displayValue,pvpWeaponStatData.weaponKillsBeamRifle.basic.displayValue,pvpWeaponStatData.weaponKillsBow.basic.displayValue,
+        pvpWeaponStatData.weaponKillsGlaive.basic.displayValue,pvpWeaponStatData.weaponKillsFusionRifle.basic.displayValue,pvpWeaponStatData.weaponKillsHandCannon.basic.displayValue,
+        pvpWeaponStatData.weaponKillsTraceRifle.basic.displayValue,pvpWeaponStatData.weaponKillsMachineGun.basic.displayValue,pvpWeaponStatData.weaponKillsPulseRifle.basic.displayValue,
+        pvpWeaponStatData.weaponKillsRocketLauncher.basic.displayValue,pvpWeaponStatData.weaponKillsScoutRifle.basic.displayValue,pvpWeaponStatData.weaponKillsShotgun.basic.displayValue,
+        pvpWeaponStatData.weaponKillsSniper.basic.displayValue,pvpWeaponStatData.weaponKillsSubmachinegun.basic.displayValue,pvpWeaponStatData.weaponKillsRelic.basic.displayValue,
+        pvpWeaponStatData.weaponKillsSideArm.basic.displayValue,pvpWeaponStatData.weaponKillsSword.basic.displayValue,pvpWeaponStatData.weaponKillsAbility.basic.displayValue,
+        pvpWeaponStatData.weaponKillsGrenade.basic.displayValue,pvpWeaponStatData.weaponKillsGrenadeLauncher.basic.displayValue,pvpWeaponStatData.weaponKillsSuper.basic.displayValue,
+        pvpWeaponStatData.weaponKillsMelee.basic.displayValue];
     var barColors = ["red", "red"];
+    var weaponBarColors = ["red","Kills","Kills","Kills","Kills","Kills",
+    "Kills","Kills","Kills","Kills","Kills","Kills","Kills","Kills","Relic Kills","SideArm Kills","Sword Kills","Ability Kills",
+    "Grenade Kills","GrenadeLauncher Kills","Super Kills","Melee Kills"]
     
-    new Chart("myChart", {
+    new Chart("killsChart", {
         type: "bar",
         data: {
             labels: xValues,
             datasets: [{
                 backgroundColor: barColors,
-                data: yValues
+                data: killYValues
             }]
         },
         options: {
@@ -699,6 +736,59 @@ function DrawGraphs(){
             }
         }
     });
+    new Chart("deathsChart", {
+        type: "bar",
+        data: {
+            labels: xValues,
+            datasets: [{
+                backgroundColor: barColors,
+                data: deathYValues
+            }]
+        },
+        options: {
+            legend: {display: false},
+            title: {
+                display: true,
+                text: "Total Deaths"
+            }
+        }
+    });
+    new Chart("weaponKillsChart", {
+        type: "doughnut",
+        data: {
+            labels: weaponXValues,
+            datasets: [{
+                backgroundColor: "red",
+                data: weaponKillYValues
+            }]
+        },
+        options: {
+            legend: {display: false},
+            title: {
+                display: true,
+                text: "Weapon PvE Kills"
+            }
+        }
+    });
+    new Chart("weaponKillsPvPChart", {
+        type: "doughnut",
+        data: {
+            labels: weaponXValues,
+            datasets: [{
+                backgroundColor: "red",
+                data: weaponKillPvPYValues
+            }]
+        },
+        options: {
+            legend: {display: false},
+            title: {
+                display: true,
+                text: "Weapon PvP Kills"
+            }
+        }
+    });
+
+    alert("Graphs Made");
 }
 
 function updateCharacterTile(data, idIndex) {
