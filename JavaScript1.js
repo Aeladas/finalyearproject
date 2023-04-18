@@ -670,12 +670,12 @@ async function getStatDefinitionLibrary() {
 function DrawGraphs(){
     // Line Graph
     /*
-    const xValues = [50,60,70,80,90,100,110,120,130,140,150];
+    const playerVersusXValues = [50,60,70,80,90,100,110,120,130,140,150];
     const yValues = [7,8,8,9,9,9,10,11,14,14,15];
     new Chart("myChart", {
         type: "line",
         data: {
-          labels: xValues,
+          labels: playerVersusXValues,
           datasets: [{
             fill:false,
             backgroundColor:"rgba(0,0,255,1.0)",
@@ -691,9 +691,12 @@ function DrawGraphs(){
         }
     });
     */
-    var xValues = ["PvE", "PvP"];
+    console.log(pveGeneralStatData.secondsPlayed);
+    var playerVersusXValues = ["PvE", "PvP"];
     var killYValues = [pveGeneralStatData.kills.basic.displayValue, pvpGeneralStatData.kills.basic.displayValue];
     var deathYValues = [pveGeneralStatData.deaths.basic.displayValue, pvpGeneralStatData.deaths.basic.displayValue];
+    var scoreYValues = [pveGeneralStatData.score.basic.displayValue, pvpGeneralStatData.score.basic.displayValue];
+    var secondsPlayedYValues = [pveGeneralStatData.secondsPlayed.basic.value, pvpGeneralStatData.secondsPlayed.basic.value];
     var weaponXValues = ["AutoRifle Kills","BeamRifle Kills","Bow Kills","Glaive Kills","FusionRifle Kills","HandCannon Kills",
     "TraceRifle Kills","MachineGun Kills","PulseRifle Kills","RocketLauncher Kills","ScoutRifle Kills","Shotgun Kills",
     "Sniper Kills","Submachinegun Kills","Relic Kills","SideArm Kills","Sword Kills","Ability Kills",
@@ -714,15 +717,15 @@ function DrawGraphs(){
         pvpWeaponStatData.weaponKillsSideArm.basic.displayValue,pvpWeaponStatData.weaponKillsSword.basic.displayValue,pvpWeaponStatData.weaponKillsAbility.basic.displayValue,
         pvpWeaponStatData.weaponKillsGrenade.basic.displayValue,pvpWeaponStatData.weaponKillsGrenadeLauncher.basic.displayValue,pvpWeaponStatData.weaponKillsSuper.basic.displayValue,
         pvpWeaponStatData.weaponKillsMelee.basic.displayValue];
-    var barColors = ["red", "red"];
-    var weaponBarColors = ["red","Kills","Kills","Kills","Kills","Kills",
-    "Kills","Kills","Kills","Kills","Kills","Kills","Kills","Kills","Relic Kills","SideArm Kills","Sword Kills","Ability Kills",
-    "Grenade Kills","GrenadeLauncher Kills","Super Kills","Melee Kills"]
+    var barColors = ["red","red","red","red","red"];
+    var pieColors = ["#909090","#FE0000","#CDA434","#2F4538","#3E5F8A","#763C28","#4E3B31","#BDECB6","#969992","#39352A","#FF2301","#316650",
+    "#354D73","#FE0000","#E6D690","#F44611","#8F8F8F","#2A6478","#193737","#252850","#B32428","#AEA04B","#293133","#999950",
+    "#412227","#7E7B52","#924E7D","#D6AE01","#CFD3CD","#1D1E33"];
     
     new Chart("killsChart", {
         type: "bar",
         data: {
-            labels: xValues,
+            labels: playerVersusXValues,
             datasets: [{
                 backgroundColor: barColors,
                 data: killYValues
@@ -739,7 +742,7 @@ function DrawGraphs(){
     new Chart("deathsChart", {
         type: "bar",
         data: {
-            labels: xValues,
+            labels: playerVersusXValues,
             datasets: [{
                 backgroundColor: barColors,
                 data: deathYValues
@@ -753,17 +756,34 @@ function DrawGraphs(){
             }
         }
     });
+    new Chart("timePlayedChart", {
+        type: "bar",
+        data: {
+            labels: playerVersusXValues,
+            datasets: [{
+                backgroundColor: barColors,
+                data: secondsPlayedYValues
+            }]
+        },
+        options: {
+            legend: {display: false},
+            title: {
+                display: true,
+                text: "Total Time Played"
+            }
+        }
+    });
     new Chart("weaponKillsChart", {
         type: "doughnut",
         data: {
             labels: weaponXValues,
             datasets: [{
-                backgroundColor: "red",
+                backgroundColor: pieColors,
                 data: weaponKillYValues
             }]
         },
         options: {
-            legend: {display: false},
+            legend: {display: true},
             title: {
                 display: true,
                 text: "Weapon PvE Kills"
@@ -775,12 +795,12 @@ function DrawGraphs(){
         data: {
             labels: weaponXValues,
             datasets: [{
-                backgroundColor: "red",
+                backgroundColor: pieColors,
                 data: weaponKillPvPYValues
             }]
         },
         options: {
-            legend: {display: false},
+            legend: {display: true},
             title: {
                 display: true,
                 text: "Weapon PvP Kills"

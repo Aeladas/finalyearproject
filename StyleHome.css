@@ -35,7 +35,7 @@
     justify-content: space-between;
 }
 
-.parentGrid{
+.characterAndEquipmentGrid{
     width: fit-content;
     height: fit-content;
     display: grid;
