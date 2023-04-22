@@ -8,22 +8,20 @@
     <script src="JavaScript1.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 </head>
-<body>
+<body onload="getAccessToken()">
     <h1 id="title">Destiny 2 Stat Tracker</h1>
 
     <div class="searchAndLoginDiv">
         <div class="searchBox">
             <h2>Player Search</h2>
-            <form id="userSearchForm" onsubmit="return false">
-                <p id="playerNameLabel">Player Name: </p>
-                <input id="testInputBox" class="search" placeholder="JohnSmith"/>
-                <button id="UserInfoTest" type="button" onclick="searchForUser()">Search</button>
-            </form>
+            <p id="playerNameLabel">Player Name: </p>
+            <input id="testInputBox" class="search" placeholder="JohnSmith"/>
+            <button id="UserInfoTest" type="button" onclick="searchForUser()">Search</button>
+            <!--<form id="userSearchForm" onsubmit="return false">
+            </form>-->
         </div>
         <div class="loginButtonBox">
             <button id="loginButton" type="button" onclick="loginToAccount(event); return false;">Login</button>
-            <button id="tester" type="button" onclick="Tester()">Test</button>
-            <button type="button" onclick="DrawGraphs()">Graph</button>
         </div>
     </div>
 
@@ -68,6 +66,11 @@
                     <p id="kineticWeaponType"></p>
                     <p id="kineticWeaponDesc"></p>
                 </div>
+            </div>
+            <br>
+            <div class="kineticWeaponInventory">
+                <button>Click</button><button>Click</button><button>Click</button><button>Click</button><button>Click</button>
+                <button>Click</button><button>Click</button><button>Click</button><button>Click</button><button>Click</button>
             </div>
             <div class="energyWeaponDiv">
                 <img id="energyWeaponImage">

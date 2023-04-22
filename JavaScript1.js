@@ -1,14 +1,15 @@
 ﻿const apiKey = "40777cc6ab0b41839a4b27319ec5945b";
 const baseUrl = "https://www.bungie.net/Platform/Destiny2/";
+const tokenUrl = "https://www.bungie.net/platform/app/oauth/token/";
 const my_client_id = 42278;
 const my_client_secret = "rYv5SySC4xeuLILKv1NtW1ftb0YdF5CI29vW36w2QV8";
 
-var platformIndex = null;
 var currentPlayerMembershipId = null;
 var currentPlayerMembershipType = null;
 var numberOfIdsFound = null;
 var characterIds = [];
 var characterData = [];
+let currentInventoryItems = null;
 
 var manifestJsonData = null;
 var itemDefinitionData = null;
@@ -48,50 +49,49 @@ function loginToAccount(event) {
     event.preventDefault();
     //console.log("reached login");
     //&state=6i0mkLx79Hp91nzWVeHrzHG4
-    let loginUrl = "https://www.bungie.net/en/oauth/authorize?client_id=" + my_client_id + "&response_type=code&state=6i0mkLx79Hp91nzWVeHrzHG4";
+    let loginUrl = "https://www.bungie.net/en/oauth/authorize?client_id=" + my_client_id + "&response_type=code";
     window.location.replace(loginUrl);
-    //MiddleMan();
-    getAccessToken();
-}
-
-function MiddleMan(){
-    let searchCode = window.location.search;
-    let removeAfter = searchCode.indexOf("&");
-    removeAfter = removeAfter - 6;
-    searchCode = searchCode.replace("?code=","");
-    searchCode = searchCode.substring(0, removeAfter);
-    getAccessToken();
 }
 
 async function getAccessToken(){
-    console.log("Got to access token");
-    console.log("window:"+ window.location.href);
-    let tokenUrl = "https://www.bungie.net/platform/app/oauth/token/";
-    let searchCode = window.location.search;
-    //Needs to get the contents of the url after -> ?code=
-    let removeAfter = searchCode.indexOf("&");
-    removeAfter = removeAfter - 6;
-    searchCode = searchCode.replace("?code=","");
-    searchCode = searchCode.substring(0, removeAfter);
-    let testPara = document.getElementById("testPara");
-    testPara.innerHTML = "Code: "+searchCode;
-
-    //grant_type=authorization_code&code=8c66f9e519b7ec8498c8b4&client_id=123457&client_secret=TqlCb4VTZc89.7NKgBp9e
-    
-    const body = new URLSearchParams({
-        grant_type: "authorization_code",
-        code: searchCode,
-        client_id: my_client_id,
-        client_secret: my_client_secret,
-      });
-      const tokenFetch = await fetch(tokenUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-        },
-        body,
-      });
-    console.log(tokenFetch);
+    if (window.location.search.includes("?code=")){
+        console.log("hello");
+        let searchCode = window.location.search;
+        searchCode = searchCode.replace("?code=","");
+        //Needs to get the contents of the url after -> ?code=
+        //grant_type=authorization_code&code=8c66f9e519b7ec8498c8b4&client_id=123457&client_secret=TqlCb4VTZc89.7NKgBp9e
+        const body = new URLSearchParams({
+            grant_type: "authorization_code",
+            code: searchCode,
+            client_id: my_client_id,
+            client_secret: my_client_secret,
+        });
+        const tokenFetch = await fetch(tokenUrl, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+            },
+            body,
+        });
+        const tokenFetchResponseData = await tokenFetch.json();
+        let expireTime = tokenFetchResponseData.expires_in;
+        //Make expiry timer
+        /*
+        const now = new Date();
+        const time = now.getTime();
+        console.log(time);
+        let newTime = time + expireTime;
+        timeLeft = newTime - time;
+        timeLeft = timeLeft / 1000;
+        timeLeft = timeLeft / 60;
+        console.log(timeLeft);
+        */
+       localStorage.setItem("accessToken", tokenFetchResponseData.access_token);
+       localStorage.setItem("refreshToken", tokenFetchResponseData.refresh_token);
+    }
+    else{
+        console.log("kenobi");
+    }
 }
 
 async function getCharacterIds() {
@@ -145,14 +145,12 @@ async function getProfileStats() {
         'Content-Type': 'application/json;charset=UTF-8',
         'X-API-Key': apiKey
     } });
-    const weaponSearchResponse = await fetch(profileStatsUrl, { method: 'GET', headers: {
+    const weaponSearchResponse = await fetch(profileWeaponStatsUrl, { method: 'GET', headers: {
         'Content-Type': 'application/json;charset=UTF-8',
         'X-API-Key': apiKey
     } });
     const generalStatData = await generalSearchResponse.json();
     const weaponStatData = await weaponSearchResponse.json();
-    console.log(weaponStatData);
-    //console.log(data);    
     pveGeneralStatData = generalStatData.Response.mergedAllCharacters.results.allPvE.allTime;
     pvpGeneralStatData = generalStatData.Response.mergedAllCharacters.results.allPvP.allTime;
     pveWeaponStatData = weaponStatData.Response.mergedAllCharacters.results.allPvE.allTime;
@@ -457,22 +455,26 @@ async function getCharacterEquipment(idIndex) {
 }
 
 async function getCharacterInventory(idIndex) {
-
-    if (window.location.search == ""){
+    let theAccessToken = null;
+    if (localStorage.getItem("accessToken") == null){
         alert("Please Sign in to Bungie!");
     }
     else{
+        theAccessToken = localStorage.getItem("accessToken");
         ///Platform/Destiny2/3/Profile/4611686018523938391/Character/2305843010090644510/?components=201
         let characterId = characterIds[idIndex];
-        let characterInventoryRequestUrl = baseUrl + platformIndex + "/Profile/" + currentPlayerMembershipId + "/Character/" + characterId + "/?components=201";
+        let characterInventoryRequestUrl = baseUrl + currentPlayerMembershipType + "/Profile/" + currentPlayerMembershipId + "/Character/" + characterId + "/?components=201";
         const inventoryResponse = await fetch(characterInventoryRequestUrl, {
             method: 'GET', headers: {
                 'Content-Type': 'application/json;charset=UTF-8',
-                'X-API-Key': apiKey
+                'X-API-Key': apiKey,
+                'Authorization': "Bearer " + theAccessToken
             }
         });
         const inventoryJsonData = await inventoryResponse.json();
-        console.log(inventoryJsonData);
+        currentInventoryItems = inventoryJsonData.Response.inventory.data.items;
+        //console.log(inventoryJsonData);
+        console.log(currentInventoryItems);
     }
 }
 
@@ -538,30 +540,6 @@ async function getStatDefinitionLibrary() {
 }
 
 function DrawGraphs(){
-    // Line Graph
-    /*
-    const playerVersusXValues = [50,60,70,80,90,100,110,120,130,140,150];
-    const yValues = [7,8,8,9,9,9,10,11,14,14,15];
-    new Chart("myChart", {
-        type: "line",
-        data: {
-          labels: playerVersusXValues,
-          datasets: [{
-            fill:false,
-            backgroundColor:"rgba(0,0,255,1.0)",
-            borderColor: "rgba(0,0,255,0.1)",
-            data: yValues
-          }]
-        },
-        options:{
-            legend: {display: false},
-            scales: {
-                yAxes: [{ticks: {min: 6, max:16}}],
-            }
-        }
-    });
-    */
-    //Need these graphs
     var playerVersusXValues = ["PvE", "PvP"];
     var weaponXValues = ["AutoRifle Kills","BeamRifle Kills","Bow Kills","Glaive Kills","FusionRifle Kills","HandCannon Kills",
     "TraceRifle Kills","MachineGun Kills","PulseRifle Kills","RocketLauncher Kills","ScoutRifle Kills","Shotgun Kills",
