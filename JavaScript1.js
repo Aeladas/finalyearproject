@@ -1,6 +1,7 @@
 ﻿const apiKey = "40777cc6ab0b41839a4b27319ec5945b";
 const baseUrl = "https://www.bungie.net/Platform/Destiny2/";
 const tokenUrl = "https://www.bungie.net/platform/app/oauth/token/";
+const baseImagePath = "https://www.bungie.net";
 const my_client_id = 42278;
 const my_client_secret = "rYv5SySC4xeuLILKv1NtW1ftb0YdF5CI29vW36w2QV8";
 
@@ -9,7 +10,7 @@ var currentPlayerMembershipType = null;
 var numberOfIdsFound = null;
 var characterIds = [];
 var characterData = [];
-let currentInventoryItems = null;
+let currentCharacterInventory = null;
 
 var manifestJsonData = null;
 var itemDefinitionData = null;
@@ -456,14 +457,24 @@ async function getCharacterEquipment(idIndex) {
 
 async function getCharacterInventory(idIndex) {
     let theAccessToken = null;
+    let currentItems = [];
+    let kineticWeaponInventoryDiv = document.getElementById("kineticWeaponInventory");
+    let energyWeaponInventoryDiv = document.getElementById("energyWeaponInventory");
+    let powerWeaponInventoryDiv = document.getElementById("powerWeaponInventory");
+    let helmetArmourInventoryDiv = document.getElementById("helmetArmourInventory");
+    let gaunletsArmourInventoryDiv = document.getElementById("gaunletsArmourInventory");
+    let chestArmourInventoryDiv = document.getElementById("chestArmourInventory");
+    let legArmourInventoryDiv = document.getElementById("legArmourInventory");
+    let classArmourInventoryDiv = document.getElementById("classArmourInventory");
+
     if (localStorage.getItem("accessToken") == null){
         alert("Please Sign in to Bungie!");
     }
     else{
         theAccessToken = localStorage.getItem("accessToken");
         ///Platform/Destiny2/3/Profile/4611686018523938391/Character/2305843010090644510/?components=201
-        let characterId = characterIds[idIndex];
-        let characterInventoryRequestUrl = baseUrl + currentPlayerMembershipType + "/Profile/" + currentPlayerMembershipId + "/Character/" + characterId + "/?components=201";
+        let currentCharacterId = characterIds[idIndex];
+        let characterInventoryRequestUrl = baseUrl + currentPlayerMembershipType + "/Profile/" + currentPlayerMembershipId + "/Character/" + currentCharacterId + "/?components=201";
         const inventoryResponse = await fetch(characterInventoryRequestUrl, {
             method: 'GET', headers: {
                 'Content-Type': 'application/json;charset=UTF-8',
@@ -472,9 +483,68 @@ async function getCharacterInventory(idIndex) {
             }
         });
         const inventoryJsonData = await inventoryResponse.json();
-        currentInventoryItems = inventoryJsonData.Response.inventory.data.items;
-        //console.log(inventoryJsonData);
-        console.log(currentInventoryItems);
+        currentCharacterInventory = inventoryJsonData.Response.inventory.data.items;
+        for(let inventoryIndex = 0; inventoryIndex < currentCharacterInventory.length; inventoryIndex++){
+            currentItems.push(itemDefinitionData[currentCharacterInventory[inventoryIndex].itemHash]);
+        }
+        for(let itemIndex = 0; itemIndex < currentItems.length;itemIndex++){
+            let newIcon = document.createElement('img');
+            newIcon.style.marginLeft = "1%";
+            newIcon.onclick = function(){ equipTheItem(currentCharacterInventory[itemIndex].itemInstanceId, currentCharacterId); };
+            switch(currentItems[itemIndex].inventory.bucketTypeHash){
+                case 1498876634:
+                    newIcon.src = baseImagePath + currentItems[itemIndex].displayProperties.icon;
+                    kineticWeaponInventoryDiv.appendChild(newIcon);
+                    break;
+                case 2465295065:
+                    newIcon.src = baseImagePath + currentItems[itemIndex].displayProperties.icon;
+                    energyWeaponInventoryDiv.appendChild(newIcon);
+                    break;
+                case 953998645:
+                    newIcon.src = baseImagePath + currentItems[itemIndex].displayProperties.icon;
+                    powerWeaponInventoryDiv.appendChild(newIcon);
+                    break;
+                case 3448274439:
+                    newIcon.src = baseImagePath + currentItems[itemIndex].displayProperties.icon;
+                    helmetArmourInventoryDiv.appendChild(newIcon);
+                    break;
+                case 3551918588:
+                    newIcon.src = baseImagePath + currentItems[itemIndex].displayProperties.icon;
+                    gaunletsArmourInventoryDiv.appendChild(newIcon);
+                    break;
+                case 14239492:
+                    newIcon.src = baseImagePath + currentItems[itemIndex].displayProperties.icon;
+                    chestArmourInventoryDiv.appendChild(newIcon);
+                    break;
+                case 20886954:
+                    newIcon.src = baseImagePath + currentItems[itemIndex].displayProperties.icon;
+                    legArmourInventoryDiv.appendChild(newIcon);
+                    break;
+                case 1585787867:
+                    newIcon.src = baseImagePath + currentItems[itemIndex].displayProperties.icon;
+                    classArmourInventoryDiv.appendChild(newIcon);
+                    break;
+            }
+        }
+    }
+
+    async function equipTheItem(itemToEquip, currentCharacterId){
+        let equipUrl = baseUrl + "Actions/Items/EquipItem/";
+        //Add confirmation here
+
+        let equipParams = {
+            'characterId': currentCharacterId,
+            'membershipType': currentPlayerMembershipType,
+            'itemId': itemToEquip
+        };
+        const equipItemResponse = await fetch(equipUrl, {
+            method: 'POST', headers: {
+                'X-API-Key': apiKey,
+                'Authorization': "Bearer " + theAccessToken
+            }, body: JSON.stringify(equipParams),
+        });
+        const equipItemData = await equipItemResponse.json();
+        console.log(equipItemData);
     }
 }
 
@@ -910,9 +980,6 @@ function DrawGraphs(){
             }
         }
     });
-
-
-    alert("Graphs Made");
 }
 
 function updateCharacterTile(data, idIndex) {
@@ -985,7 +1052,7 @@ function updateCharacterTile(data, idIndex) {
 }
 
 function updateItems(itemDefinitionData,equipmentItems) {
-    let baseImagePath = "https://www.bungie.net";
+    
     for (let i = 0; i < equipmentItems.length; i++) {
         let currentItem = itemDefinitionData[equipmentItems[i].itemHash];
         switch (equipmentItems[i].bucketHash) {
@@ -994,10 +1061,12 @@ function updateItems(itemDefinitionData,equipmentItems) {
                 let kineticWeaponName = document.getElementById("kineticWeaponName");
                 let kineticWeaponType = document.getElementById("kineticWeaponType");
                 let kineticWeaponNameDesc = document.getElementById("kineticWeaponDesc");
+                let currentKineticWeaponInventory = document.getElementById("kineticWeaponInventory");
                 kineticWeaponIcon.src = baseImagePath + currentItem.displayProperties.icon;
                 kineticWeaponName.innerHTML = currentItem.displayProperties.name;
                 kineticWeaponType.innerHTML = currentItem.itemTypeAndTierDisplayName;
                 kineticWeaponNameDesc.innerHTML = currentItem.flavorText;
+                kineticWeaponIcon.onmouseover = function(){ hoverToShowInventory(currentKineticWeaponInventory) };
                 let statsHashList = itemDefinitionData[equipmentItems[i].itemHash].stats.stats;
                 statsHashList = Object.entries(statsHashList);
                 //NEED TO STORE KEYS AND INFO IN ARRAYS
@@ -1011,66 +1080,88 @@ function updateItems(itemDefinitionData,equipmentItems) {
                 let energyWeaponName = document.getElementById("energyWeaponName");
                 let energyWeaponType = document.getElementById("energyWeaponType");
                 let energyWeaponDesc = document.getElementById("energyWeaponDesc");
+                let currentEnergyWeaponInventory = document.getElementById("energyWeaponInventory");
                 energyWeaponIcon.src = baseImagePath + currentItem.displayProperties.icon;
                 energyWeaponName.innerHTML = currentItem.displayProperties.name;
                 energyWeaponType.innerHTML = currentItem.itemTypeAndTierDisplayName;
                 energyWeaponDesc.innerHTML = currentItem.flavorText;
+                energyWeaponIcon.onmouseover = function(){ hoverToShowInventory(currentEnergyWeaponInventory) };
                 break;
             case 953998645: //Power Weapon
                 let powerWeaponIcon = document.getElementById("powerWeaponImage");
                 let powerWeaponName = document.getElementById("powerWeaponName");
                 let powerWeaponType = document.getElementById("powerWeaponType");
                 let powerWeaponDesc = document.getElementById("powerWeaponDesc");
+                let currentPowerWeaponInventory = document.getElementById("powerWeaponInventory");
                 powerWeaponIcon.src = baseImagePath + currentItem.displayProperties.icon;
                 powerWeaponName.innerHTML = currentItem.displayProperties.name;
                 powerWeaponType.innerHTML = currentItem.itemTypeAndTierDisplayName;
                 powerWeaponDesc.innerHTML = currentItem.flavorText;
+                powerWeaponIcon.onmouseover = function(){ hoverToShowInventory(currentPowerWeaponInventory) };
                 break;
             case 3448274439: //Helmet Armour
                 let helmetArmourIcon = document.getElementById("helmetArmourImage");
                 let helmetArmourName = document.getElementById("helmetArmourName");
                 let helmetArmourType = document.getElementById("helmetArmourType");
+                let currentHelmetArmourInventory = document.getElementById("helmetArmourInventory");
                 helmetArmourIcon.src = baseImagePath + currentItem.displayProperties.icon;
                 helmetArmourName.innerHTML = currentItem.displayProperties.name;
                 helmetArmourType.innerHTML = currentItem.itemTypeAndTierDisplayName;
+                helmetArmourIcon.onmouseover = function(){ hoverToShowInventory(currentHelmetArmourInventory) };
                 break;
             case 3551918588: //Gaunlets Armour
                 let gaunletsArmourIcon = document.getElementById("gaunletsArmourImage");
                 let gaunletsArmourName = document.getElementById("gaunletsArmourName");
                 let gaunletsArmourType = document.getElementById("gaunletsArmourType");
+                let currentGaunletsArmourInventory = document.getElementById("gaunletsArmourInventory");
                 gaunletsArmourIcon.src = baseImagePath + currentItem.displayProperties.icon;
                 gaunletsArmourName.innerHTML = currentItem.displayProperties.name;
                 gaunletsArmourType.innerHTML = currentItem.itemTypeAndTierDisplayName;
+                gaunletsArmourIcon.onmouseover = function(){ hoverToShowInventory(currentGaunletsArmourInventory) };
                 break;
             case 14239492: //Chest Armour
                 let chestArmourIcon = document.getElementById("chestArmourImage");
                 let chestArmourName = document.getElementById("chestArmourName");
                 let chestArmourType = document.getElementById("chestArmourType");
+                let currentChestArmourInventory = document.getElementById("chestArmourInventory");
                 chestArmourIcon.src = baseImagePath + currentItem.displayProperties.icon;
                 chestArmourName.innerHTML = currentItem.displayProperties.name;
                 chestArmourType.innerHTML = currentItem.itemTypeAndTierDisplayName;
+                chestArmourIcon.onmouseover = function(){ hoverToShowInventory(currentChestArmourInventory) };
                 break;
             case 20886954: //Leg Armour
                 let legArmourIcon = document.getElementById("legArmourImage");
                 let legArmourName = document.getElementById("legArmourName");
                 let legArmourType = document.getElementById("legArmourType");
+                let currentLegArmourInventory = document.getElementById("legArmourInventory");
                 legArmourIcon.src = baseImagePath + currentItem.displayProperties.icon;
                 legArmourName.innerHTML = currentItem.displayProperties.name;
                 legArmourType.innerHTML = currentItem.itemTypeAndTierDisplayName;
+                legArmourIcon.onmouseover = function(){ hoverToShowInventory(currentLegArmourInventory) };
                 break;
             case 1585787867: //Class Armour
                 let classArmourIcon = document.getElementById("classArmourImage");
                 let classArmourName = document.getElementById("classArmourName");
                 let classArmourType = document.getElementById("classArmourType");
+                let currentClassArmourInventory = document.getElementById("classArmourInventory");
                 classArmourIcon.src = baseImagePath + currentItem.displayProperties.icon;
                 classArmourName.innerHTML = currentItem.displayProperties.name;
                 classArmourType.innerHTML = currentItem.itemTypeAndTierDisplayName;
+                classArmourIcon.onmouseover = function(){ hoverToShowInventory(currentClassArmourInventory) };
                 break;
-
         }
     }
     let weaponContainer = document.getElementById("weaponsContainer");
     let armourContainer = document.getElementById("armourContainer");
     weaponContainer.style.marginLeft = "10%";
     armourContainer.style.marginLeft = "10%";
+}
+
+function hoverToShowInventory(inventory){
+    allInventories = document.getElementsByClassName("inventory");
+    for(let activeInventoryIndex=0; activeInventoryIndex < allInventories.length; activeInventoryIndex++)
+    {
+        allInventories[activeInventoryIndex].style.visibility = "hidden";
+    }
+    inventory.style.visibility = "visible";
 }

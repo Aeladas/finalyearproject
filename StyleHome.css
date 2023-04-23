@@ -272,17 +272,30 @@
     height: fit-content;
     display: flex;
 }
+#kineticWeaponInventory{
+    visibility: hidden;
+}
 .energyWeaponDiv{
     width: fit-content;
     height: fit-content;
     display: flex;
     margin-top: 5%;
 }
+#energyWeaponInventory{
+    display:grid;
+    grid-template-columns: auto auto auto auto auto;
+    visibility: hidden;
+}
 .powerWeaponDiv{
     width: fit-content;
     height: fit-content;
     display: flex;
     margin-top: 5%;
+}
+#powerWeaponInventory{
+    display:grid;
+    grid-template-columns: auto auto auto auto auto;
+    visibility: hidden;
 }
 
 .armourContainer{
@@ -304,11 +317,21 @@
     display: flex;
     margin-top: 5%;
 }
+#helmetArmourInventory{
+    display:grid;
+    grid-template-columns: auto auto auto auto auto;
+    visibility: hidden;
+}
 .gaunletsArmourDiv{
     width: fit-content;
     height: fit-content;
     display: flex;
     margin-top: 5%;
+}
+#gaunletsArmourInventory{
+    display:grid;
+    grid-template-columns: auto auto auto auto auto;
+    visibility: hidden;
 }
 .chestArmourDiv{
     width: fit-content;
@@ -316,17 +339,32 @@
     display: flex;
     margin-top: 5%;
 }
+#chestArmourInventory{
+    display:grid;
+    grid-template-columns: auto auto auto auto auto;
+    visibility: hidden;
+}
 .legArmourDiv{
     width: fit-content;
     height: fit-content;
     display: flex;
     margin-top: 5%;
 }
+#legArmourInventory{
+    display:grid;
+    grid-template-columns: auto auto auto auto auto;
+    visibility: hidden;
+}
 .classArmourDiv{
     width: fit-content;
     height: fit-content;
     display: flex;
     margin-top: 5%;
+}
+#classArmourInventory{
+    display:grid;
+    grid-template-columns: auto auto auto auto auto;
+    visibility: hidden;
 }
 
 .chart{
