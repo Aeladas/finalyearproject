@@ -1,10 +1,12 @@
-﻿const apiKey = "40777cc6ab0b41839a4b27319ec5945b";
+﻿//Constants that hold web addresses used for making requests, so they should be altered
+const apiKey = "40777cc6ab0b41839a4b27319ec5945b";
 const baseUrl = "https://www.bungie.net/Platform/Destiny2/";
 const tokenUrl = "https://www.bungie.net/platform/app/oauth/token/";
 const baseImagePath = "https://www.bungie.net";
 const my_client_id = 42278;
 const my_client_secret = "rYv5SySC4xeuLILKv1NtW1ftb0YdF5CI29vW36w2QV8";
 
+//Variables that will hold relavant information about a player's account etc
 var currentPlayerMembershipId = null;
 var currentPlayerMembershipType = null;
 var numberOfIdsFound = null;
@@ -12,23 +14,33 @@ var characterIds = [];
 var characterData = [];
 let currentCharacterInventory = null;
 
+//Variables that will hold large datasets such as the inventory manifest
 var manifestJsonData = null;
 var itemDefinitionData = null;
 var statsDefinitionData = null;
 
+//Variables that will hold the two types of stat data needed for both the modes (PvE & PvP)
 let pveGeneralStatData = null;
 let pvpGeneralStatData = null;
 let pveWeaponStatData = null;
 let pvpWeaponStatData = null;
 
 async function searchForUser() {
+    /*
+        If none of the manifests are stored, fetch then store them
+        Once they are stored, get any element with the id "inputBox"
+        Construct the search URL and its needed parameters as its a POST request
+        Pass both of these into the Fetch API in order to get data from the Bungie API whilst passing in the identifier key
+        Once a response comes back, execute the sub function to create the results
+        Reset the value of the textbox
+    */
     if (manifestJsonData == null && itemDefinitionData == null && statsDefinitionData == null) {
         await getManifest();
         await getItemDefinitionLibrary();
         await getStatDefinitionLibrary();
     }
 
-    let inputBox = document.getElementById("testInputBox");
+    let inputBox = document.getElementById("inputBox");
     let numOfResults = null;
     let searchUrl = "https://www.bungie.net/platform/User/Search/GlobalName/0/";
     let params = {
@@ -46,21 +58,31 @@ async function searchForUser() {
     inputBox.value = "";
 }
 
-function loginToAccount(event) {
-    event.preventDefault();
-    //console.log("reached login");
+function loginToAccount() {
+    /*
+        Create the redirect URL with the stored clientId we get from Bungie
+        Replace the current Window's location
+        Flow:
+        LocalHost -> Bungie -> LocalHost
+    */
     //&state=6i0mkLx79Hp91nzWVeHrzHG4
     let loginUrl = "https://www.bungie.net/en/oauth/authorize?client_id=" + my_client_id + "&response_type=code";
     window.location.replace(loginUrl);
 }
 
 async function getAccessToken(){
+    /*
+        If the 'search' portion of the address bar holds the special code made by Bungie to show that the user authenticated themselves
+        Copy the code to a new variable and then remove the '?code=' part as the API wont accept it
+        After that create a set of POST parameters using the code we just copied, a string for the grant type,
+            and both our ids given by Bungie
+        Then fetch the access token's data using the Fetch API and passing in the parameters as we are using a POST request
+        When a response is received,
+            we store the access token and the refresh token into the browser's localstorage so we can use it later on  
+    */
     if (window.location.search.includes("?code=")){
-        console.log("hello");
         let searchCode = window.location.search;
         searchCode = searchCode.replace("?code=","");
-        //Needs to get the contents of the url after -> ?code=
-        //grant_type=authorization_code&code=8c66f9e519b7ec8498c8b4&client_id=123457&client_secret=TqlCb4VTZc89.7NKgBp9e
         const body = new URLSearchParams({
             grant_type: "authorization_code",
             code: searchCode,
@@ -96,6 +118,13 @@ async function getAccessToken(){
 }
 
 async function getCharacterIds() {
+    /*
+        Here we want to get the ids of each character stored in a profile
+        First construct the profile request URL, then send off a GET request as we only need to pass in our identifier key
+        Once a response has been received we need to store the object's keys and values which are:
+          Keys: Number of characters (1-3)
+          Values: Unique Ids of these characters
+    */
     //Profile - ?components=100
     let profileRequestUrl = baseUrl + currentPlayerMembershipType + "/Profile/" + currentPlayerMembershipId + "/?components=100";
     const response = await fetch(profileRequestUrl, {
@@ -115,6 +144,11 @@ async function getCharacterIds() {
 }
 
 async function getCharacterInfo() {
+    /*
+        For each Character in the profile we want to:
+        - Fetch data relating to that character, i.e. race and class
+        - Use that data to update the containers that hod character information
+    */
     // ?components=200
     for (let i = 0; i < characterIds.length; i++) {
         let characterDataRequestUrl = baseUrl + currentPlayerMembershipType + "/Profile/" + currentPlayerMembershipId + "/Character/";
@@ -136,6 +170,17 @@ async function getCharacterInfo() {
 }
 
 async function getProfileStats() {
+    /*
+        Firstly, collect any elements with the same class name "profileStat"
+        Create the URLs to retrieve the Generalised profile data and Weapon data.
+        Send off both of these requests, when we get their data back convert it to JSON format
+        Separate the stats into the different modes, PvE and PvP
+
+        Afterwards, cycle through the collected elements
+        Switch what value they will hold depending upon their id
+        e.g. an element with the id "highestCharacterLevelStat" will hold the value for the highest character level
+        Finally draw up any comparision graphs
+    */
     let statCollection = document.getElementsByClassName("profileStat");
     let generalSearchGroup = 1;
     let weaponSearchGroup = 2;
@@ -156,8 +201,6 @@ async function getProfileStats() {
     pvpGeneralStatData = generalStatData.Response.mergedAllCharacters.results.allPvP.allTime;
     pveWeaponStatData = weaponStatData.Response.mergedAllCharacters.results.allPvE.allTime;
     pvpWeaponStatData = generalStatData.Response.mergedAllCharacters.results.allPvP.allTime;
-    //console.log(pveGeneralStatData);
-    //console.log(pvpGeneralStatData);
     for(let index = 0; index < statCollection.length;index++){
         switch(statCollection[index].id){
             case "highestCharacterLevelStat":
@@ -242,6 +285,12 @@ async function getProfileStats() {
 }
 
 function pvpStatSwitch(){
+    /*
+     * Depending upon the state of the toggle, different stats are shown
+        ON - shows PvP stats
+        OFF - show PvE stats
+     */
+
     let pvpSwitch = document.getElementById("pvpSwitch");
     let statCollectionForSwitch = document.getElementsByClassName("profileStat");
     let winsDiv = document.getElementById("winsDiv");
@@ -420,6 +469,10 @@ function pvpStatSwitch(){
 }
 
 async function getCharacterStats(data) {
+    /*
+     * Using data we got about each character in getCharacterInfo()
+        we can use this data in tandum with the stat manifest to get the values for each stat and these are unique to each character. 
+     */
     const statsObject = data.Response.character.data.stats;
     let powerStatText = document.getElementById("powerStat");
     let mobilityStatText = document.getElementById("mobilityStat");
@@ -439,6 +492,13 @@ async function getCharacterStats(data) {
 }
 
 async function getCharacterEquipment(idIndex) {
+    /*
+        We want to use the idIndex value we stored from updateCharacterTile() and store a characterId from the list
+        Then create a URL to request the equipment of the character, this is public data so no authentication is needed
+        Once the data has been received we store it into a variable called "equipmentItems" and pass it onto the sub function
+            updateItems()
+        After the items are updated then we proceed to fetch the inventory.
+    */
     let equipmentItems = null;
     let characterId = characterIds[idIndex];
     let characterEquipmentRequestUrl = baseUrl + currentPlayerMembershipType + "/Profile/" + currentPlayerMembershipId + "/Character/" + characterId + "/?components=205";
@@ -456,6 +516,17 @@ async function getCharacterEquipment(idIndex) {
 }
 
 async function getCharacterInventory(idIndex) {
+    /*
+     * If the access token is not stored then alter the user they need to sign in to authenticate themselves
+     * Otherwise we want to store a copy of the access token from the local storage
+     * Construct the URL to retrieve the inventory data and then use the fetch API to retrieve it
+     * We store the retrieved data in a variable called currentCharacterInventory 
+     * Then we pass each item in the inventory through the item manifest to retrieve their icon
+     * After determining what the group the item belongs to (kinetic weapon, helmet armour etc)
+     * We add the item to the respective group's inventory div (Kinetic weapon added to Kinetic weapon inventory)
+     * Before adding to the inventory we add functionality to the icon,
+     *  so that when it is clicked it triggers the equipTheItem() function
+     */
     let theAccessToken = null;
     let currentItems = [];
     let kineticWeaponInventoryDiv = document.getElementById("kineticWeaponInventory");
@@ -550,6 +621,15 @@ async function getCharacterInventory(idIndex) {
 
 // SUB FUNCTIONS
 async function createSearchResults(searchData, numOfResults) {
+    /*
+        Firstly, gather any elements from the HTML document
+        Make sure that they are visible to the user
+        For each result we got from the search data,
+            If the list of player buttons in the box is empty then create one
+            Otherwise if there are buttons inside the box
+                Check to see if the current player exists inside it, if they do then skip them and move on
+                If they dont exist then add them to the list.
+    */
     let resultsBox = document.getElementById("searchResultsBox");
     let resultsTitle = document.getElementById("searchResultsTitle");
     resultsTitle.style.visibility = "visible";
@@ -572,6 +652,14 @@ async function createSearchResults(searchData, numOfResults) {
     }
 
     function constructPlayerButton(i) {
+        /*
+            Create a button element and assign it an id
+            Set it's text to the display name of the player
+            Add it to the search results box and then set its onclick functionality to:
+                - Store the player's unique membershipId
+                - Store the player's membershipType number (platform they use to sign in)
+                - Get their profile Stats and characterIds
+        */
         let newAccountButton = document.createElement('button');
         newAccountButton.id = "playerAccountButton";
         newAccountButton.innerHTML = searchData.Response.searchResults[i].destinyMemberships[0].displayName;
@@ -586,6 +674,9 @@ async function createSearchResults(searchData, numOfResults) {
 }
 
 async function getManifest() {
+    /*
+        Returns the current version of the manifest as a json object.
+    */
     let manifestRequestUrl = "https://www.bungie.net/Platform/Destiny2/Manifest/";
     const manifestResponse = await fetch(manifestRequestUrl, {
         method: 'GET', headers: {
@@ -597,12 +688,21 @@ async function getManifest() {
     
 }
 async function getItemDefinitionLibrary() {
+    /*
+        Using the data we gathered from the manifest,
+            we can use this libray to convert item hashes into data that we can use.
+            As these hashes are just keys for the library
+    */
     let itemDefinitionUrl = "https://www.bungie.net";
     itemDefinitionUrl += manifestJsonData.Response.jsonWorldComponentContentPaths.en.DestinyInventoryItemDefinition;
     const itemDefinitionResponse = await fetch(itemDefinitionUrl, { method: 'GET' });
     itemDefinitionData = await itemDefinitionResponse.json();
 }
 async function getStatDefinitionLibrary() {
+    /*
+        Uses the Manifest to get the libray that hold stat definitions
+        Acts similiar to the itemDefinition retrieval
+    */
     let statDefinitionUrl = "https://www.bungie.net";
     statDefinitionUrl += manifestJsonData.Response.jsonWorldComponentContentPaths.en.DestinyStatDefinition;
     const statDefinitionResponse = await fetch(statDefinitionUrl, { method: 'GET' });
@@ -610,6 +710,16 @@ async function getStatDefinitionLibrary() {
 }
 
 function DrawGraphs(){
+    /*
+        Here we use Chart.js to help create the graphs to visualise data that can be compared
+        For PvE and PvP data, the X values on the graphs will be identifiable by the respective names (PvE and PvP)
+        Whereas for weapon data, this is split between each weapon type (Auto Rifle, Rocket Launcher and Sword etc)
+        However, the Y values will be numerical
+        For colours, red is used for the bar charts as its one unique dataset we are looking at
+            but we are comparing the size between them 
+        For doughnut charts there are more colours to match the variety of weapons to help define the weapons
+
+    */
     var playerVersusXValues = ["PvE", "PvP"];
     var weaponXValues = ["AutoRifle Kills","BeamRifle Kills","Bow Kills","Glaive Kills","FusionRifle Kills","HandCannon Kills",
     "TraceRifle Kills","MachineGun Kills","PulseRifle Kills","RocketLauncher Kills","ScoutRifle Kills","Shotgun Kills",
@@ -1042,8 +1152,8 @@ function updateCharacterTile(data, idIndex) {
             break;
     }
 
-    powerTextToEdit.innerHTML = data.Response.character.data.light
-    levelTextToEdit.innerHTML = data.Response.character.data.baseCharacterLevel
+    powerTextToEdit.innerHTML += data.Response.character.data.light
+    levelTextToEdit.innerHTML += data.Response.character.data.baseCharacterLevel
     containerToEdit.onclick = function(){
         getCharacterStats(data);
         getCharacterEquipment(idIndex);
