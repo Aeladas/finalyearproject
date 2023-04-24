@@ -1093,6 +1093,15 @@ function DrawGraphs(){
 }
 
 function updateCharacterTile(data, idIndex) {
+    /*
+        For this function, we are altering the contents of HTML elements to match the values from the latest data
+        Depending upon what the value of the index is, tells us which character tile we are editting
+        Then we change the background image to match the one in the latest data
+        Afterwards, we change the text elements that show a character's race and class to reflect the values of the latest data
+        We also do this with the power level and character level text elements
+        In addition, adding functionality to the background image whereby it executes the fetches for character stats and equipment
+        Finally, it makes sure that the tile is visible to the user.
+    */
     let containerToEdit = null;
     let imageToEdit = null;
     let classTextToEdit = null;
@@ -1162,7 +1171,15 @@ function updateCharacterTile(data, idIndex) {
 }
 
 function updateItems(itemDefinitionData,equipmentItems) {
-    
+    /*
+        This function, updates information about the current equipment that is shown in their respective containers
+        It looks at each item in the equipment list and sorts them into groups depending upon a hash number
+        After that, it collects neccessary references to HTML elements, updating their values to match the latest data
+        It also applies functionality to the inventory div element and the item's icon
+            - when the mouse hovers over the icon, the inventory related to the item is shown e.g. kinetic weapon shows kinetic weapon inventory
+            - Hides and non relavant inventories
+        Also alters the container's style to retain the gap size between the the weapons and armour containers
+    */
     for (let i = 0; i < equipmentItems.length; i++) {
         let currentItem = itemDefinitionData[equipmentItems[i].itemHash];
         switch (equipmentItems[i].bucketHash) {
@@ -1268,6 +1285,12 @@ function updateItems(itemDefinitionData,equipmentItems) {
 }
 
 function hoverToShowInventory(inventory){
+    /*
+        This function alters the visibility of the inventories depending on which one is being hovered over
+         - Collect any elements with the class name 'inventory'
+         - Make them all invisible to the user
+         - Make the one we are hovering over visible
+    */
     allInventories = document.getElementsByClassName("inventory");
     for(let activeInventoryIndex=0; activeInventoryIndex < allInventories.length; activeInventoryIndex++)
     {
