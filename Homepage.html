@@ -11,7 +11,18 @@
 
 <!--Summary every time the body is refreshed, a new access token should be requested-->
 <body onload="getAccessToken()">
-    <h1 id="title">Destiny 2 Stat Tracker</h1>
+    <h1 class = "TEXT" id="title">Destiny 2 Stat Tracker</h1>
+    
+    <!-- Summary of lightDarkModeToggle
+        Allows the user to swap between a light or dark theme
+    -->
+    <div class="lightDarkModeToggle">
+        <p class="TEXT">Dark Mode: </p>
+        <label class="switch">
+            <input id="lightDarkSwitch" type="checkbox" onclick="lightDarkSwitch()">
+            <span class="slider round"></span>
+        </label>
+    </div>
 
     <!-- Summary of searchAndLoginDiv:
          - Holds a "Box" of elements that create the search functionality
@@ -23,13 +34,16 @@
     -->
     <div class="searchAndLoginDiv">
         <div class="searchBox">
-            <h2>Player Search</h2>
-            <p id="playerNameLabel">Player Name: </p>
+            <h2 class="TEXT">Player Search</h2>
+            <p class="TEXT" id="playerNameLabel">Player Name: </p>
             <input id="inputBox" class="search" placeholder="JohnSmith"/>
             <button id="searchButton" type="button" onclick="searchForUser()">Search</button>
         </div>
         <div class="loginButtonBox">
             <button id="loginButton" type="button" onclick="loginToAccount(); return false;">Login</button>
+        </div>
+        <div class="socialButtonsBox">
+            <button id="sendFriendRequestButton" type="button" onclick="sendFriendRequest();">Send Friend Request</button>
         </div>
     </div>
 
@@ -40,7 +54,7 @@
           - Clicking on "theJohnSmith" button fetches data about the player called "theJohnSmith"
     -->
     <div class="historyBox">
-        <h3 id="searchResultsTitle">Recent Searches</h3>
+        <h3 class="TEXT" id="searchResultsTitle">Recent Searches</h3>
         <div id="searchResultsBox"></div>
     </div>
 
@@ -74,8 +88,8 @@
     -->
     <div class="characterAndEquipmentGrid">
         <div class="charactersContainer">
-            <p class="characterContainerTitle">Guardians</p>
-            <p id="charactersContainerInfo">Click Guardian for detailed view</p>
+            <p class="characterContainerTitle TEXT">Guardians</p>
+            <p class="TEXT" id="charactersContainerInfo">Click Guardian for detailed view</p>
             <div class="characterContainer" id="characterContainer1">
                 <img class="emblemBackground" id="background1" alt="">
                 <p class="classText" id="classText1"></p>
@@ -100,13 +114,13 @@
         </div>
 
         <div class="weaponsContainer" id="weaponsContainer">
-            <p id="weaponsTitle">Weapons</p>
+            <p class="TEXT" id="weaponsTitle">Weapons</p>
             <div class="kineticWeaponDiv">
                 <img id="kineticWeaponImage">
                 <div id="kineticWeaponText">
-                    <p id="kineticWeaponName"></p>
-                    <p id="kineticWeaponType"></p>
-                    <p id="kineticWeaponDesc"></p>
+                    <p class="TEXT" id="kineticWeaponName"></p>
+                    <p class="TEXT" id="kineticWeaponType"></p>
+                    <p class="TEXT" id="kineticWeaponDesc"></p>
                 </div>
             </div>
             <br>
@@ -116,9 +130,9 @@
             <div class="energyWeaponDiv">
                 <img id="energyWeaponImage">
                 <div id="energyWeaponText">
-                    <p id="energyWeaponName"></p>
-                    <p id="energyWeaponType"></p>
-                    <p id="energyWeaponDesc"></p>
+                    <p class="TEXT" id="energyWeaponName"></p>
+                    <p class="TEXT" id="energyWeaponType"></p>
+                    <p class="TEXT" id="energyWeaponDesc"></p>
                 </div>
             </div>
             <br>
@@ -128,9 +142,9 @@
             <div class="powerWeaponDiv">
                 <img id="powerWeaponImage">
                 <div id="powerWeaponText">
-                    <p id="powerWeaponName"></p>
-                    <p id="powerWeaponType"></p>
-                    <p id="powerWeaponDesc"></p>
+                    <p class="TEXT" id="powerWeaponName"></p>
+                    <p class="TEXT" id="powerWeaponType"></p>
+                    <p class="TEXT" id="powerWeaponDesc"></p>
                 </div>
             </div>
             <br>
@@ -140,12 +154,12 @@
         </div>
 
         <div class="armourContainer" id="armourContainer">
-            <p id="armourTitle">Armour</p>
+            <p class="TEXT" id="armourTitle">Armour</p>
             <div class="helmetArmourDiv">
                 <img id="helmetArmourImage">
                 <div id="helmetArmourText">
-                    <p id="helmetArmourName"></p>
-                    <p id="helmetArmourType"></p>
+                    <p class="TEXT" id="helmetArmourName"></p>
+                    <p class="TEXT" id="helmetArmourType"></p>
                 </div>                
             </div>
             <br>
@@ -155,8 +169,8 @@
             <div class="gaunletsArmourDiv">
                 <img id="gaunletsArmourImage">
                 <div id="gaunletsArmourText">
-                    <p id="gaunletsArmourName"></p>
-                    <p id="gaunletsArmourType"></p>
+                    <p class="TEXT" id="gaunletsArmourName"></p>
+                    <p class="TEXT" id="gaunletsArmourType"></p>
                 </div>
             </div>
             <br>
@@ -166,8 +180,8 @@
             <div class="chestArmourDiv">
                 <img id="chestArmourImage">
                 <div id="chestArmourText">
-                    <p id="chestArmourName"></p>
-                    <p id="chestArmourType"></p>
+                    <p class="TEXT" id="chestArmourName"></p>
+                    <p class="TEXT" id="chestArmourType"></p>
                 </div>
             </div>
             <br>
@@ -177,8 +191,8 @@
             <div class="legArmourDiv">
                 <img id="legArmourImage">
                 <div id="legArmourText">
-                    <p id="legArmourName"></p>
-                    <p id="legArmourType"></p>
+                    <p class="TEXT" id="legArmourName"></p>
+                    <p class="TEXT" id="legArmourType"></p>
                 </div>
             </div>
             <br>
@@ -188,8 +202,8 @@
             <div class="classArmourDiv">
                 <img id="classArmourImage">
                 <div id="classArmourText">
-                    <p id="classArmourName"></p>
-                    <p id="classArmourType"></p>
+                    <p class="TEXT" id="classArmourName"></p>
+                    <p class="TEXT" id="classArmourType"></p>
                 </div>
             </div>
             <br>
@@ -204,15 +218,15 @@
         Various text elements to show the user each character's unique stats
     -->
     <div class="statsContainer">
-        <p class="baseStatContainerTitle">Character Base Stats</p>
+        <p class="baseStatContainerTitle TEXT">Character Base Stats</p>
         <div id="statsGrid">
-            <p id="powerStat">Power: </p>
-            <p id="mobilityStat">Mobility: </p>
-            <p id="resilienceStat">Resilience: </p>
-            <p id="recoveryStat">Recovery: </p>
-            <p id="disciplineStat">Discipline: </p>
-            <p id="intellectStat">Intellect: </p>
-            <p id="strengthStat">Strength: </p>
+            <p class="TEXT" id="powerStat">Power: </p>
+            <p class="TEXT" id="mobilityStat">Mobility: </p>
+            <p class="TEXT" id="resilienceStat">Resilience: </p>
+            <p class="TEXT" id="recoveryStat">Recovery: </p>
+            <p class="TEXT" id="disciplineStat">Discipline: </p>
+            <p class="TEXT" id="intellectStat">Intellect: </p>
+            <p class="TEXT" id="strengthStat">Strength: </p>
         </div>
     </div>
 
@@ -232,114 +246,114 @@
                 - A paragraph that holds the value from the API data.
     -->
     <div class="profileStatBorder">
-        <p id="profileStatBoxTitle">Profile Stats</p>
+        <p class="TEXT" id="profileStatBoxTitle">Profile Stats</p>
         <div class="PvPToggle">
-            <p>PvP Stats: </p>
+            <p class="TEXT">PvP Stats: </p>
             <label class="switch">
                 <input id="pvpSwitch" type="checkbox" onclick="pvpStatSwitch()">
                 <span class="slider round"></span>
             </label>
         </div>
         <div class="bestStatsBorder">
-            <p id="testStatTitle">Best</p>
+            <p class="TEXT" id="testStatTitle">Best</p>
             <div class="BestStatsGrid">
                 <div>
-                    <p>Highest Character Level</p>
-                    <p class="profileStat" id="highestCharacterLevelStat"></p>
+                    <p class="TEXT" >Highest Character Level</p>
+                    <p class="profileStat TEXT" id="highestCharacterLevelStat"></p>
                 </div>
                 <div>
-                    <p>Highest Power Level</p>
-                    <p class="profileStat" id="highestPowerLevelStat"></p>
+                    <p class="TEXT" >Highest Power Level</p>
+                    <p class="profileStat TEXT" id="highestPowerLevelStat"></p>
                 </div>
                 <div>
-                    <p>Best Score</p>
-                    <p class="profileStat" id="bestScoreStat"></p>
+                    <p class="TEXT" >Best Score</p>
+                    <p class="profileStat TEXT" id="bestScoreStat"></p>
                 </div>
                 <div>
-                    <p>Longest Single Life</p>
-                    <p class="profileStat" id="longestSingleLifeStat"></p>
+                    <p class="TEXT" >Longest Single Life</p>
+                    <p class="profileStat TEXT" id="longestSingleLifeStat"></p>
                 </div>
                 <div>
-                    <p>Best Single Game Kills</p>
-                    <p class="profileStat" id="bestSingleGameKillsStat"></p>
+                    <p class="TEXT" >Best Single Game Kills</p>
+                    <p class="profileStat TEXT" id="bestSingleGameKillsStat"></p>
                 </div>
                 <div>
-                    <p>Most Precision Kills</p>
-                    <p class="profileStat" id="mostPrecisionKillsStat"></p>
+                    <p class="TEXT" >Most Precision Kills</p>
+                    <p class="profileStat TEXT" id="mostPrecisionKillsStat"></p>
                 </div>
                 <div>
-                    <p>Best Kill Streak</p>
-                    <p class="profileStat" id="bestKillStreakStat"></p>
+                    <p class="TEXT" >Best Kill Streak</p>
+                    <p class="profileStat TEXT" id="bestKillStreakStat"></p>
                 </div>
                 <div>
-                    <p>Longest Kill Distance</p>
-                    <p class="profileStat" id="longestKillDistanceStat"></p>
+                    <p class="TEXT" >Longest Kill Distance</p>
+                    <p class="profileStat TEXT" id="longestKillDistanceStat"></p>
                 </div>
                 <div>
-                    <p>Best Weapon</p>
-                    <p class="profileStat" id="bestWeaponStat"></p>
+                    <p class="TEXT" >Best Weapon</p>
+                    <p class="profileStat TEXT" id="bestWeaponStat"></p>
                 </div>
             </div>
         </div>
         <div class="generalStatsBorder">
-            <p>General</p>
+            <p class="TEXT" >General</p>
             <div class="GeneralStatsGrid">
                 <div>
-                    <p>Activities Entered</p>
-                    <p class="profileStat" id="activitiesEnteredStat"></p>
+                    <p class="TEXT" >Activities Entered</p>
+                    <p class="profileStat TEXT" id="activitiesEnteredStat"></p>
                 </div>
                 <div>
-                    <p id="activititesClearedandWon">Activities Cleared</p>
-                    <p class="profileStat" id="activitiesClearedStat"></p>
+                    <p class="TEXT"  id="activititesClearedandWon">Activities Cleared</p>
+                    <p class="profileStat TEXT" id="activitiesClearedStat"></p>
                 </div>
                 <div>
-                    <p>Objectives Completed</p>
-                    <p class="profileStat" id="objectivesCompletedStat"></p>
+                    <p class="TEXT" >Objectives Completed</p>
+                    <p class="profileStat TEXT" id="objectivesCompletedStat"></p>
                 </div>
                 <div id="publicEventCompletedDiv">
-                    <p>Public Event Completed</p>
-                    <p class="profileStat" id="publicEventCompletedStat"></p>
+                    <p class="TEXT" >Public Event Completed</p>
+                    <p class="profileStat TEXT" id="publicEventCompletedStat"></p>
                 </div>
                 <div id="publicEventsCompletedDiv">
-                    <p>Public Events Completed</p>
-                    <p class="profileStat" id="publicEventsCompletedStat"></p>
+                    <p class="TEXT" >Public Events Completed</p>
+                    <p class="profileStat TEXT" id="publicEventsCompletedStat"></p>
                 </div>
                 <div id="adventuresCompletedDiv">
-                    <p>Adventures Completed</p>
-                    <p class="profileStat" id="adventuresCompletedStat"></p>
+                    <p class="TEXT" >Adventures Completed</p>
+                    <p class="profileStat TEXT" id="adventuresCompletedStat"></p>
                 </div>
                 <div id="winsDiv">
-                    <p>Wins</p>
-                    <p class="profileStat" id="winsStat"></p>
+                    <p class="TEXT" >Wins</p>
+                    <p class="profileStat TEXT" id="winsStat"></p>
                 </div>
                 <div id="winLossRatioDiv">
-                    <p>Win/Loss Ratio</p>
-                    <p class="profileStat" id="winLossRatioStat"></p>
+                    <p class="TEXT" >Win/Loss Ratio</p>
+                    <p class="profileStat TEXT" id="winLossRatioStat"></p>
                 </div>
             </div>
         </div>
         <div class="combatStatsBorder">
-            <p>Combat</p>
+            <p class="TEXT" >Combat</p>
             <div class="CombatStatsGrid">
                 <div>
-                    <p>K/D Ratio</p>
-                    <p class="profileStat" id="killDeathRatioStat"></p>
+                    <p class="TEXT" >K/D Ratio</p>
+                    <p class="profileStat TEXT" id="killDeathRatioStat"></p>
                 </div>
                 <div>
-                    <p>K/D Average</p>
-                    <p class="profileStat" id="killDeathAverageStat"></p>
+                    <p class="TEXT" >K/D Average</p>
+                    <p class="profileStat TEXT" id="killDeathAverageStat"></p>
                 </div>
                 <div id="averageScorePerKillDiv">
-                    <p>Average Score per Kill</p>
-                    <p class="profileStat" id="averageScorePerKillStat"></p>
+                    <p class="TEXT" >Average Score per Kill</p>
+                    <p class="profileStat TEXT" id="averageScorePerKillStat"></p>
                 </div>
                 <div id="averageScorePerLifeDiv">
-                    <p>Average Score per Life</p>
-                    <p class="profileStat" id="averageScorePerLifeStat"></p>
+                    <p class="TEXT" >Average Score per Life</p>
+                    <p class="profileStat TEXT" id="averageScorePerLifeStat"></p>
                 </div>
                 <div id="combatRatingDiv">
-                    <p>Combat Rating</p>
-                    <p class="profileStat" id="combatRatingStat"></p>
+                    <p class="TEXT" >Combat Rating</p>
+                    <p class="profileStat TEXT" id="combatRatingStat"></p>
                 </div>
             </div>
         </div>

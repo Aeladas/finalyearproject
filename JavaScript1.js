@@ -619,7 +619,54 @@ async function getCharacterInventory(idIndex) {
     }
 }
 
+    //  ****Social function are not implemented****
+async function getFriendList(){
+    alert("Getting friend list has not been implemented yet");
+}
+async function getFriendRequestList(){
+    alert("Getting friend request list has not been implemented yet");
+}
+async function sendFriendRequest(){
+    alert("Sending friend requests has not been implemented yet");
+}
+async function acceptFriendRequest(){
+    alert("Accepting friend requests has not been implemented yet");
+}
+async function declineFriendRequest(){
+    alert("Declining friend requests has not been implemented yet");
+}
+async function removeFriend(){
+    alert("Removing friend has not been implemented yet");
+}
+async function removeFriendRequest(){
+    alert("Removing friend requests has not been implemented yet");
+}
+
 // SUB FUNCTIONS
+
+function lightDarkSwitch(){
+    /*
+        Changes the colour of the body and text to create light / dark themes
+    */
+    var theBody = document.getElementsByTagName("body")[0];
+    var lightDarkSwitch = document.getElementById("lightDarkSwitch");
+    var textElements = document.getElementsByClassName("TEXT")
+    if (lightDarkSwitch.checked){
+        theBody.style.backgroundColor = "#505050";
+        for(let elementIndex = 0; elementIndex < textElements.length; elementIndex++)
+        {
+            textElements[elementIndex].style.color = "white";
+        }
+    }
+    else{
+        theBody.style.backgroundColor = "#FFFFFF";
+        for(let darkElementIndex = 0; darkElementIndex < textElements.length; darkElementIndex++)
+        {
+            textElements[darkElementIndex].style.color = "black";
+        }
+    }
+}
+
 async function createSearchResults(searchData, numOfResults) {
     /*
         Firstly, gather any elements from the HTML document
@@ -687,6 +734,7 @@ async function getManifest() {
     manifestJsonData = await manifestResponse.json();
     
 }
+
 async function getItemDefinitionLibrary() {
     /*
         Using the data we gathered from the manifest,
@@ -698,6 +746,7 @@ async function getItemDefinitionLibrary() {
     const itemDefinitionResponse = await fetch(itemDefinitionUrl, { method: 'GET' });
     itemDefinitionData = await itemDefinitionResponse.json();
 }
+
 async function getStatDefinitionLibrary() {
     /*
         Uses the Manifest to get the libray that hold stat definitions

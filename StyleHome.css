@@ -22,6 +22,7 @@
 
 .loginButtonBox{
     margin-left: 2%;
+    margin-right: 1%;
 }
 
 .historyBox{
@@ -156,6 +157,9 @@
 }
 .PvPToggle{
     display:flex;
+}
+.lightDarkModeToggle{
+    display:flex
 }
 
 .switch {
