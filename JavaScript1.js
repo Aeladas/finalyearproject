@@ -562,7 +562,7 @@ async function getCharacterInventory(idIndex) {
         for(let itemIndex = 0; itemIndex < currentItems.length;itemIndex++){
             let newIcon = document.createElement('img');
             newIcon.style.marginLeft = "1%";
-            newIcon.onclick = function(){ equipTheItem(currentCharacterInventory[itemIndex].itemInstanceId, currentCharacterId); };
+            newIcon.onclick = function(){ equipTheItem(currentCharacterInventory[itemIndex].itemInstanceId, currentCharacterId, currentItems[itemIndex]); };
             switch(currentItems[itemIndex].inventory.bucketTypeHash){
                 case 1498876634:
                     newIcon.src = baseImagePath + currentItems[itemIndex].displayProperties.icon;
@@ -600,7 +600,7 @@ async function getCharacterInventory(idIndex) {
         }
     }
 
-    async function equipTheItem(itemToEquip, currentCharacterId){
+    async function equipTheItem(itemToEquip, currentCharacterId, itemInfo){
         let equipUrl = baseUrl + "Actions/Items/EquipItem/";
         //Add confirmation here
 
@@ -617,6 +617,7 @@ async function getCharacterInventory(idIndex) {
         });
         const equipItemData = await equipItemResponse.json();
         console.log(equipItemData);
+        alert("Item: "+itemInfo.displayProperties.name + " has been equipped!");
     }
 }
 
@@ -1350,8 +1351,14 @@ function hoverToShowInventory(inventory){
 }
 function clearInventories(){
     let allInventories = document.getElementsByClassName("inventory");
+    let inventoryInformation = null;
     for(let currentInventoryIndex=0; currentInventoryIndex < allInventories.length; currentInventoryIndex++)
     {
         allInventories[currentInventoryIndex].replaceChildren();
+        inventoryInformation = document.createElement('p');
+        inventoryInformation.className = "TEXT";
+        textNode = document.createTextNode("Click item to equip it");
+        inventoryInformation.appendChild(textNode);
+        allInventories[currentInventoryIndex].appendChild(inventoryInformation);
     }
 }
