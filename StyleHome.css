@@ -371,6 +371,11 @@
     visibility: hidden;
 }
 
+.comparisonCharts{
+    display: grid;
+    grid-template-columns: auto auto auto auto auto;
+}
+
 .chart{
     width:100%;
     max-width:700px;

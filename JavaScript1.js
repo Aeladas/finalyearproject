@@ -140,6 +140,7 @@ async function getCharacterIds() {
             break;
         }
     }
+    clearInventories();
     getCharacterInfo();
 }
 
@@ -482,13 +483,13 @@ async function getCharacterStats(data) {
     let intellectStatText = document.getElementById("intellectStat");
     let strengthStatText = document.getElementById("strengthStat");
 
-    powerStatText.innerHTML += statsObject["1935470627"];
-    mobilityStatText.innerHTML += statsObject["2996146975"];
-    resilienceStatText.innerHTML += statsObject["392767087"];
-    recoveryStatText.innerHTML += statsObject["1943323491"];
-    disciplineStatText.innerHTML += statsObject["1735777505"];
-    intellectStatText.innerHTML += statsObject["144602215"];
-    strengthStatText.innerHTML += statsObject["4244567218"];
+    powerStatText.innerHTML = "Power: "+statsObject["1935470627"];
+    mobilityStatText.innerHTML = "Mobility: "+statsObject["2996146975"];
+    resilienceStatText.innerHTML = "Resilience: "+statsObject["392767087"];
+    recoveryStatText.innerHTML = "Recovery: "+statsObject["1943323491"];
+    disciplineStatText.innerHTML = "Discipline: "+statsObject["1735777505"];
+    intellectStatText.innerHTML = "Intellect: "+statsObject["144602215"];
+    strengthStatText.innerHTML = "Strength: "+statsObject["4244567218"];
 }
 
 async function getCharacterEquipment(idIndex) {
@@ -1210,8 +1211,8 @@ function updateCharacterTile(data, idIndex) {
             break;
     }
 
-    powerTextToEdit.innerHTML += data.Response.character.data.light
-    levelTextToEdit.innerHTML += data.Response.character.data.baseCharacterLevel
+    powerTextToEdit.innerHTML = "Power Level: "+data.Response.character.data.light
+    levelTextToEdit.innerHTML = "Level: "+data.Response.character.data.baseCharacterLevel
     containerToEdit.onclick = function(){
         getCharacterStats(data);
         getCharacterEquipment(idIndex);
@@ -1346,4 +1347,11 @@ function hoverToShowInventory(inventory){
         allInventories[activeInventoryIndex].style.visibility = "hidden";
     }
     inventory.style.visibility = "visible";
+}
+function clearInventories(){
+    let allInventories = document.getElementsByClassName("inventory");
+    for(let currentInventoryIndex=0; currentInventoryIndex < allInventories.length; currentInventoryIndex++)
+    {
+        allInventories[currentInventoryIndex].replaceChildren();
+    }
 }
