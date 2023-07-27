@@ -10,7 +10,7 @@
 </head>
 
 <!--Summary every time the body is refreshed, a new access token should be requested-->
-<body onload="getAccessToken()">
+<body onload="documentLoader()">
     <h1 class = "TEXT" id="title">Destiny 2 Stat Tracker</h1>
     
     <!-- Summary of lightDarkModeToggle
@@ -44,6 +44,9 @@
         </div>
         <div class="socialButtonsBox">
             <button id="sendFriendRequestButton" type="button" onclick="sendFriendRequest();">Send Friend Request</button>
+        </div>
+        <div class="testBox">
+            <button id="testButton" type="button" onclick="OpenTest();">Edit Equipment</button>
         </div>
     </div>
 
@@ -238,6 +241,12 @@
                 <p class="TEXT" id="classArmourInfo">Click item to equip it</p>
                 <!--Add Images here-->
             </div>
+        </div>
+        <div class="questContainer" id="questContainer">
+            <p class="TEXT" id="questsTitle">Quests</p>
+            <div class="questListContainer" id="questListContainer"></div>
+            <p class="TEXT" id="bountiesTitle">Bounties</p>
+            <div class="bountiesListContainer" id="bountiesListContainer"></div>
         </div>
     </div>
 

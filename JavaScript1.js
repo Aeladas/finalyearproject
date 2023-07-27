@@ -27,19 +27,13 @@ let pvpWeaponStatData = null;
 
 async function searchForUser() {
     /*
-        If none of the manifests are stored, fetch then store them
         Once they are stored, get any element with the id "inputBox"
         Construct the search URL and its needed parameters as its a POST request
         Pass both of these into the Fetch API in order to get data from the Bungie API whilst passing in the identifier key
         Once a response comes back, execute the sub function to create the results
         Reset the value of the textbox
     */
-    if (manifestJsonData == null && itemDefinitionData == null && statsDefinitionData == null) {
-        await getManifest();
-        await getItemDefinitionLibrary();
-        await getStatDefinitionLibrary();
-    }
-
+    
     let inputBox = document.getElementById("inputBox");
     let numOfResults = null;
     let searchUrl = "https://www.bungie.net/platform/User/Search/GlobalName/0/";
@@ -98,22 +92,8 @@ async function getAccessToken(){
         });
         const tokenFetchResponseData = await tokenFetch.json();
         let expireTime = tokenFetchResponseData.expires_in;
-        //Make expiry timer
-        /*
-        const now = new Date();
-        const time = now.getTime();
-        console.log(time);
-        let newTime = time + expireTime;
-        timeLeft = newTime - time;
-        timeLeft = timeLeft / 1000;
-        timeLeft = timeLeft / 60;
-        console.log(timeLeft);
-        */
        localStorage.setItem("accessToken", tokenFetchResponseData.access_token);
        localStorage.setItem("refreshToken", tokenFetchResponseData.refresh_token);
-    }
-    else{
-        console.log("kenobi");
     }
 }
 
@@ -539,7 +519,7 @@ async function getCharacterInventory(idIndex) {
     let legArmourInventoryDiv = document.getElementById("legArmourInventory");
     let classArmourInventoryDiv = document.getElementById("classArmourInventory");
 
-    if (localStorage.getItem("accessToken") == null){
+    if (localStorage.getItem("accessToken") == "" || localStorage.getItem("accessToken") == null){
         alert("Please Sign in to Bungie!");
     }
     else{
@@ -598,6 +578,8 @@ async function getCharacterInventory(idIndex) {
                     break;
             }
         }
+        updateQuestsList(currentItems);
+
     }
 
     async function equipTheItem(itemToEquip, currentCharacterId, itemInfo){
@@ -618,6 +600,17 @@ async function getCharacterInventory(idIndex) {
         const equipItemData = await equipItemResponse.json();
         console.log(equipItemData);
         alert("Item: "+itemInfo.displayProperties.name + " has been equipped!");
+    }
+}
+
+// Add in loadout editting here
+async function getCharacterLoadouts(idIndex) {
+    let theAccessToken = null;
+    if (localStorage.getItem("accessToken") == "" || localStorage.getItem("accessToken") == null){
+        alert("Please Sign in to Bungie!");
+    }
+    else {
+        theAccessToken = localStorage.getItem("accessToken");
     }
 }
 
@@ -644,7 +637,35 @@ async function removeFriendRequest(){
     alert("Removing friend requests has not been implemented yet");
 }
 
+function OpenTest(){
+    window.location.replace("TestScreen.html");
+}
+
 // SUB FUNCTIONS
+
+async function documentLoader(){
+    /*
+        IF Url has ?code=....
+            clear the local storage of any expired tokens
+        ELSE
+            proceed with requesting the tokens
+        THEN
+            If none of the manifests are stored, fetch then store them
+    */
+    if (window.location.search === ""){
+        console.log("No extra code attached to URL");
+        localStorage.clear();
+    }
+    else{
+        console.log("OAuth code attached to URL");
+        getAccessToken();
+    }
+    if (manifestJsonData == null && itemDefinitionData == null && statsDefinitionData == null) {
+        await getManifest();
+        await getItemDefinitionLibrary();
+        await getStatDefinitionLibrary();
+    }
+}
 
 function lightDarkSwitch(){
     /*
@@ -1361,4 +1382,37 @@ function clearInventories(){
         inventoryInformation.appendChild(textNode);
         allInventories[currentInventoryIndex].appendChild(inventoryInformation);
     }
+}
+
+function updateQuestsList(currentItems){
+    let questListContainer = document.getElementById("questListContainer");
+    let bountyListContainer = document.getElementById("bountiesListContainer");
+    let bountyListULElement = document.createElement("ul");
+    for (let ci=0;ci<currentItems.length;ci++){
+        if (currentItems[ci].inventory.bucketTypeHash == "1345459588"){
+            console.log(currentItems[ci].displayProperties.name);
+        }
+        switch(currentItems[ci].itemType){
+            case 12:
+                //console.log(currentItems[ci]);
+                break;
+            case 26:
+                //console.log(currentItems[ci]);
+                if (currentItems[ci].itemTypeAndTierDisplayName.includes("Bounty")){
+                    let newLiElement = document.createElement("li");
+                    newLiElement.innerHTML = currentItems[ci].displayProperties.name;
+                    let subList = document.createElement("ul");
+                    let newSubListBullet = document.createElement("li");
+                    newSubListBullet.innerHTML =  currentItems[ci].displayProperties.description;
+                    subList.appendChild(newSubListBullet);
+                    newLiElement.appendChild(subList);
+                    bountyListULElement.appendChild(newLiElement);
+                }
+                //console.log(currentItems[ci].itemTypeAndTierDisplayName);
+                //console.log(currentItems[ci].displayProperties.name);
+                //console.log(currentItems[ci].displayProperties.description);
+                break;
+        }
+    }
+    bountyListContainer.appendChild(bountyListULElement);
 }

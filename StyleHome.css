@@ -295,8 +295,6 @@
     margin-top: 5%;
 }
 #powerWeaponInventory{
-    display:grid;
-    grid-template-columns: auto auto auto auto auto;
     visibility: hidden;
 }
 
@@ -320,8 +318,6 @@
     margin-top: 5%;
 }
 #helmetArmourInventory{
-    display:grid;
-    grid-template-columns: auto auto auto auto auto;
     visibility: hidden;
 }
 .gaunletsArmourDiv{
@@ -331,8 +327,6 @@
     margin-top: 5%;
 }
 #gaunletsArmourInventory{
-    display:grid;
-    grid-template-columns: auto auto auto auto auto;
     visibility: hidden;
 }
 .chestArmourDiv{
@@ -342,8 +336,6 @@
     margin-top: 5%;
 }
 #chestArmourInventory{
-    display:grid;
-    grid-template-columns: auto auto auto auto auto;
     visibility: hidden;
 }
 .legArmourDiv{
@@ -353,8 +345,6 @@
     margin-top: 5%;
 }
 #legArmourInventory{
-    display:grid;
-    grid-template-columns: auto auto auto auto auto;
     visibility: hidden;
 }
 .classArmourDiv{
@@ -364,8 +354,6 @@
     margin-top: 5%;
 }
 #classArmourInventory{
-    display:grid;
-    grid-template-columns: auto auto auto auto auto;
     visibility: hidden;
 }
 
