@@ -5,17 +5,13 @@
     <meta charset="utf-8" />
     <title>Destiny 2 Stat Tracker - Honours Project</title>
     <link rel="stylesheet" href="StyleHome.css" />
-    <script src="JavaScript1.js"></script>
+    <script src="Homepage-Core.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 </head>
 
-<!--Summary every time the body is refreshed, a new access token should be requested-->
 <body onload="documentLoader()">
     <h1 class = "TEXT" id="title">Destiny 2 Stat Tracker</h1>
-    
-    <!-- Summary of lightDarkModeToggle
-        Allows the user to swap between a light or dark theme
-    -->
+
     <div class="lightDarkModeToggle">
         <p class="TEXT">Dark Mode: </p>
         <label class="switch">
@@ -24,14 +20,6 @@
         </label>
     </div>
 
-    <!-- Summary of searchAndLoginDiv:
-         - Holds a "Box" of elements that create the search functionality
-             - A Heading to display text indicating the use of the box
-             - An input to allow users to enter in a username to search
-             - A Button to execute the player search request
-         - A "Box" to hold the log in button
-             - A Button that executes the Oauth process
-    -->
     <div class="searchAndLoginDiv">
         <div class="searchBox">
             <h2 class="TEXT">Player Search</h2>
@@ -50,45 +38,11 @@
         </div>
     </div>
 
-    <!-- Summary of historyBox
-        - A Heading to tell the user what the box does
-        - A "Box" where each player's display name is stored as a button
-          - When a button is clicked it fetches data relevant to that player
-          - Clicking on "theJohnSmith" button fetches data about the player called "theJohnSmith"
-    -->
     <div class="historyBox">
         <h3 class="TEXT" id="searchResultsTitle">Recent Searches</h3>
         <div id="searchResultsBox"></div>
     </div>
 
-    <!-- Summary of characterAndEquipmentGrid
-        - Holds 3 "containers"
-          1. Characters
-             1.1. Title to tell what the container holds
-             1.2. Information tell the user that clicking on a sub container provides more details
-             1.3. Individual Character Containers
-                 1.3.1. An image banner, unique to each Character
-                 1.3.2. Text to identify the character's class
-                 1.3.3. Text to identify the character's race
-                 1.3.4. Text to show the character's current power level
-                 1.3.5. Text to show the character's current level
-          2. Weapons
-            2.1. Title to tell the user this container holds their current equipped weaponry
-            2.2. Various "containers" for each of the different types of weapons (Kinetic, Energy and Power)
-                2.2.1. Icon of the current weapon
-                2.2.2. A container used for styling but holds the weapon's Name, Type and Unique Description
-                       E.g. Syncopation-53, Pulse Rifle, "SUROS asks that you spice things up"
-            2.3. Containers that hold the player's current character inventory ***ONLY POPULATED IF AUTHNTICATED***
-                These containers are populated with the icons of the other images
-          3. Armour
-            3.1. Title to tell the user this container holds their current equipped armour
-            3.2. Various "containers" for each of the different types of armour (Helmet, Gaunlets, Chest, Leg and Class)
-                3.2.1. Icon of the current armour
-                3.2.2. A container used for styling but holds the armour's Name, Type
-                       E.g. Prophet Snow, Helmet,
-            3.3. Containers that hold the player's current character inventory ***ONLY POPULATED IF AUTHNTICATED***
-                These containers are populated with the icons of the other images
-    -->
     <div class="characterAndEquipmentGrid">
         <div class="CharacterSelectAndCharacterStats">
             <div class="charactersContainer">
@@ -250,21 +204,6 @@
         </div>
     </div>
 
-    <!-- Summary of profileStatBorder
-         - Holds a title to tell the user these are statistics relating to their profile
-         - A toggle to change the view between Player vs Entity and Player vs Player modes
-         - 4 separate containers to hold different statistics.
-             1. Best - Highest value for each stat
-             2. General - Values relating to general gameplay such as time played
-             3. Combat - Combat related values such as Kills, Deaths
-             4. Support - Support related values such as Average Lifespan
-        
-         - They are all structured in the same way: 
-            - A title to show the user these are their best stats
-            - Various div elements that hold information and is styled into a grid
-                - A title showing what the statistic is e.g. Highest Character Level
-                - A paragraph that holds the value from the API data.
-    -->
     <div class="profileStatBorder">
         <p class="TEXT" id="profileStatBoxTitle">Profile Stats</p>
         <div class="PvPToggle">
@@ -379,9 +318,6 @@
         </div>
     </div>
 
-    <!--Summary of comparisionCharts
-        - Holds several canvas elements used by Chart.js to create graphs for visualisation
-    -->
     <div class="comparisionCharts">
         <canvas class="chart" id="killsChart"></canvas>
         <canvas class="chart" id="deathsChart"></canvas>
