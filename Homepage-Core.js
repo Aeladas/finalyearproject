@@ -92,19 +92,12 @@ async function getAccessToken(){
         });
         const tokenFetchResponseData = await tokenFetch.json();
         let expireTime = tokenFetchResponseData.expires_in;
-       localStorage.setItem("accessToken", tokenFetchResponseData.access_token);
-       localStorage.setItem("refreshToken", tokenFetchResponseData.refresh_token);
+       sessionStorage.setItem("accessToken", tokenFetchResponseData.access_token);
+       sessionStorage.setItem("refreshToken", tokenFetchResponseData.refresh_token);
     }
 }
 
 async function getCharacterIds() {
-    /*
-        Here we want to get the ids of each character stored in a profile
-        First construct the profile request URL, then send off a GET request as we only need to pass in our identifier key
-        Once a response has been received we need to store the object's keys and values which are:
-          Keys: Number of characters (1-3)
-          Values: Unique Ids of these characters
-    */
     //Profile - ?components=100
     let profileRequestUrl = baseUrl + currentPlayerMembershipType + "/Profile/" + currentPlayerMembershipId + "/?components=100";
     const response = await fetch(profileRequestUrl, {
@@ -120,6 +113,7 @@ async function getCharacterIds() {
             break;
         }
     }
+    sessionStorage.setItem("characterIds",JSON.stringify(characterIds));
     clearInventories();
     getCharacterInfo();
 }
@@ -519,7 +513,7 @@ async function getCharacterInventory(idIndex) {
     let legArmourInventoryDiv = document.getElementById("legArmourInventory");
     let classArmourInventoryDiv = document.getElementById("classArmourInventory");
 
-    if (localStorage.getItem("accessToken") == "" || localStorage.getItem("accessToken") == null){
+    if (sessionStorage.getItem("accessToken") == "" || sessionStorage.getItem("accessToken") == null){
         alert("Please Sign in to Bungie!");
     }
     else{
@@ -637,8 +631,8 @@ async function removeFriendRequest(){
     alert("Removing friend requests has not been implemented yet");
 }
 
-function OpenTest(){
-    window.location.replace("TestScreen.html");
+function OpenEditor(){
+    window.location.replace("Editor.html");
 }
 
 // SUB FUNCTIONS
@@ -737,6 +731,8 @@ async function createSearchResults(searchData, numOfResults) {
         newAccountButton.onclick = function () {
             currentPlayerMembershipId = searchData.Response.searchResults[i].destinyMemberships[0].membershipId;
             currentPlayerMembershipType = searchData.Response.searchResults[i].destinyMemberships[0].membershipType;
+            sessionStorage.setItem("currentPlayerId",currentPlayerMembershipId);
+            sessionStorage.setItem("currentPlayerLoginType",currentPlayerMembershipType);
             getProfileStats();
             getCharacterIds();
         };

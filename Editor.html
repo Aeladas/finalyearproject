@@ -8,7 +8,47 @@
     <script src="Editor-Core.js"></script>
 </head>
 
-<body>
+<body onload="documentLoader()">
     <h1 class = "TEXT" id="title">Destiny 2 Stat Tracker - Character Editor</h1>
+    <div class="gridmaker">
+
+        <div class="charactersContainer">
+            <div class="characterContainer" id="characterContainer1">
+                <img class="emblemBackground" id="background1" alt="">
+                <p class="classText" id="classText1"></p>
+                <p class="raceText" id="raceText1"></p>
+                <p class="powerText" id="powerText1">Power Level: </p>
+                <p class="levelText" id="levelText1">Level: </p>
+            </div>
+            <div class="characterContainer" id="characterContainer2">
+                <img class="emblemBackground" id="background2" alt="">
+                <p class="classText" id="classText2"></p>
+                <p class="raceText" id="raceText2"></p>
+                <p class="powerText" id="powerText2">Power Level: </p>
+                <p class="levelText" id="levelText2">Level: </p>
+            </div>
+            <div class="characterContainer" id="characterContainer3">
+                <img class="emblemBackground" id="background3" alt="">
+                <p class="classText" id="classText3"></p>
+                <p class="raceText" id="raceText3"></p>
+                <p class="powerText" id="powerText3">Power Level: </p>
+                <p class="levelText" id="levelText3">Level: </p>
+            </div>
+        </div>
+        <div class="equipmentContainer">
+            <div id="weapons">
+                <button class="icon" onclick="ChangeIcon()">
+                    <img src="https://www.bungie.net/common/destiny2_content/icons/8fba4bb117d4a60d493cfad491ec2358.jpg" alt="">
+                </button>
+                <img src="https://www.bungie.net/common/destiny2_content/icons/8fba4bb117d4a60d493cfad491ec2358.jpg" alt="">
+                <img id="testImg" src="https://www.bungie.net/common/destiny2_content/icons/8fba4bb117d4a60d493cfad491ec2358.jpg" alt="">
+            </div>
+            <div id="armour">
+            </div>
+        </div>
+        <div class="statContainer">
+        </div>
+
+    </div>
 </body>
 </html>

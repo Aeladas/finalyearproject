@@ -81,6 +81,8 @@
     position: relative;
     margin-top: 1%;
     visibility: hidden;
+    width: 474px;
+    height: auto;
 }
 .classText{
     position: absolute;
