@@ -10,10 +10,11 @@
 </head>
 
 <body onload="documentLoader()">
-    <h1 class = "TEXT" id="title">Destiny 2 Stat Tracker</h1>
+    <div id="headerBox">
+        <img id="d2Logo" src="theLogo.png" alt="myLogo">
+    </div>
 
     <div class="lightDarkModeToggle">
-        <p class="TEXT">Dark Mode: </p>
         <label class="switch">
             <input id="lightDarkSwitch" type="checkbox" onclick="lightDarkSwitch()">
             <span class="slider round"></span>
@@ -23,9 +24,11 @@
     <div class="searchAndLoginDiv">
         <div class="searchBox">
             <h2 class="TEXT">Player Search</h2>
-            <p class="TEXT" id="playerNameLabel">Player Name: </p>
-            <input id="inputBox" class="search" placeholder="JohnSmith"/>
-            <button id="searchButton" type="button" onclick="searchForUser()">Search</button>
+            <div id="inputs">
+                <p class="TEXT" id="playerNameLabel">Player Name</p>
+                <input id="inputBox" class="search" placeholder="theJohnSmith"/>
+                <button id="searchButton" type="button" onclick="searchForUser()"><b>Search</b></button>
+            </div>
         </div>
         <div class="loginButtonBox">
             <button id="loginButton" type="button" onclick="loginToAccount(); return false;">Login</button>
@@ -46,7 +49,7 @@
     <div class="characterAndEquipmentGrid">
         <div class="CharacterSelectAndCharacterStats">
             <div class="charactersContainer">
-                <p class="characterContainerTitle TEXT">Guardians</p>
+                <h3 class="characterContainerTitle TEXT">Guardians</h3>
                 <p class="TEXT" id="charactersContainerInfo">Click Guardian for detailed view</p>
                 <div class="characterContainer" id="characterContainer1">
                     <img class="emblemBackground" id="background1" alt="">
@@ -77,20 +80,37 @@
             <div class="statsContainer">
                 <p class="baseStatContainerTitle TEXT">Character Base Stats</p>
                 <div id="statsGrid">
-                    <p class="TEXT" id="powerStat">Power: </p>
-                    <p class="TEXT" id="mobilityStat">Mobility: </p>
-                    <p class="TEXT" id="resilienceStat">Resilience: </p>
-                    <p class="TEXT" id="recoveryStat">Recovery: </p>
-                    <p class="TEXT" id="disciplineStat">Discipline: </p>
-                    <p class="TEXT" id="intellectStat">Intellect: </p>
-                    <p class="TEXT" id="strengthStat">Strength: </p>
+                    <div class="statIconAndValue">
+                        <img class="statIcon" id="mobilityIcon" src="Mobility.png" alt="">
+                        <p class="statText TEXT" id="mobilityText"><b></b></p>
+                    </div>
+                    <div class="statIconAndValue">
+                        <img class="statIcon" id="resilienceIcon" src="Resilience.png" alt="">
+                        <p class="statText TEXT" id="resilienceText"><b></b></p>
+                    </div>
+                    <div class="statIconAndValue">
+                        <img class="statIcon" id="recoveryIcon" src="Recovery.png" alt="">
+                        <p class="statText TEXT" id="recoveryText"><b></b></p>
+                    </div>
+                    <div class="statIconAndValue">
+                        <img class="statIcon" id="disciplineIcon" src="Discipline.png" alt="">
+                        <p class="statText TEXT" id="disciplineText"><b></b></p>
+                    </div>
+                    <div class="statIconAndValue">
+                        <img class="statIcon" id="intellectIcon" src="Intellect.png" alt="">
+                        <p class="statText TEXT" id="intellectText"><b></b></p>
+                    </div>
+                    <div class="statIconAndValue">
+                        <img class="statIcon" id="strengthIcon" src="Strength.png" alt="">
+                        <p class="statText TEXT" id="strengthText"><b></b></p>
+                    </div>
+
                 </div>
             </div>
         </div>
 
         <div class="weaponsContainer" id="weaponsContainer">
-            <p class="TEXT" id="weaponsTitle">Weapons</p>
-            <p class="TEXT" id="weaponsInfo">Hover over a image to see weapon inventories</p>
+            <h3 class="TEXT" id="weaponsTitle">Weapons</h3>
             <div class="kineticWeaponDiv">
                 <img id="kineticWeaponImage">
                 <div id="kineticWeaponText">
@@ -100,10 +120,6 @@
                 </div>
             </div>
             <br>
-            <div class="inventory" id="kineticWeaponInventory">
-                <p class="TEXT" id="kineticWeaponInfo">Click item to equip it</p>
-                <!--Add Images here-->
-            </div>
             <div class="energyWeaponDiv">
                 <img id="energyWeaponImage">
                 <div id="energyWeaponText">
@@ -113,10 +129,6 @@
                 </div>
             </div>
             <br>
-            <div class="inventory" id="energyWeaponInventory">
-                <p class="TEXT" id="energyWeaponInfo">Click item to equip it</p>
-                <!--Add Images here-->
-            </div>
             <div class="powerWeaponDiv">
                 <img id="powerWeaponImage">
                 <div id="powerWeaponText">
@@ -126,15 +138,9 @@
                 </div>
             </div>
             <br>
-            <div class="inventory" id="powerWeaponInventory">
-                <p class="TEXT" id="powerWeaponInfo">Click item to equip it</p>
-                <!--Add Images here-->
-            </div>
         </div>
-
         <div class="armourContainer" id="armourContainer">
-            <p class="TEXT" id="armourTitle">Armour</p>
-            <p class="TEXT" id="armourInfo">Hover over a image to see armour inventories</p>
+            <h3 class="TEXT" id="armourTitle">Armour</h3>
             <div class="helmetArmourDiv">
                 <img id="helmetArmourImage">
                 <div id="helmetArmourText">
@@ -143,10 +149,6 @@
                 </div>                
             </div>
             <br>
-            <div class="inventory" id="helmetArmourInventory">
-                <p class="TEXT" id="helmetArmourInfo">Click item to equip it</p>
-                <!--Add Images here-->
-            </div>
             <div class="gaunletsArmourDiv">
                 <img id="gaunletsArmourImage">
                 <div id="gaunletsArmourText">
@@ -155,10 +157,6 @@
                 </div>
             </div>
             <br>
-            <div class="inventory" id="gaunletsArmourInventory">
-                <p class="TEXT" id="gaunletsArmourInfo">Click item to equip it</p>
-                <!--Add Images here-->
-            </div>
             <div class="chestArmourDiv">
                 <img id="chestArmourImage">
                 <div id="chestArmourText">
@@ -167,10 +165,6 @@
                 </div>
             </div>
             <br>
-            <div class="inventory" id="chestArmourInventory">
-                <p class="TEXT" id="chestArmourInfo">Click item to equip it</p>
-                <!--Add Images here-->
-            </div>
             <div class="legArmourDiv">
                 <img id="legArmourImage">
                 <div id="legArmourText">
@@ -179,10 +173,6 @@
                 </div>
             </div>
             <br>
-            <div class="inventory" id="legArmourInventory">
-                <p class="TEXT" id="legArmourInfo">Click item to equip it</p>
-                <!--Add Images here-->
-            </div>
             <div class="classArmourDiv">
                 <img id="classArmourImage">
                 <div id="classArmourText">
@@ -191,13 +181,9 @@
                 </div>
             </div>
             <br>
-            <div class="inventory" id="classArmourInventory">
-                <p class="TEXT" id="classArmourInfo">Click item to equip it</p>
-                <!--Add Images here-->
-            </div>
         </div>
         <div class="questContainer" id="questContainer">
-            <p class="TEXT" id="questsTitle">Quests</p>
+            <h3 class="TEXT" id="questsTitle">Quests</h3>
             <div class="questListContainer" id="questListContainer"></div>
             <p class="TEXT" id="bountiesTitle">Bounties</p>
             <div class="bountiesListContainer" id="bountiesListContainer"></div>

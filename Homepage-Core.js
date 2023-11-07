@@ -449,7 +449,30 @@ async function getCharacterStats(data) {
         we can use this data in tandum with the stat manifest to get the values for each stat and these are unique to each character. 
      */
     const statsObject = data.Response.character.data.stats;
-    let powerStatText = document.getElementById("powerStat");
+    statTexts = document.getElementsByClassName("statText");
+    for(let index=0;index<statTexts.length;index++){
+        switch(statTexts[index].id){
+            case "mobilityText":
+                statTexts[index].innerHTML = statsObject["2996146975"];
+                break;
+            case "resilienceText":
+                statTexts[index].innerHTML = statsObject["392767087"];
+                break;
+            case "recoveryText":
+                statTexts[index].innerHTML = statsObject["1943323491"];
+                break;
+            case "disciplineText":
+                statTexts[index].innerHTML = statsObject["1735777505"];
+                break;
+            case "intellectText":
+                statTexts[index].innerHTML = statsObject["144602215"];
+                break;
+            case "strengthText":
+                statTexts[index].innerHTML = statsObject["4244567218"];
+                break;
+        }
+    }
+    /*let powerStatText = document.getElementById("powerStat");
     let mobilityStatText = document.getElementById("mobilityStat");
     let resilienceStatText = document.getElementById("resilienceStat");
     let recoveryStatText = document.getElementById("recoveryStat");
@@ -463,7 +486,7 @@ async function getCharacterStats(data) {
     recoveryStatText.innerHTML = "Recovery: "+statsObject["1943323491"];
     disciplineStatText.innerHTML = "Discipline: "+statsObject["1735777505"];
     intellectStatText.innerHTML = "Intellect: "+statsObject["144602215"];
-    strengthStatText.innerHTML = "Strength: "+statsObject["4244567218"];
+    strengthStatText.innerHTML = "Strength: "+statsObject["4244567218"];*/
 }
 
 async function getCharacterEquipment(idIndex) {
@@ -490,6 +513,7 @@ async function getCharacterEquipment(idIndex) {
     getCharacterInventory(idIndex);
 }
 
+//NEEDS MOVING TO THE EDITOR
 async function getCharacterInventory(idIndex) {
     /*
      * If the access token is not stored then alter the user they need to sign in to authenticate themselves
@@ -592,7 +616,7 @@ async function getCharacterInventory(idIndex) {
             }, body: JSON.stringify(equipParams),
         });
         const equipItemData = await equipItemResponse.json();
-        console.log(equipItemData);
+        //console.log(equipItemData);
         alert("Item: "+itemInfo.displayProperties.name + " has been equipped!");
     }
 }
@@ -612,21 +636,27 @@ async function getCharacterLoadouts(idIndex) {
 async function getFriendList(){
     alert("Getting friend list has not been implemented yet");
 }
+
 async function getFriendRequestList(){
     alert("Getting friend request list has not been implemented yet");
 }
+
 async function sendFriendRequest(){
     alert("Sending friend requests has not been implemented yet");
 }
+
 async function acceptFriendRequest(){
     alert("Accepting friend requests has not been implemented yet");
 }
+
 async function declineFriendRequest(){
     alert("Declining friend requests has not been implemented yet");
 }
+
 async function removeFriend(){
     alert("Removing friend has not been implemented yet");
 }
+
 async function removeFriendRequest(){
     alert("Removing friend requests has not been implemented yet");
 }
@@ -647,11 +677,10 @@ async function documentLoader(){
             If none of the manifests are stored, fetch then store them
     */
     if (window.location.search === ""){
-        console.log("No extra code attached to URL");
         localStorage.clear();
+
     }
     else{
-        console.log("OAuth code attached to URL");
         getAccessToken();
     }
     if (manifestJsonData == null && itemDefinitionData == null && statsDefinitionData == null) {
@@ -666,17 +695,21 @@ function lightDarkSwitch(){
         Changes the colour of the body and text to create light / dark themes
     */
     var theBody = document.getElementsByTagName("body")[0];
+    var theLogo = document.getElementById("d2Logo");
     var lightDarkSwitch = document.getElementById("lightDarkSwitch");
-    var textElements = document.getElementsByClassName("TEXT")
-    if (lightDarkSwitch.checked){
+    var textElements = document.getElementsByClassName("TEXT");  
+    
+    if (lightDarkSwitch.checked){ //Go dark
         theBody.style.backgroundColor = "#505050";
-        for(let elementIndex = 0; elementIndex < textElements.length; elementIndex++)
-        {
+        theLogo.src = "theLogoWhite.png"
+        for(let elementIndex = 0; elementIndex < textElements.length; elementIndex++) {
             textElements[elementIndex].style.color = "white";
         }
+        
     }
-    else{
+    else{ //Go light
         theBody.style.backgroundColor = "#FFFFFF";
+        theLogo.src = "theLogo.png"
         for(let darkElementIndex = 0; darkElementIndex < textElements.length; darkElementIndex++)
         {
             textElements[darkElementIndex].style.color = "black";
@@ -727,6 +760,7 @@ async function createSearchResults(searchData, numOfResults) {
         let newAccountButton = document.createElement('button');
         newAccountButton.id = "playerAccountButton";
         newAccountButton.innerHTML = searchData.Response.searchResults[i].destinyMemberships[0].displayName;
+        newAccountButton.style.borderRadius = "10px"
         resultsBox.appendChild(newAccountButton);
         newAccountButton.onclick = function () {
             currentPlayerMembershipId = searchData.Response.searchResults[i].destinyMemberships[0].membershipId;
@@ -1256,12 +1290,10 @@ function updateItems(itemDefinitionData,equipmentItems) {
                 let kineticWeaponName = document.getElementById("kineticWeaponName");
                 let kineticWeaponType = document.getElementById("kineticWeaponType");
                 let kineticWeaponNameDesc = document.getElementById("kineticWeaponDesc");
-                let currentKineticWeaponInventory = document.getElementById("kineticWeaponInventory");
                 kineticWeaponIcon.src = baseImagePath + currentItem.displayProperties.icon;
                 kineticWeaponName.innerHTML = currentItem.displayProperties.name;
                 kineticWeaponType.innerHTML = currentItem.itemTypeAndTierDisplayName;
                 kineticWeaponNameDesc.innerHTML = currentItem.flavorText;
-                kineticWeaponIcon.onmouseover = function(){ hoverToShowInventory(currentKineticWeaponInventory) };
                 let statsHashList = itemDefinitionData[equipmentItems[i].itemHash].stats.stats;
                 statsHashList = Object.entries(statsHashList);
                 //NEED TO STORE KEYS AND INFO IN ARRAYS
@@ -1275,74 +1307,60 @@ function updateItems(itemDefinitionData,equipmentItems) {
                 let energyWeaponName = document.getElementById("energyWeaponName");
                 let energyWeaponType = document.getElementById("energyWeaponType");
                 let energyWeaponDesc = document.getElementById("energyWeaponDesc");
-                let currentEnergyWeaponInventory = document.getElementById("energyWeaponInventory");
                 energyWeaponIcon.src = baseImagePath + currentItem.displayProperties.icon;
                 energyWeaponName.innerHTML = currentItem.displayProperties.name;
                 energyWeaponType.innerHTML = currentItem.itemTypeAndTierDisplayName;
                 energyWeaponDesc.innerHTML = currentItem.flavorText;
-                energyWeaponIcon.onmouseover = function(){ hoverToShowInventory(currentEnergyWeaponInventory) };
                 break;
             case 953998645: //Power Weapon
                 let powerWeaponIcon = document.getElementById("powerWeaponImage");
                 let powerWeaponName = document.getElementById("powerWeaponName");
                 let powerWeaponType = document.getElementById("powerWeaponType");
                 let powerWeaponDesc = document.getElementById("powerWeaponDesc");
-                let currentPowerWeaponInventory = document.getElementById("powerWeaponInventory");
                 powerWeaponIcon.src = baseImagePath + currentItem.displayProperties.icon;
                 powerWeaponName.innerHTML = currentItem.displayProperties.name;
                 powerWeaponType.innerHTML = currentItem.itemTypeAndTierDisplayName;
                 powerWeaponDesc.innerHTML = currentItem.flavorText;
-                powerWeaponIcon.onmouseover = function(){ hoverToShowInventory(currentPowerWeaponInventory) };
                 break;
             case 3448274439: //Helmet Armour
                 let helmetArmourIcon = document.getElementById("helmetArmourImage");
                 let helmetArmourName = document.getElementById("helmetArmourName");
                 let helmetArmourType = document.getElementById("helmetArmourType");
-                let currentHelmetArmourInventory = document.getElementById("helmetArmourInventory");
                 helmetArmourIcon.src = baseImagePath + currentItem.displayProperties.icon;
                 helmetArmourName.innerHTML = currentItem.displayProperties.name;
                 helmetArmourType.innerHTML = currentItem.itemTypeAndTierDisplayName;
-                helmetArmourIcon.onmouseover = function(){ hoverToShowInventory(currentHelmetArmourInventory) };
                 break;
             case 3551918588: //Gaunlets Armour
                 let gaunletsArmourIcon = document.getElementById("gaunletsArmourImage");
                 let gaunletsArmourName = document.getElementById("gaunletsArmourName");
                 let gaunletsArmourType = document.getElementById("gaunletsArmourType");
-                let currentGaunletsArmourInventory = document.getElementById("gaunletsArmourInventory");
                 gaunletsArmourIcon.src = baseImagePath + currentItem.displayProperties.icon;
                 gaunletsArmourName.innerHTML = currentItem.displayProperties.name;
                 gaunletsArmourType.innerHTML = currentItem.itemTypeAndTierDisplayName;
-                gaunletsArmourIcon.onmouseover = function(){ hoverToShowInventory(currentGaunletsArmourInventory) };
                 break;
             case 14239492: //Chest Armour
                 let chestArmourIcon = document.getElementById("chestArmourImage");
                 let chestArmourName = document.getElementById("chestArmourName");
                 let chestArmourType = document.getElementById("chestArmourType");
-                let currentChestArmourInventory = document.getElementById("chestArmourInventory");
                 chestArmourIcon.src = baseImagePath + currentItem.displayProperties.icon;
                 chestArmourName.innerHTML = currentItem.displayProperties.name;
                 chestArmourType.innerHTML = currentItem.itemTypeAndTierDisplayName;
-                chestArmourIcon.onmouseover = function(){ hoverToShowInventory(currentChestArmourInventory) };
                 break;
             case 20886954: //Leg Armour
                 let legArmourIcon = document.getElementById("legArmourImage");
                 let legArmourName = document.getElementById("legArmourName");
                 let legArmourType = document.getElementById("legArmourType");
-                let currentLegArmourInventory = document.getElementById("legArmourInventory");
                 legArmourIcon.src = baseImagePath + currentItem.displayProperties.icon;
                 legArmourName.innerHTML = currentItem.displayProperties.name;
                 legArmourType.innerHTML = currentItem.itemTypeAndTierDisplayName;
-                legArmourIcon.onmouseover = function(){ hoverToShowInventory(currentLegArmourInventory) };
                 break;
             case 1585787867: //Class Armour
                 let classArmourIcon = document.getElementById("classArmourImage");
                 let classArmourName = document.getElementById("classArmourName");
                 let classArmourType = document.getElementById("classArmourType");
-                let currentClassArmourInventory = document.getElementById("classArmourInventory");
                 classArmourIcon.src = baseImagePath + currentItem.displayProperties.icon;
                 classArmourName.innerHTML = currentItem.displayProperties.name;
                 classArmourType.innerHTML = currentItem.itemTypeAndTierDisplayName;
-                classArmourIcon.onmouseover = function(){ hoverToShowInventory(currentClassArmourInventory) };
                 break;
         }
     }
@@ -1366,6 +1384,7 @@ function hoverToShowInventory(inventory){
     }
     inventory.style.visibility = "visible";
 }
+
 function clearInventories(){
     let allInventories = document.getElementsByClassName("inventory");
     let inventoryInformation = null;
