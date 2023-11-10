@@ -2,6 +2,13 @@
     background-color: white;
 }
 
+#header{
+  display:flex;
+  justify-content: center;
+  width:100%;
+  height:fit-content;
+  background-color: dimgray;
+}
 #d2Logo{
     width: 10%;
     height: 10%;
@@ -15,150 +22,6 @@
     text-decoration: underline;
 }
 
-.searchAndLoginDiv{
-    display:flex;
-}
-
-.searchBox{
-    width: fit-content;
-    outline-style: solid;
-}
-
-#playerNameLabel{
-    width:fit-content;
-}
-#inputs{
-    display:flex;
-}
-#inputBox{
-    border-radius: 15px;
-}
-#searchButton{
-    border-radius: 15px;
-}
-
-.loginButtonBox{
-    margin-left: 2%;
-    margin-right: 1%;
-}
-
-.historyBox{
-    width:fit-content;
-    outline-style: solid;
-    outline-color: orangered;
-}
-
-#userSearchForm{
-    display: flex;
-    justify-content: space-between;
-}
-
-.characterAndEquipmentGrid{
-    width: fit-content;
-    height: fit-content;
-    display: grid;
-    grid-template-columns: auto auto auto auto;
-    margin-top: 1%;
-}
-
-/*#region characterCards*/
-.charactersContainer{
-    width:fit-content;
-    height: fit-content;
-    outline-style: solid;
-    outline-color: purple;
-}
-
-.characterContainerTitle{
-    width: fit-content;
-    height: fit-content;
-    margin-left:20%;
-    margin-bottom:5%;
-    font-style:normal;
-    font-weight: bold;
-    text-align: center;
-}
-.baseStatContainerTitle{
-    width: fit-content;
-    height: fit-content;
-    margin-left:20%;
-    margin-bottom:5%;
-    font-style:normal;
-    font-weight: bold;
-    text-align: center;
-}
-#charactersContainerInfo{
-    width: fit-content;
-    height: fit-content;
-    margin-top: 1%;
-}
-
-.characterContainer{
-    position: relative;
-    margin-top: 1%;
-    visibility: hidden;
-    width: 474px;
-    height: auto;
-}
-
-.emblemBackground{
-    border-radius: 25px;
-}
-
-.classText{
-    position: absolute;
-    top: 1px;
-    left: 100px;
-    color:white;
-}
-.raceText{
-    position: absolute;
-    top: 30px;
-    left: 100px;
-    color:white;
-}
-.powerText{
-    position: absolute;
-    top: 1px;
-    left: 200px;
-    color:yellow;
-}
-.levelText{
-    position: absolute;
-    top: 30px;
-    left: 200px;
-    color:white;
-}
-
-/*region Stats and Equipment*/
-
-/*region STATS*/
-.statsContainer{
-    width: fit-content;
-    height: fit-content;
-    outline-style: solid;
-}
-#statsGrid{
-    display: grid;
-    grid-template-columns: auto auto auto;
-    grid-template-columns: fit-content;
-}
-.statIconAndValue{
-    display: flex;
-}
-
-.profileStatBorder{
-    outline-style: solid;
-    outline-color: black;
-}
-
-#profileStatBoxTitle{
-    margin-left: 2%;
-    font-weight: bold;
-}
-.PvPToggle{
-    display:flex;
-}
 .lightDarkModeToggle{
     display:flex
 }
@@ -229,152 +92,117 @@
     border-radius: 50%;
   }
 
-.BestStatsGrid{
-    display: grid;
-    grid-template-columns: auto auto auto auto auto auto auto auto;
+#searchAndCharacters{
+  display: flex;
 }
-.GeneralStatsGrid{
-    display: grid;
-    grid-template-columns: auto auto auto auto auto auto auto auto;
-}
-#winsDiv{
-    visibility: hidden;
-}
-#winLossRatioDiv{
-    visibility: hidden;
-}
-.CombatStatsGrid{
-    display: grid;
-    grid-template-columns: auto auto auto auto auto auto auto auto;
-}
-#averageScorePerKillDiv{
-    visibility: hidden;
-}
-#averageScorePerLifeDiv{
-    visibility: hidden;
-}
-#combatRatingDiv{
-    visibility: hidden;
-}
-.SupportStatsGrid{
-    display: grid;
-    grid-template-columns: auto auto auto auto auto auto auto auto;
+.searchAndLoginDiv{
+    display:flex;
 }
 
+.searchBox{
+  margin-left:1%;;
+  margin-bottom:1%;
+  width: fit-content;
+  outline-style: solid;
+}
 
-/*region EquipmentContainer*/
-.weaponsContainer{
-    width: fit-content;
-    height: fit-content;
+#playerNameLabel{
+    width:fit-content;
+}
+#inputs{
+    display:flex;
+}
+#inputBox{
+    border-radius: 15px;
+}
+#userSearchForm{
+    display: flex;
+    justify-content: space-between;
+}
+#searchButton{
+    border-radius: 15px;
+}
+
+.historyBox{
+    width:fit-content;
     outline-style: solid;
-    margin-left:20%;
-}
-#weaponsTitle{
-    width: fit-content;
-    height: fit-content;
-    text-align: center;
-    font-weight: bold;
-    margin-right: 50%;
-}
-.kineticWeaponDiv{
-    width: fit-content;
-    height: fit-content;
-    display: flex;
-}
-#kineticWeaponInventory{
-    visibility: hidden;
-}
-.energyWeaponDiv{
-    width: fit-content;
-    height: fit-content;
-    display: flex;
-    margin-top: 5%;
-}
-#energyWeaponInventory{
-    visibility: hidden;
-}
-.powerWeaponDiv{
-    width: fit-content;
-    height: fit-content;
-    display: flex;
-    margin-top: 5%;
-}
-#powerWeaponInventory{
-    visibility: hidden;
+    outline-color: orangered;
 }
 
-.armourContainer{
-    width: fit-content;
-    height: fit-content;
-    outline-style: solid;
-    margin-left: 40%;
-}
-#armourTitle{
-    width: fit-content;
-    height: fit-content;
-    text-align: center;
-    font-weight: bold;
-    margin-right: 50%;
-}
-.helmetArmourDiv{
-    width: fit-content;
-    height: fit-content;
-    display: flex;
-    margin-top: 5%;
-}
-#helmetArmourInventory{
-    visibility: hidden;
-}
-.gaunletsArmourDiv{
-    width: fit-content;
-    height: fit-content;
-    display: flex;
-    margin-top: 5%;
-}
-#gaunletsArmourInventory{
-    visibility: hidden;
-}
-.chestArmourDiv{
-    width: fit-content;
-    height: fit-content;
-    display: flex;
-    margin-top: 5%;
-}
-#chestArmourInventory{
-    visibility: hidden;
-}
-.legArmourDiv{
-    width: fit-content;
-    height: fit-content;
-    display: flex;
-    margin-top: 5%;
-}
-#legArmourInventory{
-    visibility: hidden;
-}
-.classArmourDiv{
-    width: fit-content;
-    height: fit-content;
-    display: flex;
-    margin-top: 5%;
-}
-#classArmourInventory{
-    visibility: hidden;
+.charactersAndStats{
+  display: flex;
+  margin-top: 1%;
 }
 
-.questContainer{
-    width: fit-content;
+.characterBoxes{
+  margin-left: 5%;
+  display:grid;
+  grid-template-columns: auto;
+}
+.guardian{
+  position:relative;
+  visibility: hidden;
+}
+.classTypeText{
+  position:absolute;
+  margin-left: 25%;
+  font-size: larger;
+  color: white;
+}
+.raceTypeText{
+  position:absolute;
+  margin-top: 10%;
+  margin-left: 25%;
+  font-size: larger;
+  color: white;
+}
+.levelText{
+  position:absolute;
+  margin-top:7%;
+  margin-left:75%;
+  font-size: x-large;
+  color: yellow;
+}
+.characterBackground{
+  border-radius: 15px;
+}
+
+.overviewStats{
+  display: grid;
+  grid-template-columns: auto auto auto;
+  width:fit-content;
+  outline-style: solid;
+}
+.overviewTitlePlaytimeAndMatches{
+    width:fit-content;
+    margin-right: 5%;
+}
+#playtimeDiv{
+    display: flex;
+}
+#playtimeClock{
+    width: 36px;
     height: fit-content;
-    outline-style: solid;
-    margin-left: 65%;
+    margin-top: 15%;
 }
 
-.comparisonCharts{
-    display: grid;
-    grid-template-columns: auto auto auto auto auto;
+.characterStats{
+  margin-left: 5%;
+  width:fit-content;
+  outline-style: solid;
+}
+.characterStatsTitle{
+  width:fit-content;
+}
+.statGrid{
+  display:grid;
+  grid-template-columns: auto auto auto;
+}
+.characterStatObject{
+  display:flex;
 }
 
-.chart{
-    width:100%;
-    max-width:700px;
+.charts{
+  display:flex;
+  width:fit-content;
 }

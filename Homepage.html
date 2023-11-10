@@ -5,325 +5,117 @@
     <meta charset="utf-8" />
     <title>Destiny 2 Stat Tracker - Honours Project</title>
     <link rel="stylesheet" href="StyleHome.css" />
-    <script src="Homepage-Core.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <script type="text/javascript" src="Homepage-Core.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.min.js"></script>
 </head>
 
 <body onload="documentLoader()">
-    <div id="headerBox">
-        <img id="d2Logo" src="theLogo.png" alt="myLogo">
+    <div id="header">
+        <button onclick="loginToAccount()">Login</button>
+        <button>Detailed Stats</button>
+        <img id="d2Logo" src="images/theLogo.png">
+        <button onclick="openTheEditor()">Editor</button>
+        <button>Server Updates</button>
     </div>
-
-    <div class="lightDarkModeToggle">
-        <label class="switch">
-            <input id="lightDarkSwitch" type="checkbox" onclick="lightDarkSwitch()">
-            <span class="slider round"></span>
-        </label>
-    </div>
-
-    <div class="searchAndLoginDiv">
-        <div class="searchBox">
-            <h2 class="TEXT">Player Search</h2>
-            <div id="inputs">
-                <p class="TEXT" id="playerNameLabel">Player Name</p>
-                <input id="inputBox" class="search" placeholder="theJohnSmith"/>
-                <button id="searchButton" type="button" onclick="searchForUser()"><b>Search</b></button>
-            </div>
-        </div>
-        <div class="loginButtonBox">
-            <button id="loginButton" type="button" onclick="loginToAccount(); return false;">Login</button>
-        </div>
-        <div class="socialButtonsBox">
-            <button id="sendFriendRequestButton" type="button" onclick="sendFriendRequest();">Send Friend Request</button>
-        </div>
-        <div class="testBox">
-            <button id="testButton" type="button" onclick="OpenEditor();">Edit Equipment</button>
+    <div class="searchBox">
+        <h2 class="TEXT">Player Search</h2>
+        <div id="inputs">
+            <p class="TEXT" id="playerNameLabel">Player Name</p>
+            <input id="inputBox" class="search" placeholder="theJohnSmith"/>
+            <button id="searchButton" type="button" onclick="searchForUser()"><b>Search</b></button>
         </div>
     </div>
-
     <div class="historyBox">
         <h3 class="TEXT" id="searchResultsTitle">Recent Searches</h3>
         <div id="searchResultsBox"></div>
     </div>
-
-    <div class="characterAndEquipmentGrid">
-        <div class="CharacterSelectAndCharacterStats">
-            <div class="charactersContainer">
-                <h3 class="characterContainerTitle TEXT">Guardians</h3>
-                <p class="TEXT" id="charactersContainerInfo">Click Guardian for detailed view</p>
-                <div class="characterContainer" id="characterContainer1">
-                    <img class="emblemBackground" id="background1" alt="">
-                    <p class="classText" id="classText1"></p>
-                    <p class="raceText" id="raceText1"></p>
-                    <p class="powerText" id="powerText1">Power Level: </p>
-                    <p class="levelText" id="levelText1">Level: </p>
-                </div>
-                <div class="characterContainer" id="characterContainer2">
-                    <img class="emblemBackground" id="background2" alt="">
-                    <p class="classText" id="classText2"></p>
-                    <p class="raceText" id="raceText2"></p>
-                    <p class="powerText" id="powerText2">Power Level: </p>
-                    <p class="levelText" id="levelText2">Level: </p>
-                </div>
-                <div class="characterContainer" id="characterContainer3">
-                    <img class="emblemBackground" id="background3" alt="">
-                    <p class="classText" id="classText3"></p>
-                    <p class="raceText" id="raceText3"></p>
-                    <p class="powerText" id="powerText3">Power Level: </p>
-                    <p class="levelText" id="levelText3">Level: </p>
-                </div>
+    <div class="charactersAndStats">
+        <div class="overviewStats">
+            <p class="overviewTitlePlaytimeAndMatches TEXT"><b>Lifetime Overview</b></p>
+            <div id="playtimeDiv">
+                <img id="playtimeClock" src="images/Clock.png">
+                <p class="overviewTitlePlaytimeAndMatches TEXT" id="playTimeStat">0h 0m Playtime</p>
             </div>
-            <!-- Summary of statsContainer
-            A title to show the user what the box holds
-            Various text elements to show the user each character's unique stats
-        -->
-            <div class="statsContainer">
-                <p class="baseStatContainerTitle TEXT">Character Base Stats</p>
-                <div id="statsGrid">
-                    <div class="statIconAndValue">
-                        <img class="statIcon" id="mobilityIcon" src="Mobility.png" alt="">
-                        <p class="statText TEXT" id="mobilityText"><b></b></p>
-                    </div>
-                    <div class="statIconAndValue">
-                        <img class="statIcon" id="resilienceIcon" src="Resilience.png" alt="">
-                        <p class="statText TEXT" id="resilienceText"><b></b></p>
-                    </div>
-                    <div class="statIconAndValue">
-                        <img class="statIcon" id="recoveryIcon" src="Recovery.png" alt="">
-                        <p class="statText TEXT" id="recoveryText"><b></b></p>
-                    </div>
-                    <div class="statIconAndValue">
-                        <img class="statIcon" id="disciplineIcon" src="Discipline.png" alt="">
-                        <p class="statText TEXT" id="disciplineText"><b></b></p>
-                    </div>
-                    <div class="statIconAndValue">
-                        <img class="statIcon" id="intellectIcon" src="Intellect.png" alt="">
-                        <p class="statText TEXT" id="intellectText"><b></b></p>
-                    </div>
-                    <div class="statIconAndValue">
-                        <img class="statIcon" id="strengthIcon" src="Strength.png" alt="">
-                        <p class="statText TEXT" id="strengthText"><b></b></p>
-                    </div>
-
-                </div>
+            <p class="overviewTitlePlaytimeAndMatches TEXT" id="matchesStat">0 Matches</p>
+            <div>
+                <p><b>Kills</b></p>
+                <p class="overviewValue" id="killsValue">0</p>
+            </div>
+            <div>
+                <p><b>Assists</b></p>
+                <p class="overviewValue" id="assistsValue">0</p>
+            </div>
+            <div>
+                <p><b>Precision Kills</b></p>
+                <p class="overviewValue" id="precisionKillsValue">0</p>
+            </div>
+            <div>
+                <p><b>Supers</b></p>
+                <p class="overviewValue" id="supersValue">0</p>
+            </div>
+            <div>
+                <p><b>Deaths</b></p>
+                <p class="overviewValue" id="deathsValue">0</p>
+            </div>
+            <div>
+                <p><b>Suicides</b></p>
+                <p class="overviewValue" id="suicidesValue">0</p>
+            </div>
+        </div>
+        
+        <div class="characterBoxes">
+            <div class="guardian" id="guardian1">
+                <p class="classTypeText"></p>
+                <p class="raceTypeText"></p>
+                <p class="levelText"></p>
+                <img class="characterBackground" src="">
+            </div>
+            <div class="guardian" id="guardian2">
+                <p class="classTypeText"></p>
+                <p class="raceTypeText"></p>
+                <p class="levelText"></p>
+                <img class="characterBackground" src="">
+            </div>
+            <div class="guardian" id="guardian3">
+                <p class="classTypeText"></p>
+                <p class="raceTypeText"></p>
+                <p class="levelText"></p>
+                <img class="characterBackground" src="">
             </div>
         </div>
 
-        <div class="weaponsContainer" id="weaponsContainer">
-            <h3 class="TEXT" id="weaponsTitle">Weapons</h3>
-            <div class="kineticWeaponDiv">
-                <img id="kineticWeaponImage">
-                <div id="kineticWeaponText">
-                    <p class="TEXT" id="kineticWeaponName"></p>
-                    <p class="TEXT" id="kineticWeaponType"></p>
-                    <p class="TEXT" id="kineticWeaponDesc"></p>
+        <div class="characterStats">
+            <h2 class="characterStatsTitle TEXT"><b>Character Stats</b></h2>
+            <div class="statGrid">
+                <div class="characterStatObject">
+                    <img src="images/Mobility.png" title="Mobility">
+                    <p class="TEXT"></p>
                 </div>
-            </div>
-            <br>
-            <div class="energyWeaponDiv">
-                <img id="energyWeaponImage">
-                <div id="energyWeaponText">
-                    <p class="TEXT" id="energyWeaponName"></p>
-                    <p class="TEXT" id="energyWeaponType"></p>
-                    <p class="TEXT" id="energyWeaponDesc"></p>
+                <div class="characterStatObject">
+                    <img src="images/Resilience.png" title="Resilience">
+                    <p class="TEXT"></p>
                 </div>
-            </div>
-            <br>
-            <div class="powerWeaponDiv">
-                <img id="powerWeaponImage">
-                <div id="powerWeaponText">
-                    <p class="TEXT" id="powerWeaponName"></p>
-                    <p class="TEXT" id="powerWeaponType"></p>
-                    <p class="TEXT" id="powerWeaponDesc"></p>
+                <div class="characterStatObject">
+                    <img src="images/Recovery.png" title="Recovery">
+                    <p class="TEXT"></p>
                 </div>
-            </div>
-            <br>
-        </div>
-        <div class="armourContainer" id="armourContainer">
-            <h3 class="TEXT" id="armourTitle">Armour</h3>
-            <div class="helmetArmourDiv">
-                <img id="helmetArmourImage">
-                <div id="helmetArmourText">
-                    <p class="TEXT" id="helmetArmourName"></p>
-                    <p class="TEXT" id="helmetArmourType"></p>
-                </div>                
-            </div>
-            <br>
-            <div class="gaunletsArmourDiv">
-                <img id="gaunletsArmourImage">
-                <div id="gaunletsArmourText">
-                    <p class="TEXT" id="gaunletsArmourName"></p>
-                    <p class="TEXT" id="gaunletsArmourType"></p>
+                <div class="characterStatObject">
+                    <img src="images/Discipline.png" title="Discipline">
+                    <p class="TEXT"></p>
                 </div>
-            </div>
-            <br>
-            <div class="chestArmourDiv">
-                <img id="chestArmourImage">
-                <div id="chestArmourText">
-                    <p class="TEXT" id="chestArmourName"></p>
-                    <p class="TEXT" id="chestArmourType"></p>
+                <div class="characterStatObject">
+                    <img src="images/Intellect.png" title="Intellect">
+                    <p class="TEXT"></p>
                 </div>
-            </div>
-            <br>
-            <div class="legArmourDiv">
-                <img id="legArmourImage">
-                <div id="legArmourText">
-                    <p class="TEXT" id="legArmourName"></p>
-                    <p class="TEXT" id="legArmourType"></p>
-                </div>
-            </div>
-            <br>
-            <div class="classArmourDiv">
-                <img id="classArmourImage">
-                <div id="classArmourText">
-                    <p class="TEXT" id="classArmourName"></p>
-                    <p class="TEXT" id="classArmourType"></p>
-                </div>
-            </div>
-            <br>
-        </div>
-        <div class="questContainer" id="questContainer">
-            <h3 class="TEXT" id="questsTitle">Quests</h3>
-            <div class="questListContainer" id="questListContainer"></div>
-            <p class="TEXT" id="bountiesTitle">Bounties</p>
-            <div class="bountiesListContainer" id="bountiesListContainer"></div>
-        </div>
-    </div>
-
-    <div class="profileStatBorder">
-        <p class="TEXT" id="profileStatBoxTitle">Profile Stats</p>
-        <div class="PvPToggle">
-            <p class="TEXT">PvP Stats: </p>
-            <label class="switch">
-                <input id="pvpSwitch" type="checkbox" onclick="pvpStatSwitch()">
-                <span class="slider round"></span>
-            </label>
-        </div>
-        <div class="bestStatsBorder">
-            <p class="TEXT" id="testStatTitle">Best</p>
-            <div class="BestStatsGrid">
-                <div>
-                    <p class="TEXT" >Highest Character Level</p>
-                    <p class="profileStat TEXT" id="highestCharacterLevelStat"></p>
-                </div>
-                <div>
-                    <p class="TEXT" >Highest Power Level</p>
-                    <p class="profileStat TEXT" id="highestPowerLevelStat"></p>
-                </div>
-                <div>
-                    <p class="TEXT" >Best Score</p>
-                    <p class="profileStat TEXT" id="bestScoreStat"></p>
-                </div>
-                <div>
-                    <p class="TEXT" >Longest Single Life</p>
-                    <p class="profileStat TEXT" id="longestSingleLifeStat"></p>
-                </div>
-                <div>
-                    <p class="TEXT" >Best Single Game Kills</p>
-                    <p class="profileStat TEXT" id="bestSingleGameKillsStat"></p>
-                </div>
-                <div>
-                    <p class="TEXT" >Most Precision Kills</p>
-                    <p class="profileStat TEXT" id="mostPrecisionKillsStat"></p>
-                </div>
-                <div>
-                    <p class="TEXT" >Best Kill Streak</p>
-                    <p class="profileStat TEXT" id="bestKillStreakStat"></p>
-                </div>
-                <div>
-                    <p class="TEXT" >Longest Kill Distance</p>
-                    <p class="profileStat TEXT" id="longestKillDistanceStat"></p>
-                </div>
-                <div>
-                    <p class="TEXT" >Best Weapon</p>
-                    <p class="profileStat TEXT" id="bestWeaponStat"></p>
-                </div>
-            </div>
-        </div>
-        <div class="generalStatsBorder">
-            <p class="TEXT" >General</p>
-            <div class="GeneralStatsGrid">
-                <div>
-                    <p class="TEXT" >Activities Entered</p>
-                    <p class="profileStat TEXT" id="activitiesEnteredStat"></p>
-                </div>
-                <div>
-                    <p class="TEXT"  id="activititesClearedandWon">Activities Cleared</p>
-                    <p class="profileStat TEXT" id="activitiesClearedStat"></p>
-                </div>
-                <div>
-                    <p class="TEXT" >Objectives Completed</p>
-                    <p class="profileStat TEXT" id="objectivesCompletedStat"></p>
-                </div>
-                <div id="publicEventCompletedDiv">
-                    <p class="TEXT" >Public Event Completed</p>
-                    <p class="profileStat TEXT" id="publicEventCompletedStat"></p>
-                </div>
-                <div id="publicEventsCompletedDiv">
-                    <p class="TEXT" >Public Events Completed</p>
-                    <p class="profileStat TEXT" id="publicEventsCompletedStat"></p>
-                </div>
-                <div id="adventuresCompletedDiv">
-                    <p class="TEXT" >Adventures Completed</p>
-                    <p class="profileStat TEXT" id="adventuresCompletedStat"></p>
-                </div>
-                <div id="winsDiv">
-                    <p class="TEXT" >Wins</p>
-                    <p class="profileStat TEXT" id="winsStat"></p>
-                </div>
-                <div id="winLossRatioDiv">
-                    <p class="TEXT" >Win/Loss Ratio</p>
-                    <p class="profileStat TEXT" id="winLossRatioStat"></p>
-                </div>
-            </div>
-        </div>
-        <div class="combatStatsBorder">
-            <p class="TEXT" >Combat</p>
-            <div class="CombatStatsGrid">
-                <div>
-                    <p class="TEXT" >K/D Ratio</p>
-                    <p class="profileStat TEXT" id="killDeathRatioStat"></p>
-                </div>
-                <div>
-                    <p class="TEXT" >K/D Average</p>
-                    <p class="profileStat TEXT" id="killDeathAverageStat"></p>
-                </div>
-                <div id="averageScorePerKillDiv">
-                    <p class="TEXT" >Average Score per Kill</p>
-                    <p class="profileStat TEXT" id="averageScorePerKillStat"></p>
-                </div>
-                <div id="averageScorePerLifeDiv">
-                    <p class="TEXT" >Average Score per Life</p>
-                    <p class="profileStat TEXT" id="averageScorePerLifeStat"></p>
-                </div>
-                <div id="combatRatingDiv">
-                    <p class="TEXT" >Combat Rating</p>
-                    <p class="profileStat TEXT" id="combatRatingStat"></p>
+                <div class="characterStatObject">
+                    <img src="images/Strength.png" title="Strength">
+                    <p class="TEXT"></p>
                 </div>
             </div>
         </div>
     </div>
-
-    <div class="comparisionCharts">
-        <canvas class="chart" id="killsChart"></canvas>
-        <canvas class="chart" id="deathsChart"></canvas>
-        <canvas class="chart" id="scoreChart"></canvas>
-        <canvas class="chart" id="timePlayedChart"></canvas>
-        <canvas class="chart" id="longestLifeChart"></canvas>
-        <canvas class="chart" id="averageLifeChart"></canvas>
-        <canvas class="chart" id="teamScoreChart"></canvas>
-        <canvas class="chart" id="assistsChart"></canvas>
-        <canvas class="chart" id="precisionKillsChart"></canvas>
-        <canvas class="chart" id="averageKillDistanceChart"></canvas>
-        <canvas class="chart" id="opponentsDefeatedChart"></canvas>
-        <canvas class="chart" id="suicidesChart"></canvas>
-        <canvas class="chart" id="efficiencyChart"></canvas>
-        <canvas class="chart" id="resurrectionsPerformedChart"></canvas>
-        <canvas class="chart" id="resurrectionsReceivedChart"></canvas>
-        <canvas class="chart" id="orbsDroppedChart"></canvas>
-        <canvas class="chart" id="orbsGatheredChart"></canvas>
+    <div class="charts">
     </div>
-    <canvas class="chart" id="weaponKillsChart"></canvas>
-    <canvas class="chart" id="weaponKillsPvPChart"></canvas>
+
 </body>
 </html>
